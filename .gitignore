@@ -1,0 +1,16 @@
+#Python-generated files
+__pycache__/
+*.py[cod]
+#Project virtual environment
+.venv/
+#Test, lint, and coverage output
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+#Packaging output
+build/
+dist/
+*.egg-info/
+#Windows-specific files
+Thumbs.db
