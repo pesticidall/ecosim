@@ -1,7 +1,9 @@
 import tempfile
 import unittest
 from pathlib import Path
+
 from core.content_loader import load_json_file
+
 
 class TestLoadJsonFile(unittest.TestCase):
     def test_loads_json_object(self) -> None:
