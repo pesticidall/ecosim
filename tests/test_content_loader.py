@@ -5,7 +5,7 @@ from pathlib import Path
 
 from core.content_loader import (
     load_entity_definition,
-    load_entity_definitions_from_directory, 
+    load_entity_definitions_from_directory,
     load_json_file,
 )
 
@@ -119,6 +119,19 @@ class TestLoadJsonFile(unittest.TestCase):
             ["test_grass", "test_shrub"],
         )
 
+    def test_raises_error_when_directory_does_not_exist(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            missing_directory = (
+                Path(temporary_directory)
+                / "missing"
+            )
+            with self.assertRaisesRegex(
+                FileNotFoundError,
+                r"Content directory.*missing.*does not exist",
+            ):
+                load_entity_definitions_from_directory(
+                    missing_directory
+                )
         
 if __name__ == "__main__":
     unittest.main()

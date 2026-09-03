@@ -25,6 +25,10 @@ def load_entity_definition(
 def load_entity_definitions_from_directory(
         directory_path: Path,
 ) -> list[dict[str, Any]]:
+    if not directory_path.exists():
+        raise FileNotFoundError(
+            f"Content directory '{directory_path}' does not exist."
+        )
     file_paths = sorted(directory_path.glob("*.json"))
 
     return [
