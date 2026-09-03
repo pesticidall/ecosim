@@ -2,7 +2,7 @@
 
 ## Goal
 
-Playtest A should communicate the basic idea of what EcoSim is and will be.
+Playtest A should communicate the basic idea of what EcoSim is and will be. It should demonstrate that species with different feeding niches can respond differently to shared ecological pressures, even before predation is introduced.
 
 ## Starting Scenario
 
@@ -10,13 +10,14 @@ Playtest A should communicate the basic idea of what EcoSim is and will be.
 - [ ] The scenario has a known random seed
 - [ ] At least one region exists
 - [ ] At least one weather type is active
-- [ ] At least one producer exists
-- [ ] At least one resource exists
-- [ ] At least one herbivore species exists
+- [ ] At least two producers exist
+- [ ] At least two consumable resources exist
+- [ ] At least three herbivore species with distinct feeding niches exist
+- [ ] At least two herbivore species depend on the same limited resource
 
 ## Modular Content
 - [ ] Resource definitions load from JSON
-- [ ] Producer definitions load from JSON
+- [x] Producer definitions load from JSON
 - [ ] Animal definitions load from JSON
 - [ ] Weather definitions load from JSON
 - [ ] Region definitions load from JSON
@@ -34,7 +35,9 @@ Playtest A should communicate the basic idea of what EcoSim is and will be.
 - [ ] Time advances
 - [ ] Weather is applied
 - [ ] Producers create resources
-- [ ] Herbivores consume resources
+- [ ] Herbivores consume compatible resources from their diets
+- [ ] Multiple herbivore species can compete for a shared resource
+- [ ] A herbivore with multiple compatible foods can use an available alternative
 - [ ] Starvation mortality is applied
 - [ ] Basic reproduction is applied
 - [ ] Multiple cycles can be run without restarting
@@ -44,6 +47,7 @@ Playtest A should communicate the basic idea of what EcoSim is and will be.
 - [ ] Resource changes are displayed
 - [ ] Population changes are displayed
 - [ ] Feeding, deaths, and births are understandable
+- [ ] Resource competition and food shortages are understandable
 - [ ] Important events explain what changed
 
 ## Reliability
@@ -61,7 +65,6 @@ Playtest A should communicate the basic idea of what EcoSim is and will be.
 - Carrion and decomposition
 - Scavenging
 - Predator and prey grouping
-- Competition between multiple animal species
 - Individual organisms
 - Age, sex, life stages, and family relationships
 - Detailed reproduction strategies
@@ -70,7 +73,7 @@ Playtest A should communicate the basic idea of what EcoSim is and will be.
 - Population genetics and evolution
 - Disease and parasites
 
-Playtest A only requires a basic population-level herbivore that can eat, starve, reproduce, and change population over multiple cycles.
+Playtest A requires three population-level herbivore species with different feeding niches. Their diets should partially overlap so that at least two species compete for a shared resource, while at least one species can use an alternative resource. Each species must be able to eat, starve, reproduce, and change population over multiple cycles.
 ### Regions and World Structure
 - Procedural world generation
 - Multiple connected regions
@@ -103,7 +106,7 @@ Playtest A only requires one weather definition that can apply one understandabl
 - Resource movement between regions
 - Advanced resource regeneration and decay
 
-Playtest A only requires a producer to create a consumable resource in a region.
+Playtest A requires at least two producers to create at least two consumable resources in a region. These resources should support partially overlapping herbivore diets so that competition and dietary differences can affect population outcomes.
 ### Interface and Game Features
 - Graphical user interface
 - Main menu
