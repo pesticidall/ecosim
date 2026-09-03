@@ -3,7 +3,11 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from core.content_loader import load_entity_definition, load_json_file
+from core.content_loader import (
+    load_entity_definition,
+    load_entity_definitions_from_directory, 
+    load_json_file,
+)
 
 
 class TestLoadJsonFile(unittest.TestCase):
@@ -80,5 +84,41 @@ class TestLoadJsonFile(unittest.TestCase):
             ):
                 load_entity_definition(file_path)
 
+    def test_loads_entity_definitions_from_directory(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            directory_path = Path(temporary_directory)
+
+            shrub_path = directory_path / "b_shrub.json"
+            shrub_path.write_text(
+                '{"entity_type": "producer", '
+                '"id": "test_shrub", '
+                '"name": "Test Shrub"}',
+                encoding="utf-8",
+            )
+            grass_path = directory_path / "a_grass.json"
+            grass_path.write_text(
+                '{"entity_type": "producer", '
+                '"id": "test_grass", '
+                '"name": "Test Grass"}',
+                encoding="utf-8",
+            )
+            ignored_path = directory_path / "notes.txt"
+            ignored_path.write_text(
+                "This file should not be loaded.",
+                encoding="utf-8",
+            )
+            definitions = load_entity_definitions_from_directory(
+                directory_path
+            )
+        loaded_ids = [
+            definition["id"]
+            for definition in definitions
+        ]
+        self.assertEqual(
+            loaded_ids,
+            ["test_grass", "test_shrub"],
+        )
+
+        
 if __name__ == "__main__":
     unittest.main()

@@ -20,3 +20,14 @@ def load_entity_definition(
     definition = load_json_file(file_path)
     validate_entity_definition(definition, file_path)
     return definition
+
+
+def load_entity_definitions_from_directory(
+        directory_path: Path,
+) -> list[dict[str, Any]]:
+    file_paths = sorted(directory_path.glob("*.json"))
+
+    return [
+        load_entity_definition(file_path)
+        for file_path in file_paths
+    ]
