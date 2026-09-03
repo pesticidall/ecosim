@@ -34,5 +34,19 @@ class TestLoadJsonFile(unittest.TestCase):
             )
             with self.assertRaises(json.JSONDecodeError):
                 load_json_file(file_path)
+
+    def test_raises_error_when_top_level_is_not_object(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            file_path = Path(temporary_directory) / "list.json"
+            file_path.write_text(
+                '["producer", "grass"]',
+                encoding="utf-8"
+            )
+            with self.assertRaisesRegex(
+                TypeError,
+                "must be an object",
+            ):
+                load_json_file(file_path)
+
 if __name__ == "__main__":
     unittest.main()
