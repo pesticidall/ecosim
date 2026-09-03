@@ -16,7 +16,7 @@ Playtest A should communicate the basic idea of what EcoSim is and will be. It s
 - [ ] At least two herbivore species depend on the same limited resource
 
 ## Modular Content
-- [ ] Resource definitions load from JSON
+- [x] Resource definitions load from JSON
 - [x] Producer definitions load from JSON
 - [ ] Animal definitions load from JSON
 - [ ] Weather definitions load from JSON

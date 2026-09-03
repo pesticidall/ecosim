@@ -1,0 +1,7 @@
+{
+    "entity_type": "resource",
+    "id": "grass_forage",
+    "name": "Grass Forage",
+    "quantity_type": "biomass",
+    "unit": "kg"
+}
