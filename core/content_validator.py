@@ -7,6 +7,10 @@ REQUIRED_IDENTITY_FIELDS = (
     "id",
     "name",
 )
+REQUIRED_RESOURCE_FIELDS = (
+    "quantity_type",
+    "unit",
+)
 SUPPORTED_ENTITY_TYPES = frozenset(
     {
         "animal",
@@ -53,6 +57,18 @@ def validate_entity_definition(
             f"Definition '{source_path}' has unsupported "
             f"entity type '{entity_type}'."
         )
+    if entity_type == "resource":
+        missing_resource_fields = [
+            field
+            for field in REQUIRED_RESOURCE_FIELDS
+            if field not in definition
+        ]
+        if missing_resource_fields:
+            field_list = ", ".join(missing_resource_fields)
+            raise ValueError(
+                f"Resource definition '{source_path}' is missing "
+                f"required field(s): {field_list}"
+            )
     entity_id = definition["id"]
     if ENTITY_ID_PATTERN.fullmatch(entity_id) is None:
         raise ValueError(

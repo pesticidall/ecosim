@@ -77,5 +77,21 @@ class TestValidateEntityDefinition(unittest.TestCase):
             r"id.*lowercase snake_case",
         ):
             validate_entity_definition(definition, source_path)
+
+    def test_raises_error_when_resource_field_is_missing(self) -> None:
+        definition = {
+            "entity_type": "resource",
+            "id": "grass_forage",
+            "name": "Grass Forage",
+            "unit": "kg",
+        }
+        source_path = Path(
+            "content/resources/grass_forage.json"
+        )
+        with self.assertRaisesRegex(
+            ValueError,
+            r"grass_forage\.json.*quantity_type",
+        ):
+            validate_entity_definition(definition, source_path)
 if __name__ == "__main__":
     unittest.main()
