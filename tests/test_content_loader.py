@@ -15,7 +15,7 @@ class TestLoadJsonFile(unittest.TestCase):
         expected_data = {
             "entity_type": "producer",
             "id": "test_grass",
-            "name": "Test Grass"
+            "name": "Test Grass",
         }
 
         with tempfile.TemporaryDirectory() as temporary_directory:
@@ -34,7 +34,7 @@ class TestLoadJsonFile(unittest.TestCase):
             file_path = Path(temporary_directory) / "malformed.json"
             file_path.write_text(
                 '"{entity_type": "producer"',
-                encoding="utf-8"
+                encoding="utf-8",
             )
             with self.assertRaises(json.JSONDecodeError):
                 load_json_file(file_path)
@@ -44,7 +44,7 @@ class TestLoadJsonFile(unittest.TestCase):
             file_path = Path(temporary_directory) / "list.json"
             file_path.write_text(
                 '["producer", "grass"]',
-                encoding="utf-8"
+                encoding="utf-8",
             )
             with self.assertRaisesRegex(
                 TypeError,
@@ -56,7 +56,7 @@ class TestLoadJsonFile(unittest.TestCase):
         expected_data = {
             "entity_type": "producer",
             "id": "test_grass",
-            "name": "Test Grass"
+            "name": "Test Grass",
         }
 
         with tempfile.TemporaryDirectory() as temporary_directory:
@@ -108,7 +108,7 @@ class TestLoadJsonFile(unittest.TestCase):
                 encoding="utf-8",
             )
             definitions = load_entity_definitions_from_directory(
-                directory_path
+                directory_path,
             )
         loaded_ids = [
             definition["id"]
@@ -130,8 +130,28 @@ class TestLoadJsonFile(unittest.TestCase):
                 r"Content directory.*missing.*does not exist",
             ):
                 load_entity_definitions_from_directory(
-                    missing_directory
+                    missing_directory,
                 )
-        
+
+    def test_rejects_unexpected_entity_type_in_directory(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            directory_path = Path(temporary_directory)
+            file_path = directory_path / "wrong_type.json"
+            file_path.write_text(
+                '{"entity_type": "producer", '
+                '"id": "test_grass", '
+                '"name": "Test Grass"}',
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(
+                ValueError,
+                r"wrong_type\.json.*producer.*resource",
+            ):
+                load_entity_definitions_from_directory(
+                    directory_path,
+                    expected_entity_type="resource",
+                )
+
+
 if __name__ == "__main__":
     unittest.main()

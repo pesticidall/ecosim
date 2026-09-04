@@ -8,6 +8,7 @@ from core.content_registry import ContentRegistry
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
+
 class TestContentPipeline(unittest.TestCase):
     def test_loads_real_grass_producer_into_registry(self) -> None:
         producer_directory = (
@@ -16,7 +17,7 @@ class TestContentPipeline(unittest.TestCase):
             / "producers"
         )
         definitions = load_entity_definitions_from_directory(
-            producer_directory
+            producer_directory,
         )
         registry = ContentRegistry()
         registry.register_all(definitions)
@@ -37,7 +38,8 @@ class TestContentPipeline(unittest.TestCase):
             / "resources"
         )
         definitions = load_entity_definitions_from_directory(
-            resource_directory
+            resource_directory,
+            expected_entity_type="resource",
         )
         registry = ContentRegistry()
         registry.register_all(definitions)
@@ -58,5 +60,7 @@ class TestContentPipeline(unittest.TestCase):
             resource_definition["unit"],
             "kg",
         )
+
+
 if __name__ == "__main__":
     unittest.main()
