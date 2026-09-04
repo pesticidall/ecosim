@@ -93,5 +93,75 @@ class TestValidateEntityDefinition(unittest.TestCase):
             r"grass_forage\.json.*quantity_type",
         ):
             validate_entity_definition(definition, source_path)
+
+    def test_raises_error_when_resource_field_is_not_string(self) -> None:
+        definition = {
+            "entity_type": "resource",
+            "id": "grass_forage",
+            "name": "Grass Forage",
+            "quantity_type": 42,
+            "unit": "kg",
+        }
+        source_path = Path(
+            "content/resources/grass_forage.json"
+        )
+        with self.assertRaisesRegex(
+            TypeError,
+            r"quantity_type.*must be a string",
+        ):
+            validate_entity_definition(definition, source_path)
+
+    def test_raises_error_when_resource_field_is_empty(self) -> None:
+        definition = {
+            "entity_type": "resource",
+            "id": "grass_forage",
+            "name": "Grass Forage",
+            "quantity_type": "biomass",
+            "unit": "",
+        }
+        source_path = Path(
+            "content/resource/grass_forage.json"
+        )
+        with self.assertRaisesRegex(
+            ValueError,
+            r"unit.*must not be empty"
+        ):
+            validate_entity_definition(definition, source_path)
+
+    def test_raises_error_for_unsupported_resource_quantity_type(
+            self,
+    ) -> None:
+        definition = {
+            "entity_type": "resource",
+            "id": "grass_forage",
+            "name": "Grass Forage",
+            "quantity_type": "volume",
+            "unit": "liters",
+        }
+        source_path = Path(
+            "content/resources/grass_forage.json"
+        )
+        with self.assertRaisesRegex(
+            ValueError,
+            r"unsupported quantity type.*volume",
+        ):
+            validate_entity_definition(definition, source_path)
+
+    def test_raises_error_for_unsupported_resource_unit(self) -> None:
+        definition = {
+            "entity_type": "resource",
+            "id": "grass_forage",
+            "name": "Grass Forage",
+            "quantity_type": "biomass",
+            "unit": "grams",
+        }
+        source_path = Path(
+            "content/resources/grass_forage.json"
+        )
+        with self.assertRaisesRegex(
+            ValueError,
+            r"unsupported unit.*grams.*biomass",
+        ):
+            validate_entity_definition(definition, source_path)
 if __name__ == "__main__":
     unittest.main()
