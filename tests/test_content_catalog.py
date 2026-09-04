@@ -11,6 +11,9 @@ class TestContentCatalog(unittest.TestCase):
         registry = build_content_registry(content_root)
         grass_definition = registry.get("grass")
         forage_definition = registry.get("grass_forage")
+        hare_definition = registry.get("ashback_hare")
+        weather_definition = registry.get("seasonal_rain")
+        region_definition = registry.get("redgrass_savanna")
         self.assertEqual(
             grass_definition["entity_type"],
             "producer",
@@ -19,5 +22,30 @@ class TestContentCatalog(unittest.TestCase):
             forage_definition["entity_type"],
             "resource",
         )
+        self.assertEqual(
+            hare_definition["entity_type"],
+            "animal",
+        )
+        self.assertEqual(
+            hare_definition["name"],
+            "Ashback Hare",
+        )
+        self.assertEqual(
+            weather_definition["entity_type"],
+            "weather",
+        )
+        self.assertEqual(
+            weather_definition["name"],
+            "Seasonal Rain",
+        )
+        self.assertEqual(
+            region_definition["entity_type"],
+            "region",
+        )
+        self.assertEqual(
+            region_definition["name"],
+            "Redgrass Savanna",
+        )
+
 if __name__ == "__main__":
     unittest.main()
