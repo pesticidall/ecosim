@@ -6,10 +6,10 @@ Playtest A should communicate the basic idea of what EcoSim is and will be. It s
 
 ## Starting Scenario
 
-- [ ] A fixed scenario can be loaded
-- [ ] The scenario has a known random seed
-- [ ] At least one region exists
-- [ ] At least one weather type is active
+- [x] A fixed scenario can be loaded
+- [x] The scenario has a known random seed
+- [x] At least one region exists
+- [x] At least one weather type is active
 - [ ] At least two producers exist
 - [ ] At least two consumable resources exist
 - [ ] At least three herbivore species with distinct feeding niches exist
@@ -18,27 +18,27 @@ Playtest A should communicate the basic idea of what EcoSim is and will be. It s
 ## Modular Content
 - [x] Resource definitions load from JSON
 - [x] Producer definitions load from JSON
-- [ ] Animal definitions load from JSON
-- [ ] Weather definitions load from JSON
-- [ ] Region definitions load from JSON
-- [ ] Invalid definitions produce understandable errors
-- [ ] New ordinary content requires no system-code changes
+- [x] Animal definitions load from JSON
+- [x] Weather definitions load from JSON
+- [x] Region definitions load from JSON
+- [x] Invalid definitions produce understandable errors
+- [x] New ordinary content requires no system-code changes
 
 ## World State
-- [ ] Entity definitions remain separate from live values
-- [ ] Regional populations are stored
-- [ ] Regional producer populations are stored
-- [ ] Regional resource quantities are stored
-- [ ] Current weather and simulation time are stored
+- [x] Entity definitions remain separate from live values
+- [x] Regional populations are stored
+- [x] Regional producer populations are stored
+- [x] Regional resource quantities are stored
+- [x] Current weather and simulation time are stored
 
 ## Simulation Cycle
-- [ ] Time advances
+- [x] Time advances
 - [ ] Weather is applied
-- [ ] Producers create resources
-- [ ] Herbivores consume compatible resources from their diets
-- [ ] Multiple herbivore species can compete for a shared resource
-- [ ] A herbivore with multiple compatible foods can use an available alternative
-- [ ] Starvation mortality is applied
+- [x] Producers create resources
+- [x] Herbivores consume compatible resources from their diets
+- [x] Multiple herbivore species can compete for a shared resource
+- [x] A herbivore with multiple compatible foods can use an available alternative
+- [x] Starvation mortality is applied
 - [ ] Basic reproduction is applied
 - [ ] Multiple cycles can be run without restarting
 
@@ -49,12 +49,14 @@ Playtest A should communicate the basic idea of what EcoSim is and will be. It s
 - [ ] Feeding, deaths, and births are understandable
 - [ ] Resource competition and food shortages are understandable
 - [ ] Important events explain what changed
+- [ ] A complete run report can be exported to a local file
 
 ## Reliability
 - [ ] A smoke test runs one complete cycle
 - [ ] Populations cannot become negative
 - [ ] Resource quantities cannot become negative
 - [ ] The same seed and starting state produce the same result
+- [ ] Exported reports include enough information to reproduce a run
 - [ ] Incomplete systems do not prevent the simulation from running
 
 ## Deliberately Excluded

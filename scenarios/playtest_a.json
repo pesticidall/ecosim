@@ -1,0 +1,20 @@
+{
+    "scenario_id": "playtest_a",
+    "name": "Playtest A: Redgrass Savanna",
+    "random_seed": 104729,
+    "regions": [
+        {
+            "definition_id": "redgrass_savanna",
+            "active_weather_id": "seasonal_rain",
+            "animal_populations": {
+                "scrub_hare": 80
+            },
+            "producer_populations": {
+                "redgrass": 500
+            },
+            "resource_quantities": {
+                "grass_forage": 1200.5
+            }
+        }
+    ]
+}

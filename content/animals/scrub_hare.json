@@ -1,0 +1,13 @@
+{
+    "entity_type": "animal",
+    "id": "scrub_hare",
+    "name": "Scrub Hare",
+    "diet_type": "herbivore",
+    "food_requirement_per_animal_per_cycle": 0.5,
+    "diet": [
+        {
+            "resource_id": "grass_forage",
+            "preference": 1.0
+        }
+    ]
+}

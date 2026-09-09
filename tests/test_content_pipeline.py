@@ -10,7 +10,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 
 class TestContentPipeline(unittest.TestCase):
-    def test_loads_real_grass_producer_into_registry(self) -> None:
+    def test_loads_real_redgrass_producer_into_registry(self) -> None:
         producer_directory = (
             PROJECT_ROOT
             / "content"
@@ -21,14 +21,23 @@ class TestContentPipeline(unittest.TestCase):
         )
         registry = ContentRegistry()
         registry.register_all(definitions)
-        grass_definition = registry.get("grass")
+        redgrass_definition = registry.get("redgrass")
         self.assertEqual(
-            grass_definition["entity_type"],
+            redgrass_definition["entity_type"],
             "producer",
         )
         self.assertEqual(
-            grass_definition["name"],
-            "Grass",
+            redgrass_definition["name"],
+            "Redgrass",
+        )
+        self.assertEqual(
+            redgrass_definition["production"],
+            [
+                {
+                    "resource_id": "grass_forage",
+                    "amount_per_producer_per_cycle": 0.25
+                }
+            ]
         )
 
     def test_load_real_biomass_resource_into_registry(self) -> None:
@@ -50,7 +59,7 @@ class TestContentPipeline(unittest.TestCase):
         )
         self.assertEqual(
             resource_definition["name"],
-            "Grass Forage",
+            "Grass",
         )
         self.assertEqual(
             resource_definition["quantity_type"],
@@ -60,7 +69,6 @@ class TestContentPipeline(unittest.TestCase):
             resource_definition["unit"],
             "kg",
         )
-
 
 if __name__ == "__main__":
     unittest.main()

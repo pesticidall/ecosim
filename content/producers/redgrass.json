@@ -1,0 +1,11 @@
+{
+    "entity_type": "producer",
+    "id": "redgrass",
+    "name": "Redgrass",
+    "production": [
+        {
+            "resource_id": "grass_forage",
+            "amount_per_producer_per_cycle": 0.25
+        }
+    ]
+}

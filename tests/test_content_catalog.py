@@ -9,13 +9,13 @@ class TestContentCatalog(unittest.TestCase):
     def test_builds_registry_from_all_content_directories(self) -> None:
         content_root = PROJECT_ROOT / "content"
         registry = build_content_registry(content_root)
-        grass_definition = registry.get("grass")
+        redgrass_definition = registry.get("redgrass")
         forage_definition = registry.get("grass_forage")
-        hare_definition = registry.get("ashback_hare")
+        hare_definition = registry.get("scrub_hare")
         weather_definition = registry.get("seasonal_rain")
         region_definition = registry.get("redgrass_savanna")
         self.assertEqual(
-            grass_definition["entity_type"],
+            redgrass_definition["entity_type"],
             "producer",
         )
         self.assertEqual(
@@ -28,7 +28,7 @@ class TestContentCatalog(unittest.TestCase):
         )
         self.assertEqual(
             hare_definition["name"],
-            "Ashback Hare",
+            "Scrub Hare",
         )
         self.assertEqual(
             weather_definition["entity_type"],

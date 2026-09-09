@@ -29,13 +29,13 @@ class TestWorldState(unittest.TestCase):
 
     def test_stores_regional_animal_populations(self) -> None:
         region_state = RegionState(
-            definition_id="redgrass_savannna",
+            definition_id="redgrass_savanna",
             animal_populations={
-                "ashback_hare": 80,
+                "scrub_hare": 80,
             }
         )
         self.assertEqual(
-            region_state.animal_populations["ashback_hare"],
+            region_state.animal_populations["scrub_hare"],
             80,
         )
 
@@ -43,11 +43,11 @@ class TestWorldState(unittest.TestCase):
         region_state = RegionState(
             definition_id="redgrass_savanna",
             producer_populations={
-                "grass": 500,
+                "redgrass": 500,
             }
         )
         self.assertEqual(
-            region_state.producer_populations["grass"],
+            region_state.producer_populations["redgrass"],
             500,
         )
 

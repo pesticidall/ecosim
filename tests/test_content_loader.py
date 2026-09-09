@@ -9,7 +9,21 @@ from core.content_loader import (
     load_json_file,
 )
 
-
+def make_test_producer_definition(
+    entity_id: str,
+    name: str,
+) -> dict[str, object]:
+    return {
+        "entity_type": "producer",
+        "id": entity_id,
+        "name": name,
+        "production": [
+            {
+                "resource_id": "test_resource",
+                "amount_per_producer_per_cycle": 1.0
+            }
+        ]
+    }
 class TestLoadJsonFile(unittest.TestCase):
     def test_loads_json_object(self) -> None:
         expected_data = {
@@ -53,18 +67,15 @@ class TestLoadJsonFile(unittest.TestCase):
                 load_json_file(file_path)
 
     def test_loads_valid_entity_definition(self) -> None:
-        expected_data = {
-            "entity_type": "producer",
-            "id": "test_grass",
-            "name": "Test Grass",
-        }
+        expected_data = make_test_producer_definition(
+            "test_grass",
+            "Test Grass",
+        )
 
         with tempfile.TemporaryDirectory() as temporary_directory:
             file_path = Path(temporary_directory) / "test_entity.json"
             file_path.write_text(
-                '{"entity_type": "producer", '
-                '"id": "test_grass", '
-                '"name": "Test Grass"}',
+                json.dumps(expected_data),
                 encoding="utf-8",
             )
             loaded_data = load_entity_definition(file_path)
@@ -90,16 +101,22 @@ class TestLoadJsonFile(unittest.TestCase):
 
             shrub_path = directory_path / "b_shrub.json"
             shrub_path.write_text(
-                '{"entity_type": "producer", '
-                '"id": "test_shrub", '
-                '"name": "Test Shrub"}',
+                json.dumps(
+                    make_test_producer_definition(
+                        "test_shrub",
+                        "Test Shrub",
+                    )
+                ),
                 encoding="utf-8",
             )
             grass_path = directory_path / "a_grass.json"
             grass_path.write_text(
-                '{"entity_type": "producer", '
-                '"id": "test_grass", '
-                '"name": "Test Grass"}',
+                    json.dumps(
+                        make_test_producer_definition(
+                            "test_grass",
+                            "Test Grass",
+                        )
+                ),
                 encoding="utf-8",
             )
             ignored_path = directory_path / "notes.txt"
@@ -138,9 +155,12 @@ class TestLoadJsonFile(unittest.TestCase):
             directory_path = Path(temporary_directory)
             file_path = directory_path / "wrong_type.json"
             file_path.write_text(
-                '{"entity_type": "producer", '
-                '"id": "test_grass", '
-                '"name": "Test Grass"}',
+                json.dumps(
+                    make_test_producer_definition(
+                        "test_grass",
+                        "Test Grass",
+                    )
+                ),
                 encoding="utf-8",
             )
             with self.assertRaisesRegex(

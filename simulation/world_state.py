@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 
+
 @dataclass
 class RegionState:
     definition_id: str
@@ -10,7 +11,7 @@ class RegionState:
     producer_populations: dict[str, int] = field(
         default_factory=dict,
     )
-    resource_quantities: dict[str, int] = field(
+    resource_quantities: dict[str, float] = field(
         default_factory=dict,
     )
 

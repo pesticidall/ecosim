@@ -7,9 +7,25 @@ REQUIRED_IDENTITY_FIELDS = (
     "id",
     "name",
 )
+REQUIRED_PRODUCER_FIELDS = (
+    "production",
+)
 REQUIRED_RESOURCE_FIELDS = (
     "quantity_type",
     "unit",
+)
+REQUIRED_PRODUCTION_ENTRY_FIELDS = (
+    "resource_id",
+    "amount_per_producer_per_cycle",
+)
+REQUIRED_ANIMAL_FIELDS = (
+    "diet_type",
+    "food_requirement_per_animal_per_cycle",
+    "diet",
+)
+REQUIRED_ANIMAL_DIET_ENTRY_FIELDS = (
+    "resource_id",
+    "preference",
 )
 SUPPORTED_ENTITY_TYPES = frozenset(
     {
@@ -17,12 +33,17 @@ SUPPORTED_ENTITY_TYPES = frozenset(
         "producer",
         "region",
         "resource",
-        "weather"
+        "weather",
     }
 )
 SUPPORTED_RESOURCE_MEASUREMENTS = {
     "biomass": frozenset({"kg"}),
 }
+SUPPORTED_ANIMAL_DIET_TYPES = frozenset(
+    {
+        "herbivore",
+    }
+)
 ENTITY_ID_PATTERN = re.compile(
     r"[a-z][a-z0-9]*(?:_[a-z0-9]+)*"
 )
@@ -60,6 +81,200 @@ def validate_entity_definition(
             f"Definition '{source_path}' has unsupported "
             f"entity type '{entity_type}'."
         )
+    if entity_type == "animal":
+        missing_animal_fields = [
+            field
+            for field in REQUIRED_ANIMAL_FIELDS
+            if field not in definition
+        ]
+        if missing_animal_fields:
+            field_list = ", ".join(missing_animal_fields)
+            raise ValueError(
+                f"Animal definition '{source_path}' is missing "
+                f"required field(s): {field_list}."
+            )
+        diet_type = definition["diet_type"]
+        if not isinstance(diet_type, str):
+            raise TypeError(
+                f"Field 'diet_type' in animal definition "
+                f"'{source_path}' must be a string."
+            )
+        if not diet_type.strip():
+            raise ValueError(
+                f"Field 'diet_type' in animal definition "
+                f"'{source_path}' must not be empty."
+            )
+        if diet_type not in SUPPORTED_ANIMAL_DIET_TYPES:
+            raise ValueError(
+                f"Animal definition '{source_path}' has unsupported "
+                f"diet type '{diet_type}'."
+            )
+        food_requirement = definition[
+            "food_requirement_per_animal_per_cycle"
+        ]
+        if isinstance(food_requirement, bool) or not isinstance(
+            food_requirement,
+            (int, float),
+        ):
+            raise TypeError(
+                f"Field 'food_requirement_per_animal_per_cycle' in "
+                f"animal definition '{source_path}' must be a number."
+            )
+        if food_requirement <= 0:
+            raise ValueError(
+                f"Field 'food_requirement_per_animal_per_cycle' in "
+                f"animal definition '{source_path}' must be greater than zero."
+            )
+        diet = definition["diet"]
+        if not isinstance(diet, list):
+            raise TypeError(
+                f"Field 'diet' in animal definition "
+                f"'{source_path}' must be a list."
+            )
+        if not diet:
+            raise ValueError(
+                f"Field 'diet' in animal definition "
+                f"'{source_path}' must not be empty."
+            )
+        for entry_index, diet_entry in enumerate(diet):
+            if not isinstance(diet_entry, dict):
+                raise TypeError(
+                    f"Animal diet entry {entry_index} in definition "
+                    f"'{source_path}' must be an object."
+                )
+            missing_diet_entry_fields = [
+                field
+                for field in REQUIRED_ANIMAL_DIET_ENTRY_FIELDS
+                if field not in diet_entry
+            ]
+            if missing_diet_entry_fields:
+                field_list = ", ".join(
+                    missing_diet_entry_fields
+                )
+                raise ValueError(
+                    f"Animal diet entry {entry_index} in definition "
+                    f"'{source_path}' is missing required field(s): "
+                    f"{field_list}."
+                )
+            resource_id = diet_entry["resource_id"]
+            if not isinstance(resource_id, str):
+                raise TypeError(
+                    f"Field 'resource_id' in animal diet entry "
+                    f"{entry_index} of definition '{source_path}' "
+                    f"must be a string."
+                )
+            if not resource_id.strip():
+                raise ValueError(
+                    f"Field 'resource_id' in animal diet entry "
+                    f"{entry_index} of definition '{source_path}' "
+                    f"must not be empty."
+                )
+            if ENTITY_ID_PATTERN.fullmatch(resource_id) is None:
+                raise ValueError(
+                    f"Field 'resource_id' in animal diet entry "
+                    f"{entry_index} of definition '{source_path}' "
+                    f"must use lowercase snake_case."
+                )
+            preference = diet_entry["preference"]
+            if isinstance(preference, bool) or not isinstance(
+                preference,
+                (int, float),
+            ):
+                raise TypeError(
+                    f"Field 'preference' in animal diet entry "
+                    f"{entry_index} of definition '{source_path}' "
+                    f"must be a number."
+                )
+            if preference <= 0:
+                raise ValueError(
+                    f"Field 'preference' in animal diet entry "
+                    f"{entry_index} of definition '{source_path}' "
+                    f"must be greater than zero."
+                )
+    if entity_type == "producer":
+        missing_producer_fields = [
+            field
+            for field in REQUIRED_PRODUCER_FIELDS
+            if field not in definition
+        ]
+        if missing_producer_fields:
+            field_list = ", ".join(
+                missing_producer_fields
+            )
+            raise ValueError(
+                f"Producer definition '{source_path}' is missing "
+                f"required field(s): {field_list}."
+            )
+        production = definition["production"]
+        if not isinstance(production, list):
+                raise TypeError(
+                    f"Field 'production' in producer definition "
+                    f"'{source_path}' must be a list."
+                )
+        if not production:
+                raise ValueError(
+                    f"Field 'production' in producer definition "
+                    f"'{source_path}' must not be empty."
+                )
+        for entry_index, production_entry in enumerate(
+            production
+        ):
+            if not isinstance(production_entry, dict):
+                raise TypeError(
+                    f"Producer production entry {entry_index} in "
+                    f"definition '{source_path}' must be an object."
+                )
+            missing_entry_fields = [
+                field
+                for field in REQUIRED_PRODUCTION_ENTRY_FIELDS
+                if field not in production_entry
+            ]
+            if missing_entry_fields:
+                field_list = ", ".join(
+                    missing_entry_fields
+                )
+                raise ValueError(
+                    f"Producer production entry {entry_index} in "
+                    f"definition '{source_path}' is missing required "
+                    f"field(s): {field_list}."
+                )
+            resource_id = production_entry["resource_id"]
+            if not isinstance(resource_id, str):
+                raise TypeError(
+                    f"Field 'resource_id' in producer production "
+                    f"entry {entry_index} of definition "
+                    f"'{source_path}' must be a string."
+                )
+            if not resource_id.strip():
+                raise ValueError(
+                    f"Field 'resource_id' in producer production "
+                    f"entry {entry_index} of definition "
+                    f"'{source_path}' must not be empty."
+                )
+            if ENTITY_ID_PATTERN.fullmatch(resource_id) is None:
+                raise ValueError(
+                    f"Field 'resource_id' in producer production "
+                    f"entry {entry_index} of definition "
+                    f"'{source_path}' must use lowercase snake_case."
+                )
+            production_amount = production_entry[
+                "amount_per_producer_per_cycle"
+            ]
+            if isinstance(production_amount, bool) or not isinstance(
+                production_amount,
+                (int, float),
+            ):
+                raise TypeError(
+                    f"Field 'amount_per_producer_per_cycle' in "
+                    f"producer production entry {entry_index} of "
+                    f"definition '{source_path}' must be a number."
+                )
+            if production_amount <= 0:
+                raise ValueError(
+                    f"Field 'amount_per_producer_per_cycle' in "
+                    f"producer production entry {entry_index} of "
+                    f"definition '{source_path}' must be greater than zero."
+                )
     if entity_type == "resource":
         missing_resource_fields = [
             field

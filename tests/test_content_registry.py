@@ -47,7 +47,7 @@ class TestContentRegistry(unittest.TestCase):
             {
                 "entity_type": "resource",
                 "id": "grass_forage",
-                "name": "Grass Forage",
+                "name": "Grass",
             },
         ]
         registry.register_all(definitions)
