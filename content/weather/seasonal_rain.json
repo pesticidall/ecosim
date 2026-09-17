@@ -1,5 +1,6 @@
 {
     "entity_type": "weather",
     "id": "seasonal_rain",
-    "name": "Seasonal Rain"
+    "name": "Seasonal Rain",
+    "producer_production_multiplier": 1.25
 }

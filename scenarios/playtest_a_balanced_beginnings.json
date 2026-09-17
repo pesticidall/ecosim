@@ -1,0 +1,25 @@
+{
+    "scenario_id": "playtest_a_balanced_beginnings",
+    "name": "Playtest A — Balanced Beginnings",
+    "description": "Three herbivore species share a savanna with plentiful starting food reserves. Observe how their diets affect competition and population growth.",
+    "random_seed": 104729,
+    "regions": [
+        {
+            "definition_id": "redgrass_savanna",
+            "active_weather_id": "seasonal_rain",
+            "animal_populations": {
+                "scrub_hare": 100,
+                "springbok": 40,
+                "bushbuck": 30
+            },
+            "producer_populations": {
+                "redgrass": 500,
+                "sandpaper_raisin": 100
+            },
+            "resource_quantities": {
+                "grass_forage": 100.0,
+                "leaves_browse": 200.0
+            }
+        }
+    ]
+}

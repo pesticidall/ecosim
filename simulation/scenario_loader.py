@@ -1,13 +1,18 @@
 from pathlib import Path
+
 from core.content_loader import load_json_file
 from simulation.world_state import RegionState, WorldState
+
 
 def load_scenario(
     scenario_path: Path,
 ) -> WorldState:
     scenario_data = load_json_file(scenario_path)
     world_state = WorldState(
-        random_seed=scenario_data["random_seed"]
+        random_seed=scenario_data["random_seed"],
+        scenario_name=scenario_data["name"],
+        scenario_id=scenario_data.get("scenario_id", ""),
+        scenario_description=scenario_data.get("description", ""),
     )
     for region_data in scenario_data["regions"]:
         region_state = RegionState(

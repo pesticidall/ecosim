@@ -1,0 +1,11 @@
+{
+    "entity_type": "producer",
+    "id": "sandpaper_raisin",
+    "name": "Sandpaper Raisin",
+    "production": [
+        {
+            "resource_id": "leaves_browse",
+            "amount_per_producer_per_cycle": 0.5
+        }
+    ]
+}

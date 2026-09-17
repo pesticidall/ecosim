@@ -1,0 +1,14 @@
+{
+    "entity_type": "animal",
+    "id": "bushbuck",
+    "name": "Bushbuck",
+    "diet_type": "herbivore",
+    "food_requirement_per_animal_per_cycle": 2.0,
+    "birth_rate_per_animal_per_cycle": 0.1,
+    "diet": [
+        {
+            "resource_id": "leaves_browse",
+            "preference": 1.0
+        }
+    ]
+}

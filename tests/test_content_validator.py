@@ -484,6 +484,7 @@ class TestValidateEntityDefinition(unittest.TestCase):
             "name": "Scrub Hare",
             "diet_type": 42,
             "food_requirement_per_animal_per_cycle": 0.5,
+            "birth_rate_per_animal_per_cycle": 0.25,
             "diet": [
                 {
                     "resource_id": "grass_forage",
@@ -511,6 +512,7 @@ class TestValidateEntityDefinition(unittest.TestCase):
             "name": "Scrub Hare",
             "diet_type": "   ",
             "food_requirement_per_animal_per_cycle": 0.5,
+            "birth_rate_per_animal_per_cycle": 0.25,
             "diet": [
                 {
                     "resource_id": "grass_forage",
@@ -538,6 +540,7 @@ class TestValidateEntityDefinition(unittest.TestCase):
             "name": "Scrub Hare",
             "diet_type": "photosynthetic",
             "food_requirement_per_animal_per_cycle": 0.5,
+            "birth_rate_per_animal_per_cycle": 0.25,
             "diet": [
                 {
                     "resource_id": "grass_forage",
@@ -565,6 +568,7 @@ class TestValidateEntityDefinition(unittest.TestCase):
             "name": "Scrub Hare",
             "diet_type": "herbivore",
             "food_requirement_per_animal_per_cycle": "half a kilogram",
+            "birth_rate_per_animal_per_cycle": 0.25,
             "diet": [
                 {
                     "resource_id": "grass_forage",
@@ -595,6 +599,7 @@ class TestValidateEntityDefinition(unittest.TestCase):
             "name": "Scrub Hare",
             "diet_type": "herbivore",
             "food_requirement_per_animal_per_cycle": True,
+            "birth_rate_per_animal_per_cycle": 0.25,
             "diet": [
                 {
                     "resource_id": "grass_forage",
@@ -631,7 +636,8 @@ class TestValidateEntityDefinition(unittest.TestCase):
                     "food_requirement_per_animal_per_cycle": (
                         invalid_requirement
                     ),
-                    "diet": [
+                    "birth_rate_per_animal_per_cycle": 0.25,
+            "diet": [
                         {
                             "resource_id": "grass_forage",
                             "preference": 1.0,
@@ -661,6 +667,7 @@ class TestValidateEntityDefinition(unittest.TestCase):
             "name": "Scrub Hare",
             "diet_type": "herbivore",
             "food_requirement_per_animal_per_cycle": 0.5,
+            "birth_rate_per_animal_per_cycle": 0.25,
             "diet": "grass_forage",
         }
         source_path = Path(
@@ -683,6 +690,7 @@ class TestValidateEntityDefinition(unittest.TestCase):
             "name": "Scrub Hare",
             "diet_type": "herbivore",
             "food_requirement_per_animal_per_cycle": 0.5,
+            "birth_rate_per_animal_per_cycle": 0.25,
             "diet": [],
         }
         source_path = Path(
@@ -705,6 +713,7 @@ class TestValidateEntityDefinition(unittest.TestCase):
             "name": "Scrub Hare",
             "diet_type": "herbivore",
             "food_requirement_per_animal_per_cycle": 0.5,
+            "birth_rate_per_animal_per_cycle": 0.25,
             "diet": [
                 "grass_forage",
             ],
@@ -729,6 +738,7 @@ class TestValidateEntityDefinition(unittest.TestCase):
             "name": "Scrub Hare",
             "diet_type": "herbivore",
             "food_requirement_per_animal_per_cycle": 0.5,
+            "birth_rate_per_animal_per_cycle": 0.25,
             "diet": [
                 {},
             ],
@@ -753,6 +763,7 @@ class TestValidateEntityDefinition(unittest.TestCase):
             "name": "Scrub Hare",
             "diet_type": "herbivore",
             "food_requirement_per_animal_per_cycle": 0.5,
+            "birth_rate_per_animal_per_cycle": 0.25,
             "diet": [
                 {
                     "resource_id": 42,
@@ -780,6 +791,7 @@ class TestValidateEntityDefinition(unittest.TestCase):
             "name": "Scrub Hare",
             "diet_type": "herbivore",
             "food_requirement_per_animal_per_cycle": 0.5,
+            "birth_rate_per_animal_per_cycle": 0.25,
             "diet": [
                 {
                     "resource_id": "   ",
@@ -807,6 +819,7 @@ class TestValidateEntityDefinition(unittest.TestCase):
             "name": "Scrub Hare",
             "diet_type": "herbivore",
             "food_requirement_per_animal_per_cycle": 0.5,
+            "birth_rate_per_animal_per_cycle": 0.25,
             "diet": [
                 {
                     "resource_id": "Grass Forage",
@@ -834,6 +847,7 @@ class TestValidateEntityDefinition(unittest.TestCase):
             "name": "Scrub Hare",
             "diet_type": "herbivore",
             "food_requirement_per_animal_per_cycle": 0.5,
+            "birth_rate_per_animal_per_cycle": 0.25,
             "diet": [
                 {
                     "resource_id": "grass_forage",
@@ -861,6 +875,7 @@ class TestValidateEntityDefinition(unittest.TestCase):
             "name": "Scrub Hare",
             "diet_type": "herbivore",
             "food_requirement_per_animal_per_cycle": 0.5,
+            "birth_rate_per_animal_per_cycle": 0.25,
             "diet": [
                 {
                     "resource_id": "grass_forage",
@@ -892,7 +907,8 @@ class TestValidateEntityDefinition(unittest.TestCase):
                     "name": "Scrub Hare",
                     "diet_type": "herbivore",
                     "food_requirement_per_animal_per_cycle": 0.5,
-                    "diet": [
+                    "birth_rate_per_animal_per_cycle": 0.25,
+            "diet": [
                         {
                             "resource_id": "grass_forage",
                             "preference": invalid_preference,
@@ -919,6 +935,7 @@ class TestValidateEntityDefinition(unittest.TestCase):
             "name": "Scrub Hare",
             "diet_type": "herbivore",
             "food_requirement_per_animal_per_cycle": 0.5,
+            "birth_rate_per_animal_per_cycle": 0.25,
             "diet": [
                 {
                     "resource_id": 42,
@@ -942,5 +959,190 @@ class TestValidateEntityDefinition(unittest.TestCase):
                 definition,
                 source_path,
             )
+
+    def test_raises_error_when_animal_birth_rate_is_missing(self) -> None:
+        definition = {
+            "entity_type": "animal",
+            "id": "scrub_hare",
+            "name": "Scrub Hare",
+            "diet_type": "herbivore",
+            "food_requirement_per_animal_per_cycle": 0.5,
+            "diet": [
+                {
+                    "resource_id": "grass_forage",
+                    "preference": 1.0,
+                },
+            ],
+        }
+        source_path = Path(
+            "content/animals/scrub_hare.json"
+        )
+
+        with self.assertRaisesRegex(
+            ValueError,
+            r"birth_rate_per_animal_per_cycle",
+        ):
+            validate_entity_definition(
+                definition,
+                source_path,
+            )
+
+    def test_raises_error_when_animal_birth_rate_is_not_number(self) -> None:
+        definition = {
+            "entity_type": "animal",
+            "id": "scrub_hare",
+            "name": "Scrub Hare",
+            "diet_type": "herbivore",
+            "food_requirement_per_animal_per_cycle": 0.5,
+            "birth_rate_per_animal_per_cycle": "one quarter",
+            "diet": [
+                {
+                    "resource_id": "grass_forage",
+                    "preference": 1.0,
+                },
+            ],
+        }
+        source_path = Path(
+            "content/animals/scrub_hare.json"
+        )
+
+        with self.assertRaisesRegex(
+            TypeError,
+            (
+                r"birth_rate_per_animal_per_cycle"
+                r".*must be a number"
+            ),
+        ):
+            validate_entity_definition(
+                definition,
+                source_path,
+            )
+
+
+    def test_rejects_boolean_animal_birth_rate(self) -> None:
+        definition = {
+            "entity_type": "animal",
+            "id": "scrub_hare",
+            "name": "Scrub Hare",
+            "diet_type": "herbivore",
+            "food_requirement_per_animal_per_cycle": 0.5,
+            "birth_rate_per_animal_per_cycle": True,
+            "diet": [
+                {
+                    "resource_id": "grass_forage",
+                    "preference": 1.0,
+                },
+            ],
+        }
+        source_path = Path(
+            "content/animals/scrub_hare.json"
+        )
+
+        with self.assertRaisesRegex(
+            TypeError,
+            r"birth_rate_per_animal_per_cycle.*must be a number",
+        ):
+            validate_entity_definition(
+                definition,
+                source_path,
+            )
+
+    def test_rejects_negative_animal_birth_rate(self) -> None:
+        definition = {
+            "entity_type": "animal",
+            "id": "scrub_hare",
+            "name": "Scrub Hare",
+            "diet_type": "herbivore",
+            "food_requirement_per_animal_per_cycle": 0.5,
+            "birth_rate_per_animal_per_cycle": -0.25,
+            "diet": [
+                {
+                    "resource_id": "grass_forage",
+                    "preference": 1.0,
+                },
+            ],
+        }
+        source_path = Path(
+            "content/animals/scrub_hare.json"
+        )
+
+        with self.assertRaisesRegex(
+            ValueError,
+            r"birth_rate_per_animal_per_cycle.*must not be negative",
+        ):
+            validate_entity_definition(
+                definition,
+                source_path,
+            )
+
+    def test_rejects_nonnumeric_weather_production_multiplier(self) -> None:
+        definition = {
+            "entity_type": "weather",
+            "id": "seasonal_rain",
+            "name": "Seasonal Rain",
+            "producer_production_multiplier": "extra rain",
+        }
+        source_path = Path("content/weather/seasonal_rain.json")
+
+        with self.assertRaisesRegex(
+            TypeError,
+            r"producer_production_multiplier.*must be a number",
+        ):
+            validate_entity_definition(definition, source_path)
+
+    def test_rejects_boolean_weather_production_multiplier(self) -> None:
+        definition = {
+            "entity_type": "weather",
+            "id": "seasonal_rain",
+            "name": "Seasonal Rain",
+            "producer_production_multiplier": True,
+        }
+        source_path = Path("content/weather/seasonal_rain.json")
+
+        with self.assertRaisesRegex(
+            TypeError,
+            r"producer_production_multiplier.*must be a number",
+        ):
+            validate_entity_definition(definition, source_path)
+
+    def test_rejects_negative_weather_production_modifier(self) -> None:
+        definition = {
+            "entity_type": "weather",
+            "id": "seasonal_rain",
+            "name": "Seasonal Rain",
+            "producer_production_multiplier": -0.25,
+        }
+        source_path = Path(
+            "content/weather/seasonal_rain.json"
+        )
+        with self.assertRaisesRegex(
+            ValueError,
+            r"producer_production_multiplier.*must not be negative",
+        ):
+            validate_entity_definition(
+                definition,
+                source_path,
+            )
+
+    def test_accepts_zero_weather_production_multiplier(self) -> None:
+        definition = {
+            "entity_type": "weather",
+            "id": "seasonal_rain",
+            "name": "Seasonal Rain",
+            "producer_production_multiplier": 0.0,
+        }
+        source_path = Path("content/weather/seasonal_rain.json")
+
+        validate_entity_definition(definition, source_path)
+
+    def test_accepts_weather_without_production_multiplier(self) -> None:
+        definition = {
+            "entity_type": "weather",
+            "id": "seasonal_rain",
+            "name": "Seasonal Rain",
+        }
+        source_path = Path("content/weather/seasonal_rain.json")
+
+        validate_entity_definition(definition, source_path)
 if __name__ == "__main__":
     unittest.main()

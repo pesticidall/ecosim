@@ -10,10 +10,10 @@ Playtest A should communicate the basic idea of what EcoSim is and will be. It s
 - [x] The scenario has a known random seed
 - [x] At least one region exists
 - [x] At least one weather type is active
-- [ ] At least two producers exist
-- [ ] At least two consumable resources exist
-- [ ] At least three herbivore species with distinct feeding niches exist
-- [ ] At least two herbivore species depend on the same limited resource
+- [x] At least two producers exist
+- [x] At least two consumable resources exist
+- [x] At least three herbivore species with distinct feeding niches exist
+- [x] At least two herbivore species depend on the same limited resource
 
 ## Modular Content
 - [x] Resource definitions load from JSON
@@ -33,31 +33,31 @@ Playtest A should communicate the basic idea of what EcoSim is and will be. It s
 
 ## Simulation Cycle
 - [x] Time advances
-- [ ] Weather is applied
+- [x] Weather is applied
 - [x] Producers create resources
 - [x] Herbivores consume compatible resources from their diets
 - [x] Multiple herbivore species can compete for a shared resource
 - [x] A herbivore with multiple compatible foods can use an available alternative
 - [x] Starvation mortality is applied
-- [ ] Basic reproduction is applied
-- [ ] Multiple cycles can be run without restarting
+- [x] Basic reproduction is applied
+- [x] Multiple cycles can be run without restarting
 
 ## Reporting
-- [ ] The random seed is displayed
-- [ ] Resource changes are displayed
-- [ ] Population changes are displayed
-- [ ] Feeding, deaths, and births are understandable
+- [x] The random seed is displayed
+- [x] Resource changes are displayed
+- [x] Population changes are displayed
+- [x] Feeding, deaths, and births are understandable
 - [ ] Resource competition and food shortages are understandable
-- [ ] Important events explain what changed
-- [ ] A complete run report can be exported to a local file
+- [x] Important events explain what changed
+- [x] A complete run report can be exported to a local file
 
 ## Reliability
-- [ ] A smoke test runs one complete cycle
-- [ ] Populations cannot become negative
-- [ ] Resource quantities cannot become negative
-- [ ] The same seed and starting state produce the same result
+- [x] A smoke test runs one complete cycle
+- [x] Populations cannot become negative
+- [x] Resource quantities cannot become negative
+- [x] The same seed and starting state produce the same result
 - [ ] Exported reports include enough information to reproduce a run
-- [ ] Incomplete systems do not prevent the simulation from running
+- [x] Incomplete systems do not prevent the simulation from running
 
 ## Deliberately Excluded
 

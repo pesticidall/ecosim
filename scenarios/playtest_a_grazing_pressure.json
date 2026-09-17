@@ -1,0 +1,25 @@
+{
+    "scenario_id": "playtest_a_grazing_pressure",
+    "name": "Playtest A — Grazing Pressure",
+    "description": "Larger herbivore populations share the same food supply. Observe how increased grazing and browsing pressure affects competition and population growth.",
+    "random_seed": 104729,
+    "regions": [
+        {
+            "definition_id": "redgrass_savanna",
+            "active_weather_id": "seasonal_rain",
+            "animal_populations": {
+                "scrub_hare": 200,
+                "springbok": 80,
+                "bushbuck": 60
+            },
+            "producer_populations": {
+                "redgrass": 500,
+                "sandpaper_raisin": 100
+            },
+            "resource_quantities": {
+                "grass_forage": 100.0,
+                "leaves_browse": 200.0
+            }
+        }
+    ]
+}

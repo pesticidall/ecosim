@@ -4,6 +4,7 @@
     "name": "Scrub Hare",
     "diet_type": "herbivore",
     "food_requirement_per_animal_per_cycle": 0.5,
+    "birth_rate_per_animal_per_cycle": 0.12,
     "diet": [
         {
             "resource_id": "grass_forage",

@@ -22,3 +22,6 @@ class WorldState:
     regions: dict[str, RegionState] = field(
         default_factory=dict,
     )
+    scenario_name: str = ""
+    scenario_description: str = ""
+    scenario_id: str = ""

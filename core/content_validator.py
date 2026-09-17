@@ -21,6 +21,7 @@ REQUIRED_PRODUCTION_ENTRY_FIELDS = (
 REQUIRED_ANIMAL_FIELDS = (
     "diet_type",
     "food_requirement_per_animal_per_cycle",
+    "birth_rate_per_animal_per_cycle",
     "diet",
 )
 REQUIRED_ANIMAL_DIET_ENTRY_FIELDS = (
@@ -124,6 +125,22 @@ def validate_entity_definition(
             raise ValueError(
                 f"Field 'food_requirement_per_animal_per_cycle' in "
                 f"animal definition '{source_path}' must be greater than zero."
+            )
+        birth_rate = definition[
+            "birth_rate_per_animal_per_cycle"
+        ]
+        if isinstance(birth_rate, bool) or not isinstance(
+            birth_rate,
+            (int, float),
+        ):
+            raise TypeError(
+                "Field 'birth_rate_per_animal_per_cycle' in "
+                f"animal definition '{source_path}' must be a number."
+            )
+        if birth_rate < 0:
+            raise ValueError(
+                "Field 'birth_rate_per_animal_per_cycle' in "
+                f"animal definition '{source_path}' must not be negative."
             )
         diet = definition["diet"]
         if not isinstance(diet, list):
@@ -311,6 +328,24 @@ def validate_entity_definition(
             raise ValueError(
                 f"Resource definition '{source_path}' has unsupported "
                 f"unit '{unit}' for quantity type '{quantity_type}'."
+            )
+    if entity_type == "weather":
+        production_multiplier = definition.get(
+            "producer_production_multiplier",
+            1.0,
+        )
+        if isinstance(production_multiplier, bool) or not isinstance(
+            production_multiplier, 
+            (int, float),
+        ):
+            raise TypeError(
+                "Field 'producer_production_multiplier' in "
+                f"weather definition '{source_path}' must be a number."
+            )
+        if production_multiplier < 0:
+            raise ValueError(
+                "Field 'producer_production_multiplier' in "
+                f"weather defintion '{source_path}' must not be negative."
             )
     entity_id = definition["id"]
     if ENTITY_ID_PATTERN.fullmatch(entity_id) is None:

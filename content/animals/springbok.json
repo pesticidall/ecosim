@@ -1,0 +1,13 @@
+{
+    "entity_type": "animal",
+    "id": "springbok",
+    "name": "Springbok",
+    "diet_type": "herbivore",
+    "food_requirement_per_animal_per_cycle": 2.0,
+    "birth_rate_per_animal_per_cycle": 0.1,
+    "diet": [
+            {"resource_id": "grass_forage", "preference": 1.0},
+            {"resource_id": "leaves_browse", "preference": 0.5}
+    ]
+}
+

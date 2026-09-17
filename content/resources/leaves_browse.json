@@ -1,0 +1,7 @@
+{
+    "entity_type": "resource",
+    "id": "leaves_browse",
+    "name": "Leaves",
+    "quantity_type": "biomass",
+    "unit": "kg"
+}
