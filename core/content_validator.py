@@ -1,4 +1,5 @@
 import re
+from math import isfinite
 from pathlib import Path
 from typing import Any
 
@@ -121,6 +122,11 @@ def validate_entity_definition(
                 f"Field 'food_requirement_per_animal_per_cycle' in "
                 f"animal definition '{source_path}' must be a number."
             )
+        if not isfinite(food_requirement):
+            raise ValueError(
+                "Field 'food_requirement_per_animal_per_cycle' in "
+                f"animal definition '{source_path}' must be finite."
+            )
         if food_requirement <= 0:
             raise ValueError(
                 f"Field 'food_requirement_per_animal_per_cycle' in "
@@ -136,6 +142,11 @@ def validate_entity_definition(
             raise TypeError(
                 "Field 'birth_rate_per_animal_per_cycle' in "
                 f"animal definition '{source_path}' must be a number."
+            )
+        if not isfinite(birth_rate):
+            raise ValueError(
+                "Field 'birth_rate_per_animal_per_cycle' in "
+                f"animal definition '{source_path}' must be finite."
             )
         if birth_rate < 0:
             raise ValueError(
@@ -153,6 +164,7 @@ def validate_entity_definition(
                 f"Field 'diet' in animal definition "
                 f"'{source_path}' must not be empty."
             )
+        seen_resource_ids: set[str] = set()
         for entry_index, diet_entry in enumerate(diet):
             if not isinstance(diet_entry, dict):
                 raise TypeError(
@@ -192,6 +204,12 @@ def validate_entity_definition(
                     f"{entry_index} of definition '{source_path}' "
                     f"must use lowercase snake_case."
                 )
+            if resource_id in seen_resource_ids:
+                raise ValueError(
+                    f"Duplicate diet resource '{resource_id}' in "
+                    f"animal definition '{source_path}'."
+                )
+            seen_resource_ids.add(resource_id)
             preference = diet_entry["preference"]
             if isinstance(preference, bool) or not isinstance(
                 preference,
@@ -201,6 +219,12 @@ def validate_entity_definition(
                     f"Field 'preference' in animal diet entry "
                     f"{entry_index} of definition '{source_path}' "
                     f"must be a number."
+                )
+            if not isfinite(preference):
+                raise ValueError(
+                    f"Field 'preference' in animal diet entry "
+                    f"{entry_index} of definition '{source_path} "
+                    "must be finite."
                 )
             if preference <= 0:
                 raise ValueError(

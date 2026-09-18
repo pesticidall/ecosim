@@ -1144,5 +1144,95 @@ class TestValidateEntityDefinition(unittest.TestCase):
         source_path = Path("content/weather/seasonal_rain.json")
 
         validate_entity_definition(definition, source_path)
+
+    def test_rejects_duplicate_resources_in_animal_diet(self) -> None:
+        definition = {
+            "entity_type": "animal",
+            "id": "scrub_hare",
+            "name": "Scrub Hare",
+            "diet_type": "herbivore",
+            "food_requirement_per_animal_per_cycle": 0.5,
+            "birth_rate_per_animal_per_cycle": 0.12,
+            "diet": [
+                {"resource_id": "grass_forage", "preference": 1.0},
+                {"resource_id": "grass_forage", "preference": 0.5},
+            ],
+        }
+        source_path = Path("content/animals/scrub_hare.json")
+
+        with self.assertRaisesRegex(
+            ValueError,
+            r"Duplicate diet resource.*grass_forage",
+        ):
+            validate_entity_definition(definition, source_path)
+
+    def test_rejects_nonfinite_animal_birth_rates(self) -> None:
+        for birth_rate in (float("nan"), float("inf"), float("-inf")):
+            with self.subTest(birth_rate=birth_rate):
+                definition = {
+                    "entity_type": "animal",
+                    "id": "scrub_hare",
+                    "name": "Scrub Hare",
+                    "diet_type": "herbivore",
+                    "food_requirement_per_animal_per_cycle": 0.5,
+                    "birth_rate_per_animal_per_cycle": birth_rate,
+                    "diet": [
+                        {"resource_id": "grass_forage", "preference": 1.0},
+                    ],
+                }
+                source_path = Path("content/animals/scrub_hare.json")
+
+                with self.assertRaisesRegex(
+                    ValueError,
+                    r"birth_rate_per_animal_per_cycle.*must be finite",
+                ):
+                    validate_entity_definition(definition, source_path)
+
+    def test_rejects_nonfinite_animal_food_requirements(self) -> None:
+        for food_requirement in (float("nan"), float("inf"), float("-inf")):
+            with self.subTest(food_requirement=food_requirement):
+                definition = {
+                    "entity_type": "animal",
+                    "id": "scrub_hare",
+                    "name": "Scrub Hare",
+                    "diet_type": "herbivore",
+                    "food_requirement_per_animal_per_cycle": food_requirement,
+                    "birth_rate_per_animal_per_cycle": 0.12,
+                    "diet": [
+                        {"resource_id": "grass_forage", "preference": 1.0},
+                    ],
+                }
+                source_path = Path("content/animals/scrub_hare.json")
+
+                with self.assertRaisesRegex(
+                    ValueError,
+                    r"food_requirement_per_animal_per_cycle.*must be finite",
+                ):
+                    validate_entity_definition(definition, source_path)
+
+    def test_rejects_nonfinite_diet_preferences(self) -> None:
+        for preference in (float("nan"), float("inf"), float("-inf")):
+            with self.subTest(preference=preference):
+                definition = {
+                    "entity_type": "animal",
+                    "id": "scrub_hare",
+                    "name": "Scrub Hare",
+                    "diet_type": "herbivore",
+                    "food_requirement_per_animal_per_cycle": 0.5,
+                    "birth_rate_per_animal_per_cycle": 0.12,
+                    "diet": [
+                        {
+                            "resource_id": "grass_forage",
+                            "preference": preference,
+                        },
+                    ],
+                }
+                source_path = Path("content/animals/scrub_hare.json")
+
+                with self.assertRaisesRegex(
+                    ValueError,
+                    r"preference.*must be finite",
+                ):
+                    validate_entity_definition(definition, source_path)
 if __name__ == "__main__":
     unittest.main()
