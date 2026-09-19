@@ -15,13 +15,16 @@ from simulation.production import apply_producer_production
 from simulation.simulation_cycle import CycleResult
 from simulation.world_state import WorldState
 
+# Change this for each distributed code or content revision.
+ECOSIM_RELEASE = "playtest-a.1"
+
 
 def frame_report(
-        report_text: str, 
-        width: int = 72,
-        title: str | None = None,
+    report_text: str,
+    width: int = 72,
+    title: str | None = None,
 ) -> str:
-    if width <1:
+    if width < 1:
         raise ValueError("Report width must be at least 1.")
     border = "═" * (width + 2)
     lines = [f"╔{border}╗"]
@@ -36,7 +39,7 @@ def frame_report(
         for line in wrapped_lines:
             lines.append(f"║ {line:<{width}} ║")
     lines.append(f"╚{border}╝")
-    return"\n".join(lines)
+    return "\n".join(lines)
 
 def format_resource_amount(amount: float) -> str:
     return f"{amount:.2f}".rstrip("0").rstrip(".")
@@ -48,7 +51,10 @@ def format_report_row(label: str, value: str) -> str:
 def format_run_header(
     world_state: WorldState,
 ) -> str:
-    return f"Random seed: {world_state.random_seed}"
+    return (
+        f"EcoSim release: {ECOSIM_RELEASE}\n"
+        f"Random seed: {world_state.random_seed}"
+    )
 
 def format_starting_report(
     world_state: WorldState,
@@ -205,8 +211,11 @@ def format_cycle_report(
             if feeding_result.nutrition_ratio < 1.0:
                 animal_name = registry.get(animal_id)["name"]
                 food_percentage = feeding_result.nutrition_ratio * 100
+                percentage_text = f"{food_percentage:.1f}%"
+                if percentage_text == "100.0%":
+                    percentage_text = "less than 100.0%"
                 shortage_lines.append(
-                    f"{animal_name} received {food_percentage:.1f}% "
+                    f"{animal_name} received {percentage_text} "
                     "of required food."
                 )
         if shortage_lines:

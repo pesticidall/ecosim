@@ -1234,5 +1234,44 @@ class TestValidateEntityDefinition(unittest.TestCase):
                     r"preference.*must be finite",
                 ):
                     validate_entity_definition(definition, source_path)
+
+    def test_rejects_nonfinite_production_amounts(self) -> None:
+        for production_amount in (float("nan"), float("inf"), float("-inf")):
+            with self.subTest(production_amount=production_amount):
+                definition = {
+                    "entity_type": "producer",
+                    "id": "redgrass",
+                    "name": "Redgrass",
+                    "production": [
+                        {
+                            "resource_id": "grass_forage",
+                            "amount_per_producer_per_cycle": production_amount,
+                        },
+                    ],
+                }
+                source_path = Path("content/producers/redgrass.json")
+
+                with self.assertRaisesRegex(
+                    ValueError,
+                    r"amount_per_producer_per_cycle.*must be finite",
+                ):
+                    validate_entity_definition(definition, source_path)
+
+    def test_rejects_nonfinite_weather_production_multipliers(self) -> None:
+        for multiplier in (float("nan"), float("inf"), float("-inf")):
+            with self.subTest(multiplier=multiplier):
+                definition = {
+                    "entity_type": "weather",
+                    "id": "seasonal_rain",
+                    "name": "Seasonal Rain",
+                    "producer_production_multiplier": multiplier,
+                }
+                source_path = Path("content/weather/seasonal_rain.json")
+
+                with self.assertRaisesRegex(
+                    ValueError,
+                    r"producer_production_multiplier.*must be finite",
+                ):
+                    validate_entity_definition(definition, source_path)
 if __name__ == "__main__":
     unittest.main()

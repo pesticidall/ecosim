@@ -223,7 +223,7 @@ def validate_entity_definition(
             if not isfinite(preference):
                 raise ValueError(
                     f"Field 'preference' in animal diet entry "
-                    f"{entry_index} of definition '{source_path} "
+                    f"{entry_index} of definition '{source_path}' "
                     "must be finite."
                 )
             if preference <= 0:
@@ -248,15 +248,15 @@ def validate_entity_definition(
             )
         production = definition["production"]
         if not isinstance(production, list):
-                raise TypeError(
-                    f"Field 'production' in producer definition "
-                    f"'{source_path}' must be a list."
-                )
+            raise TypeError(
+                f"Field 'production' in producer definition "
+                f"'{source_path}' must be a list."
+            )
         if not production:
-                raise ValueError(
-                    f"Field 'production' in producer definition "
-                    f"'{source_path}' must not be empty."
-                )
+            raise ValueError(
+                f"Field 'production' in producer definition "
+                f"'{source_path}' must not be empty."
+            )
         for entry_index, production_entry in enumerate(
             production
         ):
@@ -310,6 +310,12 @@ def validate_entity_definition(
                     f"producer production entry {entry_index} of "
                     f"definition '{source_path}' must be a number."
                 )
+            if not isfinite(production_amount):
+                raise ValueError(
+                    "Field 'amount_per_producer_per_cycle' in "
+                    f"producer production entry {entry_index} of "
+                    f"definition '{source_path}' must be finite."
+                )
             if production_amount <= 0:
                 raise ValueError(
                     f"Field 'amount_per_producer_per_cycle' in "
@@ -343,9 +349,9 @@ def validate_entity_definition(
         quantity_type = definition["quantity_type"]
         if quantity_type not in SUPPORTED_RESOURCE_MEASUREMENTS:
             raise ValueError(
-                    f"Resource definition '{source_path}' has unsupported "
-                    f"quantity type '{quantity_type}'."
-                )
+                f"Resource definition '{source_path}' has unsupported "
+                f"quantity type '{quantity_type}'."
+            )
         unit = definition["unit"]
         supported_units = SUPPORTED_RESOURCE_MEASUREMENTS[quantity_type]
         if unit not in supported_units:
@@ -366,10 +372,15 @@ def validate_entity_definition(
                 "Field 'producer_production_multiplier' in "
                 f"weather definition '{source_path}' must be a number."
             )
+        if not isfinite(production_multiplier):
+            raise ValueError(
+                "Field 'producer_production_multiplier' in "
+                f"weather definition '{source_path}' must be finite."
+            )
         if production_multiplier < 0:
             raise ValueError(
                 "Field 'producer_production_multiplier' in "
-                f"weather defintion '{source_path}' must not be negative."
+                f"weather definition '{source_path}' must not be negative."
             )
     entity_id = definition["id"]
     if ENTITY_ID_PATTERN.fullmatch(entity_id) is None:

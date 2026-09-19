@@ -18,6 +18,14 @@ class TestReporting(unittest.TestCase):
         report_text = format_run_header(world_state)
         self.assertIn("Random seed: 104729", report_text)
 
+    def test_run_header_includes_release_identifier(self) -> None:
+        world_state = WorldState(random_seed=104729)
+
+        report_text = format_run_header(world_state)
+
+        self.assertIn("EcoSim release: playtest-a.1", report_text.splitlines())
+        self.assertIn("Random seed: 104729", report_text.splitlines())
+
     def test_cycle_report_includes_cycle_number(self) -> None:
         cycle_result = CycleResult(
             cycle_number=7,
@@ -192,6 +200,57 @@ class TestReporting(unittest.TestCase):
             report_text,
         )
         self.assertNotIn("Scrub Hare received", report_text)
+
+    def test_cycle_report_does_not_round_shortage_up_to_full_feeding(self) -> None:
+        from simulation.feeding import PopulationFeedingResult
+
+        registry = ContentRegistry()
+        registry.register_all([
+            {
+                "entity_type": "region",
+                "id": "redgrass_savanna",
+                "name": "Redgrass Savanna",
+            },
+            {
+                "entity_type": "animal",
+                "id": "springbok",
+                "name": "Springbok",
+            },
+            {
+                "entity_type": "resource",
+                "id": "grass_forage",
+                "name": "Grass",
+                "quantity_type": "biomass",
+                "unit": "kg",
+            },
+        ])
+        feeding_result = PopulationFeedingResult(
+            required_amount=100.0,
+            consumed_amount=99.99,
+            nutrition_ratio=0.9999,
+            resource_consumption={"grass_forage": 99.99},
+        )
+        cycle_result = CycleResult(
+            cycle_number=7,
+            region_results={
+                "redgrass_savanna": RegionCycleResult(
+                    production_changes={},
+                    feeding_results={"springbok": feeding_result},
+                    starvation_deaths={},
+                    births={},
+                ),
+            },
+        )
+
+        report_text = format_cycle_report(cycle_result, registry=registry)
+
+        self.assertIn(
+            "FOOD SHORTAGES\n"
+            "Springbok received less than 100.0% of required food.",
+            report_text,
+        )
+        self.assertEqual(feeding_result.nutrition_ratio, 0.9999)
+        self.assertEqual(feeding_result.consumed_amount, 99.99)
 
     def test_cycle_report_includes_births_and_starvation_deaths(self) -> None:
         registry = ContentRegistry()

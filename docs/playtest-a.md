@@ -47,7 +47,7 @@ Playtest A should communicate the basic idea of what EcoSim is and will be. It s
 - [x] Resource changes are displayed
 - [x] Population changes are displayed
 - [x] Feeding, deaths, and births are understandable
-- [ ] Resource competition and food shortages are understandable
+- [x] Resource competition and food shortages are understandable
 - [x] Important events explain what changed
 - [x] A complete run report can be exported to a local file
 
@@ -56,7 +56,7 @@ Playtest A should communicate the basic idea of what EcoSim is and will be. It s
 - [x] Populations cannot become negative
 - [x] Resource quantities cannot become negative
 - [x] The same seed and starting state produce the same result
-- [ ] Exported reports include enough information to reproduce a run
+- [x] Exported reports include enough information to reproduce a run
 - [x] Incomplete systems do not prevent the simulation from running
 
 ## Deliberately Excluded

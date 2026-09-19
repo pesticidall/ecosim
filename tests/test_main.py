@@ -209,6 +209,7 @@ class TestMain(unittest.TestCase):
         starting_report, cycle_report = saved_text.split("\n\nCycle 1\n", 1)
 
         expected_lines = (
+            "EcoSim release: playtest-a.1",
             "Scenario: Playtest A — Grazing Pressure",
             "Scenario ID: playtest_a_grazing_pressure",
             "Starting cycle: 0",

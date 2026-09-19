@@ -687,5 +687,32 @@ class TestSimulationCycle(unittest.TestCase):
             successful_fallback_cycles,
             "Expected springbok to meet their food needs using some leaves.",
         )
+
+    def test_grazing_pressure_has_a_severe_early_population_crash(self) -> None:
+        from pathlib import Path
+
+        from core.content_catalog import build_content_registry
+        from simulation.scenario_loader import load_scenario
+
+        project_root = Path(__file__).resolve().parents[1]
+        registry = build_content_registry(project_root / "content")
+        world = load_scenario(
+            project_root / "scenarios" / "playtest_a_grazing_pressure.json"
+        )
+        region = world.regions["redgrass_savanna"]
+        largest_decline = 0.0
+
+        for _ in range(5):
+            before = sum(region.animal_populations.values())
+            run_cycle(world, registry)
+            after = sum(region.animal_populations.values())
+            if before > 0:
+                largest_decline = max(largest_decline, (before - after) / before)
+
+        self.assertGreaterEqual(
+            largest_decline,
+            0.30,
+            "Expected at least a 30% single-cycle decline within five cycles.",
+        )
 if __name__ == "__main__":
     unittest.main()

@@ -4,6 +4,7 @@ __pycache__/
 #Project virtual environment
 .venv/
 #Test, lint, and coverage output
+run_report.txt
 .pytest_cache/
 .ruff_cache/
 .coverage
