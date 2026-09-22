@@ -48,6 +48,24 @@ class TestMain(unittest.TestCase):
         self.assertEqual(report_lines.count("Cycle 1"), 2)
         self.assertNotIn("Cycle 2", report_lines)
 
+    def test_frozen_app_exports_next_to_executable(self) -> None:
+        from pathlib import Path
+
+        packaged_executable = Path("C:/Playtests/EcoSim/EcoSim.exe")
+        with (
+            patch("builtins.input", side_effect=["1", "y", "e", "q", "y"]),
+            patch("main.sys.frozen", True, create=True),
+            patch("main.sys.executable", str(packaged_executable)),
+            patch("pathlib.Path.write_text", autospec=True) as write_report,
+            redirect_stdout(StringIO()),
+        ):
+            main()
+
+        self.assertEqual(
+            write_report.call_args.args[0],
+            packaged_executable.parent / "run_report.txt",
+        )
+
     def test_exports_run_without_duplicate_reports(self) -> None:
         output = StringIO()
         with (

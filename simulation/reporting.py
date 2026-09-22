@@ -120,9 +120,9 @@ def format_starting_report(
             diet_lines.append(
                 format_report_row(animal_definition["name"], diet_text)
             )
-            if diet_lines:
-                lines.extend(["", "DIETS"])
-                lines.extend(diet_lines)
+        if diet_lines:
+            lines.extend(["", "DIETS"])
+            lines.extend(diet_lines)
 
         lines.extend(["", "PRODUCERS"])
         for producer_id, population in sorted(region_state.producer_populations.items()):

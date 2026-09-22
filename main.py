@@ -94,7 +94,11 @@ def main() -> None:
         scenario_path = select_scenario(scenario_paths)
         if confirm_scenario(scenario_path):
             break
-    report_path = project_root / "run_report.txt"
+    if getattr(sys, "frozen", False):
+        report_directory = Path(sys.executable).resolve().parent
+    else:
+        report_directory = project_root
+    report_path = report_directory / "run_report.txt"
     registry = build_content_registry(project_root / "content")
     world_state = load_scenario(scenario_path)
     current_report = format_starting_report(world_state, registry)

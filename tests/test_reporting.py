@@ -991,6 +991,23 @@ class TestReporting(unittest.TestCase):
             report_text.splitlines(),
         )
 
+    def test_starting_report_includes_one_diet_section(self) -> None:
+        from pathlib import Path
+
+        from core.content_catalog import build_content_registry
+        from simulation.reporting import format_starting_report
+        from simulation.scenario_loader import load_scenario
+
+        project_root = Path(__file__).resolve().parents[1]
+        registry = build_content_registry(project_root / "content")
+        world_state = load_scenario(
+            project_root / "scenarios" / "playtest_a_balanced_beginnings.json"
+        )
+
+        report_text = format_starting_report(world_state, registry)
+
+        self.assertEqual(report_text.splitlines().count("DIETS"), 1)
+
     def test_starting_report_explains_species_diets(self) -> None:
         from pathlib import Path
 
