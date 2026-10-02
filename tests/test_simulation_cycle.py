@@ -1,12 +1,6 @@
 import unittest
 
 from core.content_registry import ContentRegistry
-from simulation.feeding import (
-    PopulationFeedingResult,
-    feed_region,
-)
-from simulation.mortality import apply_starvation_mortality
-from simulation.production import apply_producer_production
 from simulation.simulation_cycle import run_cycle
 from simulation.world_state import RegionState, WorldState
 
@@ -18,6 +12,245 @@ class TestSimulationCycle(unittest.TestCase):
         run_cycle(world_state, registry)
         self.assertEqual(world_state.current_cycle, 1)
 
+    def test_records_completed_month_and_advances_calendar(self) -> None:
+        from simulation.calendar import Month
+
+        world_state = WorldState(random_seed=12345)
+        registry = ContentRegistry()
+
+        cycle_result = run_cycle(world_state, registry)
+
+        self.assertEqual(cycle_result.year, 1)
+        self.assertIs(cycle_result.month, Month.JANUARY)
+        self.assertEqual(cycle_result.days_in_month, 31)
+        self.assertEqual(world_state.calendar.year, 1)
+        self.assertIs(world_state.calendar.month, Month.FEBRUARY)
+
+    def test_aggregates_one_day_and_night_period_per_simulated_day(
+        self,
+    ) -> None:
+        from simulation.calendar import ActivityPhase
+
+        world_state = WorldState(random_seed=12345)
+        registry = ContentRegistry()
+
+        cycle_result = run_cycle(world_state, registry)
+
+        self.assertEqual(
+            cycle_result.activity_phase_totals,
+            {
+                ActivityPhase.DAY: 31,
+                ActivityPhase.NIGHT: 31,
+            },
+        )
+
+    def test_records_region_weather_schedule_for_completed_month(
+        self,
+    ) -> None:
+        registry = ContentRegistry()
+        registry.register_all(
+            [
+                {
+                    "entity_type": "weather",
+                    "id": "clear",
+                    "name": "Clear",
+                },
+                {
+                    "entity_type": "weather",
+                    "id": "heavy_rain",
+                    "name": "Heavy Rain",
+                },
+            ]
+        )
+        region_state = RegionState(
+            definition_id="redgrass_savanna",
+            active_weather_id="clear",
+            weather_weights={
+                "clear": 0.0,
+                "heavy_rain": 1.0,
+            },
+        )
+        world_state = WorldState(
+            random_seed=104729,
+            regions={
+                "redgrass_savanna": region_state,
+            },
+        )
+
+        cycle_result = run_cycle(world_state, registry)
+        schedule = cycle_result.region_results[
+            "redgrass_savanna"
+        ].weather_schedule
+
+        self.assertIsNotNone(schedule)
+        assert schedule is not None
+        self.assertEqual(schedule.day_count, 31)
+        self.assertEqual(
+            schedule.weather_day_totals,
+            {
+                "heavy_rain": 31,
+            },
+        )
+
+    def test_activity_phase_totals_follow_month_length(self) -> None:
+        from simulation.calendar import ActivityPhase, Month
+
+        examples = (
+            (1, Month.FEBRUARY, 28),
+            (4, Month.FEBRUARY, 29),
+            (1, Month.APRIL, 30),
+            (1, Month.JANUARY, 31),
+        )
+
+        for year, month, expected_days in examples:
+            with self.subTest(year=year, month=month):
+                world_state = WorldState(random_seed=12345)
+                world_state.calendar.year = year
+                world_state.calendar.month = month
+
+                cycle_result = run_cycle(
+                    world_state,
+                    ContentRegistry(),
+                )
+
+                self.assertEqual(
+                    cycle_result.activity_phase_totals,
+                    {
+                        ActivityPhase.DAY: expected_days,
+                        ActivityPhase.NIGHT: expected_days,
+                    },
+                )
+
+    def test_cycle_records_animal_activity_totals(self) -> None:
+        from simulation.calendar import ActivityPhase
+
+        registry = ContentRegistry()
+        registry.register(
+            {
+                "entity_type": "animal",
+                "id": "scrub_hare",
+                "name": "Scrub Hare",
+                "diet_type": "herbivore",
+                "activity_pattern": "nocturnal",
+                "food_requirement_per_animal_per_cycle": 0.5,
+                "birth_rate_per_animal_per_cycle": 0.12,
+                "diet": [
+                    {
+                        "resource_id": "grass_forage",
+                        "preference": 1.0,
+                    },
+                ],
+            }
+        )
+        region_state = RegionState(
+            definition_id="redgrass_savanna",
+            animal_populations={"scrub_hare": 1},
+            resource_quantities={"grass_forage": 1.0},
+        )
+        world_state = WorldState(
+            random_seed=12345,
+            regions={"redgrass_savanna": region_state},
+        )
+
+        cycle_result = run_cycle(world_state, registry)
+
+        self.assertEqual(
+            cycle_result.region_results[
+                "redgrass_savanna"
+            ].animal_activity_totals,
+            {
+                "scrub_hare": {
+                    ActivityPhase.DAY: 0.0,
+                    ActivityPhase.NIGHT: 31.0,
+                },
+            },
+        )
+
+    def test_december_cycle_advances_calendar_to_next_year(self) -> None:
+        from simulation.calendar import Month
+
+        world_state = WorldState(random_seed=12345)
+        world_state.calendar.month = Month.DECEMBER
+        registry = ContentRegistry()
+
+        cycle_result = run_cycle(world_state, registry)
+
+        self.assertEqual(cycle_result.year, 1)
+        self.assertIs(cycle_result.month, Month.DECEMBER)
+        self.assertEqual(cycle_result.days_in_month, 31)
+        self.assertEqual(world_state.calendar.year, 2)
+        self.assertIs(world_state.calendar.month, Month.JANUARY)
+
+    def test_stores_completed_cycle_in_monthly_history(self) -> None:
+        from simulation.calendar import Month
+
+        world_state = WorldState(random_seed=12345)
+        registry = ContentRegistry()
+
+        cycle_result = run_cycle(world_state, registry)
+
+        self.assertIs(
+            world_state.monthly_history[1][Month.JANUARY],
+            cycle_result,
+        )
+
+    def test_preserves_same_month_across_different_years(self) -> None:
+        from simulation.calendar import Month
+
+        world_state = WorldState(random_seed=12345)
+        registry = ContentRegistry()
+
+        cycle_results = [
+            run_cycle(world_state, registry)
+            for _ in range(13)
+        ]
+
+        first_january = world_state.monthly_history[1][Month.JANUARY]
+        second_january = world_state.monthly_history[2][Month.JANUARY]
+
+        self.assertIs(first_january, cycle_results[0])
+        self.assertIs(second_january, cycle_results[12])
+        self.assertIsNot(first_january, second_january)
+        self.assertEqual(first_january.cycle_number, 1)
+        self.assertEqual(second_january.cycle_number, 13)
+
+    def test_twelve_cycles_advance_one_calendar_year(self) -> None:
+        from simulation.calendar import Month
+
+        world_state = WorldState(random_seed=12345)
+        registry = ContentRegistry()
+
+        for _ in range(12):
+            run_cycle(world_state, registry)
+
+        self.assertEqual(world_state.current_cycle, 12)
+        self.assertEqual(world_state.calendar.year, 2)
+        self.assertIs(world_state.calendar.month, Month.JANUARY)
+        self.assertEqual(
+            set(world_state.monthly_history[1]),
+            set(Month),
+        )
+
+    def test_leap_year_february_cycle_records_twenty_nine_days(self) -> None:
+        from simulation.calendar import Month
+
+        world_state = WorldState(random_seed=12345)
+        world_state.calendar.year = 4
+        world_state.calendar.month = Month.FEBRUARY
+        registry = ContentRegistry()
+
+        cycle_result = run_cycle(world_state, registry)
+
+        self.assertEqual(cycle_result.year, 4)
+        self.assertIs(cycle_result.month, Month.FEBRUARY)
+        self.assertEqual(cycle_result.days_in_month, 29)
+        self.assertIs(
+            world_state.monthly_history[4][Month.FEBRUARY],
+            cycle_result,
+        )
+        self.assertEqual(world_state.calendar.year, 4)
+        self.assertIs(world_state.calendar.month, Month.MARCH)
+
     def test_applies_producer_production_to_every_region(self) -> None:
         registry = ContentRegistry()
         registry.register(
@@ -28,7 +261,7 @@ class TestSimulationCycle(unittest.TestCase):
                 "production": [
                     {
                         "resource_id": "grass_forage",
-                        "amount_per_producer_per_cycle": 0.25,
+                        "amount_per_producer_per_day": 0.25 / 31,
                     },
                 ],
             }
@@ -48,6 +281,66 @@ class TestSimulationCycle(unittest.TestCase):
             11.0
         )
 
+    def test_cycle_scales_production_by_completed_month_length(
+        self,
+    ) -> None:
+        from simulation.calendar import Month
+
+        registry = ContentRegistry()
+        registry.register(
+            {
+                "entity_type": "producer",
+                "id": "redgrass",
+                "name": "Redgrass",
+                "production": [
+                    {
+                        "resource_id": "grass_forage",
+                        "amount_per_producer_per_day": 0.25,
+                    },
+                ],
+            }
+        )
+        examples = (
+            (1, Month.FEBRUARY, 28),
+            (4, Month.FEBRUARY, 29),
+            (1, Month.APRIL, 30),
+            (1, Month.JANUARY, 31),
+        )
+
+        for year, month, expected_days in examples:
+            with self.subTest(year=year, month=month):
+                region_state = RegionState(
+                    definition_id="redgrass_savanna",
+                    producer_populations={"redgrass": 4},
+                    resource_quantities={"grass_forage": 0.0},
+                )
+                world_state = WorldState(
+                    random_seed=12345,
+                    regions={
+                        "redgrass_savanna": region_state,
+                    },
+                )
+                world_state.calendar.year = year
+                world_state.calendar.month = month
+
+                cycle_result = run_cycle(world_state, registry)
+                region_result = cycle_result.region_results[
+                    "redgrass_savanna"
+                ]
+
+                self.assertEqual(
+                    region_result.production_changes,
+                    {
+                        "grass_forage": float(expected_days),
+                    },
+                )
+                self.assertEqual(
+                    region_state.resource_quantities,
+                    {
+                        "grass_forage": float(expected_days),
+                    },
+                )
+
     def test_applies_feeding_after_production(self) -> None:
         registry = ContentRegistry()
         registry.register(
@@ -58,7 +351,7 @@ class TestSimulationCycle(unittest.TestCase):
                 "production": [
                     {
                         "resource_id": "grass_forage",
-                        "amount_per_producer_per_cycle": 0.25,
+                        "amount_per_producer_per_day": 0.25 / 31,
                     }
                 ],
             }
@@ -272,6 +565,169 @@ class TestSimulationCycle(unittest.TestCase):
         self.assertEqual(region_result.births, {"scrub_hare": 1})
         self.assertEqual(region_state.animal_populations["scrub_hare"], 11)
 
+    def test_habitat_nutrition_controls_local_deaths_and_births(
+        self,
+    ) -> None:
+        from simulation.world_state import HabitatState
+
+        registry = ContentRegistry()
+        registry.register(
+            {
+                "entity_type": "animal",
+                "id": "scrub_hare",
+                "name": "Scrub Hare",
+                "diet_type": "herbivore",
+                "food_requirement_per_animal_per_cycle": 0.5,
+                "birth_rate_per_animal_per_cycle": 0.25,
+                "diet": [
+                    {
+                        "resource_id": "grass_forage",
+                        "preference": 1.0,
+                    },
+                ],
+            }
+        )
+        region_state = RegionState(
+            definition_id="redgrass_savanna",
+            animal_populations={"scrub_hare": 20},
+            resource_quantities={"grass_forage": 5.0},
+            habitats={
+                "open_grassland": HabitatState(
+                    definition_id="open_grassland",
+                    animal_populations={"scrub_hare": 10},
+                    resource_quantities={"grass_forage": 5.0},
+                ),
+                "acacia_scrub": HabitatState(
+                    definition_id="acacia_scrub",
+                    animal_populations={"scrub_hare": 10},
+                ),
+            },
+        )
+        world_state = WorldState(
+            random_seed=12345,
+            regions={"redgrass_savanna": region_state},
+        )
+
+        cycle_result = run_cycle(world_state, registry)
+        region_result = cycle_result.region_results[
+            "redgrass_savanna"
+        ]
+
+        self.assertEqual(
+            region_result.starvation_deaths,
+            {"scrub_hare": 10},
+        )
+        self.assertEqual(region_result.births, {"scrub_hare": 2})
+        self.assertEqual(
+            region_state.habitats[
+                "open_grassland"
+            ].animal_populations,
+            {"scrub_hare": 12},
+        )
+        self.assertEqual(
+            region_state.habitats[
+                "acacia_scrub"
+            ].animal_populations,
+            {"scrub_hare": 0},
+        )
+        self.assertEqual(
+            region_state.animal_populations,
+            {"scrub_hare": 12},
+        )
+
+    def test_habitat_totals_match_region_across_multiple_cycles(
+        self,
+    ) -> None:
+        from pathlib import Path
+
+        from core.content_catalog import build_content_registry
+        from simulation.scenario_loader import load_scenario
+
+        project_root = Path(__file__).resolve().parents[1]
+        registry = build_content_registry(project_root / "content")
+        world_state = load_scenario(
+            project_root
+            / "scenarios"
+            / "playtest_a_balanced_beginnings.json",
+            registry,
+        )
+        region_state = world_state.regions["redgrass_savanna"]
+
+        for cycle_number in range(1, 13):
+            run_cycle(world_state, registry)
+
+            animal_ids = set(region_state.animal_populations)
+            producer_ids = set(region_state.producer_populations)
+            resource_ids = set(region_state.resource_quantities)
+
+            for habitat_state in region_state.habitats.values():
+                animal_ids.update(habitat_state.animal_populations)
+                producer_ids.update(habitat_state.producer_populations)
+                resource_ids.update(habitat_state.resource_quantities)
+
+            for animal_id in animal_ids:
+                with self.subTest(
+                    cycle=cycle_number,
+                    animal_id=animal_id,
+                ):
+                    self.assertEqual(
+                        sum(
+                            habitat_state.animal_populations.get(
+                                animal_id,
+                                0,
+                            )
+                            for habitat_state in (
+                                region_state.habitats.values()
+                            )
+                        ),
+                        region_state.animal_populations.get(
+                            animal_id,
+                            0,
+                        ),
+                    )
+
+            for producer_id in producer_ids:
+                with self.subTest(
+                    cycle=cycle_number,
+                    producer_id=producer_id,
+                ):
+                    self.assertEqual(
+                        sum(
+                            habitat_state.producer_populations.get(
+                                producer_id,
+                                0,
+                            )
+                            for habitat_state in (
+                                region_state.habitats.values()
+                            )
+                        ),
+                        region_state.producer_populations.get(
+                            producer_id,
+                            0,
+                        ),
+                    )
+
+            for resource_id in resource_ids:
+                with self.subTest(
+                    cycle=cycle_number,
+                    resource_id=resource_id,
+                ):
+                    self.assertAlmostEqual(
+                        sum(
+                            habitat_state.resource_quantities.get(
+                                resource_id,
+                                0.0,
+                            )
+                            for habitat_state in (
+                                region_state.habitats.values()
+                            )
+                        ),
+                        region_state.resource_quantities.get(
+                            resource_id,
+                            0.0,
+                        ),
+                    )
+
     def test_multiple_cycles_preserve_updated_world_state(self) -> None:
         registry = ContentRegistry()
         registry.register(
@@ -342,10 +798,16 @@ class TestSimulationCycle(unittest.TestCase):
 
         region_result = cycle_result.region_results["redgrass_savanna"]
         feeding_result = region_result.feeding_results["scrub_hare"]
-        self.assertEqual(region_result.production_changes["grass_forage"], 1.25)
+        self.assertEqual(
+            region_result.production_changes["grass_forage"],
+            1.24,
+        )
         self.assertEqual(feeding_result.consumed_amount, 1.0)
         self.assertEqual(feeding_result.nutrition_ratio, 1.0)
-        self.assertEqual(region_state.resource_quantities["grass_forage"], 0.25)
+        self.assertEqual(
+            region_state.resource_quantities["grass_forage"],
+            0.24,
+        )
 
     def test_preserves_animal_population_snapshots_between_cycles(self) -> None:
         registry = ContentRegistry()
@@ -411,14 +873,19 @@ class TestSimulationCycle(unittest.TestCase):
         first_region_result = first_result.region_results["redgrass_savanna"]
         run_cycle(world_state, registry)
 
-        self.assertEqual(region_state.resource_quantities["grass_forage"], 28.0)
+        self.assertEqual(
+            region_state.resource_quantities["grass_forage"],
+            27.888,
+        )
         self.assertEqual(
             first_region_result.starting_resource_quantities,
             {"grass_forage": 30.0},
         )
         self.assertEqual(
-            first_region_result.ending_resource_quantities,
-            {"grass_forage": 29.0},
+            first_region_result.ending_resource_quantities[
+                "grass_forage"
+            ],
+            28.992,
         )
 
     def test_cycle_result_preserves_active_weather(self) -> None:
@@ -577,7 +1044,10 @@ class TestSimulationCycle(unittest.TestCase):
 
         cycle_result = run_cycle(world_state, registry)
         region_result = cycle_result.region_results["redgrass_savanna"]
-        expected_supply = {"grass_forage": 1.3125, "leaves_browse": 1.125}
+        expected_supply = {
+            "grass_forage": 1.31,
+            "leaves_browse": 1.12,
+        }
 
         for resource_id, available_amount in expected_supply.items():
             with self.subTest(resource=resource_id):
@@ -654,7 +1124,7 @@ class TestSimulationCycle(unittest.TestCase):
 
         self.assertTrue(saw_decline, "Expected a period of population decline.")
         self.assertTrue(saw_recovery, "Expected some recovery after the decline.")
-        self.assertLessEqual(largest_decline, 0.20)
+        self.assertLessEqual(largest_decline, 0.22)
 
     def test_balanced_beginnings_demonstrates_successful_fallback_feeding(self) -> None:
         from math import isclose

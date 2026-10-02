@@ -1,0 +1,21 @@
+{
+    "entity_type": "trait",
+    "id": "powerful_hindlimbs",
+    "name": "Powerful Hind Limbs",
+    "description": "Strong rear limbs capable of improving jumping, acceleration, escape, or defensive kicking.",
+    "tags": [
+        "locomotion",
+        "escape",
+        "defense"
+    ],
+    "effects": [
+        {
+            "target": "escape_mobility",
+            "modifier": 1.15
+        },
+        {
+            "target": "counterattack_power",
+            "modifier": 1.1
+        }
+    ]
+}

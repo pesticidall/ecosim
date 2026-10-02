@@ -1,0 +1,11 @@
+{
+    "entity_type": "weather",
+    "id": "heavy_fog",
+    "name": "Heavy Fog",
+    "producer_production_multiplier": 1.0,
+    "visibility_modifier": 0.45,
+    "movement_modifiers": {
+        "terrestrial": 0.95,
+        "flight": 0.75
+    }
+}

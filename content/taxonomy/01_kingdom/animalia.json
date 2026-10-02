@@ -1,0 +1,7 @@
+{
+    "entity_type": "taxon",
+    "id": "animalia",
+    "name": "Animalia",
+    "rank": "kingdom",
+    "parent_taxon_id": null
+}

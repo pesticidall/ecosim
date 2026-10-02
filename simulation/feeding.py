@@ -1,3 +1,4 @@
+from collections.abc import Iterable
 from dataclasses import dataclass
 from typing import Any
 
@@ -5,8 +6,30 @@ from core.content_registry import ContentRegistry
 from simulation.world_state import RegionState
 
 
+def validate_animal_diet_resource_references(
+    animal_definitions: Iterable[dict[str, Any]],
+    resource_definitions: Iterable[dict[str, Any]],
+) -> None:
+    """Require every animal diet resource ID to reference loaded content."""
+    resource_ids = {
+        definition["id"]
+        for definition in resource_definitions
+    }
+    for animal_definition in animal_definitions:
+        animal_id = animal_definition["id"]
+        for diet_entry in animal_definition.get("diet", []):
+            resource_id = diet_entry["resource_id"]
+            if resource_id not in resource_ids:
+                raise ValueError(
+                    f"Animal '{animal_id}' references unknown "
+                    f"diet resource '{resource_id}'."
+                )
+
+
 @dataclass(frozen=True)
 class PopulationFeedingResult:
+    """Record one population's demand, intake, nutrition, and food sources."""
+
     required_amount: float
     consumed_amount: float
     nutrition_ratio: float
@@ -16,6 +39,7 @@ def calculate_population_food_requirement(
     population: int,
     animal_definition: dict[str, Any],
 ) -> float:
+    """Calculate the food required by a population for one cycle."""
     if population < 0:
         raise ValueError(
             f"population must not be negative; "
@@ -33,6 +57,7 @@ def consume_available_resource(
     resource_id: str,
     requested_amount: float,
 ) -> float:
+    """Remove up to the requested quantity from a region resource reserve."""
     if requested_amount <0:
         raise ValueError(
             f"requested_amount must not be negative; "
@@ -61,6 +86,7 @@ def feed_population(
     animal_definition: dict[str, Any],
     region_state: RegionState,
 ) -> PopulationFeedingResult:
+    """Feed one population from its preferred resources in priority order."""
     required_amount = calculate_population_food_requirement(
         population,
         animal_definition,
@@ -104,8 +130,71 @@ def feed_region(
     region_state: RegionState,
     registry: ContentRegistry,
 ) -> dict[str, PopulationFeedingResult]:
+    """Feed populations from local habitat resources when habitats exist."""
+    feeding_results, _ = feed_region_with_habitat_results(
+        region_state,
+        registry,
+    )
+    return feeding_results
+
+
+def feed_region_with_habitat_results(
+    region_state: RegionState,
+    registry: ContentRegistry,
+) -> tuple[
+    dict[str, PopulationFeedingResult],
+    dict[str, dict[str, PopulationFeedingResult]],
+]:
+    """Return regional feeding totals and their habitat-level outcomes."""
+    if not region_state.habitats:
+        return (
+            _feed_populations(
+                region_state.animal_populations,
+                region_state.resource_quantities,
+                registry,
+            ),
+            {},
+        )
+
+    habitat_results: dict[
+        str,
+        dict[str, PopulationFeedingResult],
+    ] = {}
+    for habitat_id, habitat_state in region_state.habitats.items():
+        results = _feed_populations(
+            habitat_state.animal_populations,
+            habitat_state.resource_quantities,
+            registry,
+        )
+        habitat_results[habitat_id] = results
+        for feeding_result in results.values():
+            for resource_id, consumed_amount in (
+                feeding_result.resource_consumption.items()
+            ):
+                regional_quantity = (
+                    region_state.resource_quantities.get(
+                        resource_id,
+                        0.0,
+                    )
+                )
+                region_state.resource_quantities[resource_id] = max(
+                    0.0,
+                    regional_quantity - consumed_amount,
+                )
+    return (
+        _combine_feeding_results(list(habitat_results.values())),
+        habitat_results,
+    )
+
+
+def _feed_populations(
+    animal_populations: dict[str, int],
+    resource_quantities: dict[str, float],
+    registry: ContentRegistry,
+) -> dict[str, PopulationFeedingResult]:
+    """Allocate one spatial collection's foods among its populations."""
     for resource_id, available_amount in (
-        region_state.resource_quantities.items()
+        resource_quantities.items()
     ):
         if available_amount < 0:
             raise ValueError(
@@ -123,7 +212,7 @@ def feed_region(
         list[dict[str, Any]],
     ] = {}
     for animal_id, population in (
-        region_state.animal_populations.items()
+        animal_populations.items()
     ):
         animal_definition = registry.get(animal_id)
         required_amount = (
@@ -176,7 +265,7 @@ def feed_region(
             requests_by_resource.items()
         ):
             available_amount = (
-                region_state.resource_quantities.get(
+                resource_quantities.get(
                     resource_id,
                     0.0,
                 )
@@ -205,9 +294,8 @@ def feed_region(
                 resource_consumption[animal_id][
                     resource_id
                 ] = allocated_amount
-            region_state.resource_quantities[
-                resource_id
-            ] = max(
+            if resource_id in resource_quantities:
+                resource_quantities[resource_id] = max(
                 0.0,
                 available_amount - total_allocated,
             )
@@ -238,3 +326,51 @@ def feed_region(
             )
         )
     return feeding_results
+
+
+def _combine_feeding_results(
+    result_collections: list[
+        dict[str, PopulationFeedingResult]
+    ],
+) -> dict[str, PopulationFeedingResult]:
+    """Combine habitat feeding outcomes into regional species results."""
+    required_amounts: dict[str, float] = {}
+    consumed_amounts: dict[str, float] = {}
+    resource_consumption: dict[str, dict[str, float]] = {}
+    for feeding_results in result_collections:
+        for animal_id, feeding_result in feeding_results.items():
+            required_amounts[animal_id] = (
+                required_amounts.get(animal_id, 0.0)
+                + feeding_result.required_amount
+            )
+            consumed_amounts[animal_id] = (
+                consumed_amounts.get(animal_id, 0.0)
+                + feeding_result.consumed_amount
+            )
+            combined_consumption = resource_consumption.setdefault(
+                animal_id,
+                {},
+            )
+            for resource_id, consumed_amount in (
+                feeding_result.resource_consumption.items()
+            ):
+                combined_consumption[resource_id] = (
+                    combined_consumption.get(resource_id, 0.0)
+                    + consumed_amount
+                )
+
+    combined_results: dict[str, PopulationFeedingResult] = {}
+    for animal_id, required_amount in required_amounts.items():
+        consumed_amount = consumed_amounts[animal_id]
+        nutrition_ratio = (
+            consumed_amount / required_amount
+            if required_amount > 0.0
+            else 1.0
+        )
+        combined_results[animal_id] = PopulationFeedingResult(
+            required_amount=required_amount,
+            consumed_amount=consumed_amount,
+            nutrition_ratio=nutrition_ratio,
+            resource_consumption=resource_consumption[animal_id],
+        )
+    return combined_results

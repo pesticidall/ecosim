@@ -1,0 +1,17 @@
+{
+    "entity_type": "habitat",
+    "id": "open_grassland",
+    "name": "Open Grassland",
+    "description": "Open terrestrial habitat dominated by grasses with limited concealment and shelter.",
+    "movement_medium": "terrestrial",
+    "movement_modifiers": {
+        "terrestrial": 1.0
+    },
+    "conditions": {
+        "openness": 0.9,
+        "vegetation_density": 0.3,
+        "ground_firmness": 0.8,
+        "shelter_availability": 0.2,
+        "terrain_ruggedness": 0.1
+    }
+}

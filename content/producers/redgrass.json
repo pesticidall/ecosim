@@ -2,10 +2,17 @@
     "entity_type": "producer",
     "id": "redgrass",
     "name": "Redgrass",
+    "preferred_habitat_ids": [
+        "open_grassland"
+    ],
     "production": [
         {
             "resource_id": "grass_forage",
-            "amount_per_producer_per_cycle": 0.25
+            "amount_per_producer_per_day": 0.008
+        },
+        {
+            "resource_id": "seeds",
+            "amount_per_producer_per_day": 0.002
         }
     ]
 }

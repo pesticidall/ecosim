@@ -1,0 +1,7 @@
+{
+    "entity_type": "taxon",
+    "id": "gyps",
+    "name": "Gyps",
+    "rank": "genus",
+    "parent_taxon_id": "accipitridae"
+}

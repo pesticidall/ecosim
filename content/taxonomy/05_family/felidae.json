@@ -1,0 +1,7 @@
+{
+    "entity_type": "taxon",
+    "id": "felidae",
+    "name": "Felidae",
+    "rank": "family",
+    "parent_taxon_id": "carnivora"
+}

@@ -1,0 +1,7 @@
+{
+    "entity_type": "resource",
+    "id": "fruit",
+    "name": "Fruit",
+    "quantity_type": "biomass",
+    "unit": "kg"
+}

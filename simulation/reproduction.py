@@ -8,6 +8,7 @@ def calculate_population_births(
     birth_rate: float,
     nutrition_ratio: float,
 ) -> int:
+    """Calculate whole-animal births adjusted by current nutrition."""
     if population < 0:
         raise ValueError(
             f"population must not be negative; "
@@ -37,7 +38,48 @@ def apply_reproduction(
         str,
         PopulationFeedingResult,
     ],
+    habitat_feeding_results: dict[
+        str,
+        dict[str, PopulationFeedingResult],
+    ] | None = None,
 ) -> dict[str, int]:
+    """Add nutrition-adjusted births to every fed animal population."""
+    if habitat_feeding_results:
+        births_by_animal = {
+            animal_id: 0
+            for animal_id in region_state.animal_populations
+        }
+        for habitat_id, local_results in (
+            habitat_feeding_results.items()
+        ):
+            habitat_state = region_state.habitats[habitat_id]
+            for animal_id, feeding_result in local_results.items():
+                animal_definition = registry.get(animal_id)
+                population = habitat_state.animal_populations[
+                    animal_id
+                ]
+                birth_rate = animal_definition[
+                    "birth_rate_per_animal_per_cycle"
+                ]
+                births = calculate_population_births(
+                    population,
+                    birth_rate,
+                    feeding_result.nutrition_ratio,
+                )
+                habitat_state.animal_populations[animal_id] = (
+                    population + births
+                )
+                births_by_animal[animal_id] = (
+                    births_by_animal.get(animal_id, 0)
+                    + births
+                )
+        for animal_id in region_state.animal_populations:
+            region_state.animal_populations[animal_id] = sum(
+                habitat_state.animal_populations.get(animal_id, 0)
+                for habitat_state in region_state.habitats.values()
+            )
+        return births_by_animal
+
     births_by_animal: dict[str, int] = {}
     for animal_id, feeding_result in feeding_results.items():
         animal_definition = registry.get(animal_id)

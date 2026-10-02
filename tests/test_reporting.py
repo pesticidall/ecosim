@@ -35,6 +35,27 @@ class TestReporting(unittest.TestCase):
         report_text = format_cycle_report(cycle_result, registry=ContentRegistry())
         self.assertIn("Cycle 7", report_text.splitlines())
 
+    def test_cycle_report_includes_completed_calendar_month(self) -> None:
+        from simulation.calendar import Month
+
+        cycle_result = CycleResult(
+            cycle_number=28,
+            region_results={},
+            year=3,
+            month=Month.APRIL,
+            days_in_month=30,
+        )
+
+        report_text = format_cycle_report(
+            cycle_result,
+            registry=ContentRegistry(),
+        )
+
+        self.assertIn(
+            "April, Year 3 (30 days)",
+            report_text.splitlines(),
+        )
+
     def test_cycle_report_includes_region_name(self) -> None:
         registry = ContentRegistry()
         registry.register(
@@ -57,6 +78,58 @@ class TestReporting(unittest.TestCase):
         )
         report_text = format_cycle_report(cycle_result, registry=registry)
         self.assertIn("Redgrass Savanna", report_text.splitlines())
+
+    def test_cycle_report_distinguishes_animal_activity_by_phase(
+        self,
+    ) -> None:
+        from simulation.calendar import ActivityPhase
+
+        registry = ContentRegistry()
+        registry.register_all(
+            [
+                {
+                    "entity_type": "region",
+                    "id": "redgrass_savanna",
+                    "name": "Redgrass Savanna",
+                },
+                {
+                    "entity_type": "animal",
+                    "id": "scrub_hare",
+                    "name": "Scrub Hare",
+                },
+            ]
+        )
+        cycle_result = CycleResult(
+            cycle_number=1,
+            region_results={
+                "redgrass_savanna": RegionCycleResult(
+                    production_changes={},
+                    feeding_results={},
+                    starvation_deaths={},
+                    births={},
+                    animal_activity_totals={
+                        "scrub_hare": {
+                            ActivityPhase.DAY: 0.0,
+                            ActivityPhase.NIGHT: 31.0,
+                        },
+                    },
+                ),
+            },
+        )
+
+        report_text = format_cycle_report(
+            cycle_result,
+            registry,
+        )
+
+        self.assertIn(
+            (
+                "Scrub Hare activity: "
+                "Day 0 phase-days; "
+                "Night 31 phase-days."
+            ),
+            report_text.splitlines(),
+        )
 
     def test_cycle_report_includes_resource_production(self) -> None:
         registry = ContentRegistry()
@@ -1025,9 +1098,11 @@ class TestReporting(unittest.TestCase):
 
         self.assertIn(
             "DIETS\n"
-            "Bushbuck ....................... Leaves\n"
+            "Bushbuck ....................... "
+            "Leaves preferred; Seed Pods alternative\n"
             "Scrub Hare ..................... Grass\n"
-            "Springbok ...................... Grass preferred; Leaves alternative",
+            "Springbok ...................... "
+            "Grass preferred; Leaves alternative",
             report_text,
         )
 if __name__ == "__main__":

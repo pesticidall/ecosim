@@ -1,0 +1,17 @@
+{
+    "entity_type": "habitat",
+    "id": "rocky_outcrop",
+    "name": "Rocky Outcrop",
+    "description": "Rugged terrestrial habitat with sparse vegetation, firm rocky ground, crevices, refuge, and potential den sites.",
+    "movement_medium": "terrestrial",
+    "movement_modifiers": {
+        "terrestrial": 0.75
+    },
+    "conditions": {
+        "openness": 0.6,
+        "vegetation_density": 0.2,
+        "ground_firmness": 0.9,
+        "shelter_availability": 0.8,
+        "terrain_ruggedness": 0.9
+    }
+}

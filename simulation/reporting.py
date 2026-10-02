@@ -7,6 +7,10 @@ from textwrap import (
 )
 
 from core.content_registry import ContentRegistry
+from simulation.calendar import (
+    ActivityPhase,
+    days_in_month,
+)
 from simulation.feeding import (
     calculate_population_food_requirement,
     feed_region,
@@ -24,6 +28,7 @@ def frame_report(
     width: int = 72,
     title: str | None = None,
 ) -> str:
+    """Wrap report text in a fixed-width terminal border with an optional title."""
     if width < 1:
         raise ValueError("Report width must be at least 1.")
     border = "═" * (width + 2)
@@ -42,15 +47,18 @@ def frame_report(
     return "\n".join(lines)
 
 def format_resource_amount(amount: float) -> str:
+    """Format a resource amount with at most two decimal places."""
     return f"{amount:.2f}".rstrip("0").rstrip(".")
 
 def format_report_row(label: str, value: str) -> str:
+    """Join a report label and value with a dotted visual guide."""
     padded_label = f"{label} "
     return f"{padded_label:.<32} {value}"
 
 def format_run_header(
     world_state: WorldState,
 ) -> str:
+    """Identify the release and random seed needed to reproduce a run."""
     return (
         f"EcoSim release: {ECOSIM_RELEASE}\n"
         f"Random seed: {world_state.random_seed}"
@@ -60,6 +68,7 @@ def format_starting_report(
     world_state: WorldState,
     registry: ContentRegistry,
 ) -> str:
+    """Describe the scenario and predicted starting conditions of a run."""
     lines = [
         "STARTING REPORT",
         f"Scenario: {world_state.scenario_name}",
@@ -156,7 +165,14 @@ def format_starting_report(
             total_demand += food_demand
         lines.append(format_report_row("Total demand", f"{format_resource_amount(total_demand)} kg"))
         preview_region = deepcopy(region_state)
-        apply_producer_production(preview_region, registry)
+        apply_producer_production(
+            preview_region,
+            registry,
+            days=days_in_month(
+                world_state.calendar.year,
+                world_state.calendar.month,
+            ),
+        )
         preview_feeding = feed_region(preview_region, registry)
         underfed_names = [
             registry.get(animal_id)["name"]
@@ -182,13 +198,38 @@ def format_cycle_report(
     cycle_result: CycleResult,
     registry: ContentRegistry,
 ) -> str:
-    lines = [f"Cycle {cycle_result.cycle_number}"]
+    """Describe one cycle's activity, resource flow, populations, and events."""
+    lines = [
+        f"Cycle {cycle_result.cycle_number}",
+        (
+            f"{cycle_result.month.display_name}, "
+            f"Year {cycle_result.year} "
+            f"({cycle_result.days_in_month} days)"
+        ),
+    ]
     for region_id, region_result in cycle_result.region_results.items():
         region_definition = registry.get(region_id)
         lines.append(region_definition["name"])
         if region_result.active_weather_id is not None:
             weather_definition = registry.get(region_result.active_weather_id)
             lines.append(f"Weather: {weather_definition['name']}")
+        if region_result.animal_activity_totals:
+            lines.extend(["", "ACTIVITY"])
+            for animal_id, totals in sorted(
+                region_result.animal_activity_totals.items()
+            ):
+                animal_name = registry.get(animal_id)["name"]
+                day_total = format_resource_amount(
+                    totals[ActivityPhase.DAY]
+                )
+                night_total = format_resource_amount(
+                    totals[ActivityPhase.NIGHT]
+                )
+                lines.append(
+                    f"{animal_name} activity: "
+                    f"Day {day_total} phase-days; "
+                    f"Night {night_total} phase-days."
+                )
         if region_result.production_changes:
             lines.extend(["", "PRODUCTION"])
             for resource_id, amount in region_result.production_changes.items():
@@ -375,5 +416,6 @@ def export_run_report(
     reports: list[str],
     report_path: Path,
 ) -> None:
+    """Write the starting report and cycle history to a UTF-8 text file."""
     report_text = "\n\n".join(reports) + "\n"
     report_path.write_text(report_text, encoding="utf-8")

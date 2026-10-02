@@ -1,0 +1,35 @@
+{
+    "entity_type": "animal",
+    "id": "scrub_hare",
+    "name": "Scrub Hare",
+    "taxon_id": "lepus",
+    "body_size_category": "small",
+    "typical_adult_mass_kg": 3.5,
+    "statistics": {
+        "power": 3.0,
+        "defense": 3.0,
+        "health": 4.0,
+        "mobility": 8.0,
+        "perception": 7.0,
+        "stealth": 7.0,
+        "intelligence": 3.0
+    },
+    "diet_type": "herbivore",
+    "activity_pattern": "nocturnal",
+    "primary_movement_mode": "terrestrial",
+    "available_movement_modes": [
+        "terrestrial"
+    ],
+    "preferred_habitat_ids": [
+        "open_grassland",
+        "acacia_scrub"
+    ],
+    "food_requirement_per_animal_per_cycle": 0.5,
+    "birth_rate_per_animal_per_cycle": 0.12,
+    "diet": [
+        {
+            "resource_id": "grass_forage",
+            "preference": 1.0
+        }
+    ]
+}

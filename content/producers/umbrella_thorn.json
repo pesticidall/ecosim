@@ -1,0 +1,18 @@
+{
+    "entity_type": "producer",
+    "id": "umbrella_thorn",
+    "name": "Umbrella Thorn",
+    "preferred_habitat_ids": [
+        "acacia_scrub"
+    ],
+    "production": [
+        {
+            "resource_id": "leaves_browse",
+            "amount_per_producer_per_day": 0.014
+        },
+        {
+            "resource_id": "seed_pods",
+            "amount_per_producer_per_day": 0.03
+        }
+    ]
+}

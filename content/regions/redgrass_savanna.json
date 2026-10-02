@@ -1,5 +1,10 @@
 {
     "entity_type": "region",
     "id": "redgrass_savanna",
-    "name": "Redgrass Savanna"
+    "name": "Redgrass Savanna",
+    "habitat_ids": [
+        "open_grassland",
+        "acacia_scrub",
+        "rocky_outcrop"
+    ]
 }

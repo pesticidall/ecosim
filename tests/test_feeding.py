@@ -8,7 +8,7 @@ from simulation.feeding import (
     feed_population,
     feed_region,
 )
-from simulation.world_state import RegionState
+from simulation.world_state import HabitatState, RegionState
 
 
 class TestFeeding(unittest.TestCase):
@@ -442,6 +442,123 @@ class TestFeeding(unittest.TestCase):
         self.assertEqual(
             region_state.resource_quantities["leaves_browse"],
             5.0,
+        )
+
+    def test_habitat_population_cannot_consume_resource_elsewhere(
+        self,
+    ) -> None:
+        registry = ContentRegistry()
+        registry.register(
+            {
+                "entity_type": "animal",
+                "id": "scrub_hare",
+                "name": "Scrub Hare",
+                "diet_type": "herbivore",
+                "food_requirement_per_animal_per_cycle": 0.5,
+                "diet": [
+                    {
+                        "resource_id": "grass_forage",
+                        "preference": 1.0,
+                    },
+                ],
+            }
+        )
+        region_state = RegionState(
+            definition_id="redgrass_savanna",
+            animal_populations={"scrub_hare": 10},
+            resource_quantities={"grass_forage": 12.0},
+            habitats={
+                "open_grassland": HabitatState(
+                    definition_id="open_grassland",
+                    animal_populations={"scrub_hare": 10},
+                    resource_quantities={"grass_forage": 2.0},
+                ),
+                "acacia_scrub": HabitatState(
+                    definition_id="acacia_scrub",
+                    resource_quantities={"grass_forage": 10.0},
+                ),
+            },
+        )
+
+        feeding_results = feed_region(region_state, registry)
+
+        self.assertEqual(
+            feeding_results["scrub_hare"],
+            PopulationFeedingResult(
+                required_amount=5.0,
+                consumed_amount=2.0,
+                nutrition_ratio=0.4,
+                resource_consumption={"grass_forage": 2.0},
+            ),
+        )
+        self.assertEqual(
+            region_state.habitats[
+                "open_grassland"
+            ].resource_quantities,
+            {"grass_forage": 0.0},
+        )
+        self.assertEqual(
+            region_state.habitats[
+                "acacia_scrub"
+            ].resource_quantities,
+            {"grass_forage": 10.0},
+        )
+        self.assertEqual(
+            region_state.resource_quantities,
+            {"grass_forage": 10.0},
+        )
+
+    def test_combines_same_species_feeding_across_habitats(
+        self,
+    ) -> None:
+        registry = ContentRegistry()
+        registry.register(
+            {
+                "entity_type": "animal",
+                "id": "scrub_hare",
+                "name": "Scrub Hare",
+                "diet_type": "herbivore",
+                "food_requirement_per_animal_per_cycle": 0.5,
+                "diet": [
+                    {
+                        "resource_id": "grass_forage",
+                        "preference": 1.0,
+                    },
+                ],
+            }
+        )
+        region_state = RegionState(
+            definition_id="redgrass_savanna",
+            animal_populations={"scrub_hare": 10},
+            resource_quantities={"grass_forage": 4.0},
+            habitats={
+                "open_grassland": HabitatState(
+                    definition_id="open_grassland",
+                    animal_populations={"scrub_hare": 4},
+                    resource_quantities={"grass_forage": 1.0},
+                ),
+                "acacia_scrub": HabitatState(
+                    definition_id="acacia_scrub",
+                    animal_populations={"scrub_hare": 6},
+                    resource_quantities={"grass_forage": 3.0},
+                ),
+            },
+        )
+
+        feeding_results = feed_region(region_state, registry)
+
+        self.assertEqual(
+            feeding_results["scrub_hare"],
+            PopulationFeedingResult(
+                required_amount=5.0,
+                consumed_amount=4.0,
+                nutrition_ratio=0.8,
+                resource_consumption={"grass_forage": 4.0},
+            ),
+        )
+        self.assertEqual(
+            region_state.resource_quantities,
+            {"grass_forage": 0.0},
         )
 
     def test_rejects_negative_resource_request(self) -> None:

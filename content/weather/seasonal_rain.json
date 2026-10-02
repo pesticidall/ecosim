@@ -2,5 +2,10 @@
     "entity_type": "weather",
     "id": "seasonal_rain",
     "name": "Seasonal Rain",
-    "producer_production_multiplier": 1.25
+    "producer_production_multiplier": 1.25,
+    "visibility_modifier": 0.85,
+    "movement_modifiers": {
+        "terrestrial": 0.9,
+        "flight": 0.8
+    }
 }

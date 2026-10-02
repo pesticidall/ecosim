@@ -15,10 +15,12 @@ from simulation.simulation_cycle import run_cycle
 
 
 def clear_screen() -> None:
+    """Clear an interactive terminal while leaving redirected output intact."""
     if sys.stdout.isatty():
         os.system("cls" if os.name == "nt" else "clear")
 
 def confirm_quit() -> bool:
+    """Ask the player to confirm quitting and return their decision."""
     clear_screen()
     print(
         frame_report(
@@ -37,6 +39,7 @@ def confirm_quit() -> bool:
         print("Please enter Y to quit, or B to go back.")
 
 def select_scenario(scenario_paths: list[Path]) -> Path:
+    """Display available scenarios until the player selects a valid one."""
     if not scenario_paths:
         raise ValueError("No scenarios are available.")
     choices = {}
@@ -65,6 +68,7 @@ def select_scenario(scenario_paths: list[Path]) -> Path:
         print("Please enter one of the listed scenario numbers.")
 
 def confirm_scenario(scenario_path: Path) -> bool:
+    """Show a scenario summary and ask whether it should be started."""
     scenario_data = load_json_file(scenario_path)
     lines = [scenario_data["name"]]
     description = scenario_data.get("description", "")
@@ -88,6 +92,7 @@ def confirm_scenario(scenario_path: Path) -> bool:
         print("Please enter Y to confirm, or B to go back")
 
 def main() -> None:
+    """Run the interactive EcoSim scenario and cycle loop."""
     project_root = Path(__file__).resolve().parent
     scenario_paths = sorted((project_root / "scenarios").glob("*.json"))
     while True:
@@ -100,7 +105,7 @@ def main() -> None:
         report_directory = project_root
     report_path = report_directory / "run_report.txt"
     registry = build_content_registry(project_root / "content")
-    world_state = load_scenario(scenario_path)
+    world_state = load_scenario(scenario_path, registry)
     current_report = format_starting_report(world_state, registry)
     report_history = [current_report]
 

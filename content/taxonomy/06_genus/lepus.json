@@ -1,0 +1,7 @@
+{
+    "entity_type": "taxon",
+    "id": "lepus",
+    "name": "Lepus",
+    "rank": "genus",
+    "parent_taxon_id": "leporidae"
+}

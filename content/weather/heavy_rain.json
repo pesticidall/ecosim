@@ -1,0 +1,11 @@
+{
+    "entity_type": "weather",
+    "id": "heavy_rain",
+    "name": "Heavy Rain",
+    "producer_production_multiplier": 1.1,
+    "visibility_modifier": 0.65,
+    "movement_modifiers": {
+        "terrestrial": 0.8,
+        "flight": 0.65
+    }
+}

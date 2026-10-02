@@ -1,0 +1,17 @@
+{
+    "entity_type": "habitat",
+    "id": "acacia_scrub",
+    "name": "Acacia Scrub",
+    "description": "Mixed terrestrial habitat with dense shrubs, scattered trees, substantial concealment, and accessible shelter.",
+    "movement_medium": "terrestrial",
+    "movement_modifiers": {
+        "terrestrial": 0.9
+    },
+    "conditions": {
+        "openness": 0.5,
+        "vegetation_density": 0.7,
+        "ground_firmness": 0.7,
+        "shelter_availability": 0.7,
+        "terrain_ruggedness": 0.3
+    }
+}

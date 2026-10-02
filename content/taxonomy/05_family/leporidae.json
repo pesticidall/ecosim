@@ -1,0 +1,10 @@
+{
+    "entity_type": "taxon",
+    "id": "leporidae",
+    "name": "Leporidae",
+    "rank": "family",
+    "parent_taxon_id": "lagomorpha",
+    "default_trait_ids": [
+        "powerful_hindlimbs"
+    ]
+}

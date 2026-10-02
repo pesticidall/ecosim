@@ -1,0 +1,7 @@
+{
+    "entity_type": "taxon",
+    "id": "mammalia",
+    "name": "Mammalia",
+    "rank": "class",
+    "parent_taxon_id": "chordata"
+}

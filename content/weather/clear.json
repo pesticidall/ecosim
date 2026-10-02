@@ -1,0 +1,11 @@
+{
+    "entity_type": "weather",
+    "id": "clear",
+    "name": "Clear",
+    "producer_production_multiplier": 1.0,
+    "visibility_modifier": 1.0,
+    "movement_modifiers": {
+        "terrestrial": 1.0,
+        "flight": 1.0
+    }
+}

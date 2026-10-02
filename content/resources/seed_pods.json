@@ -1,0 +1,7 @@
+{
+    "entity_type": "resource",
+    "id": "seed_pods",
+    "name": "Seed Pods",
+    "quantity_type": "biomass",
+    "unit": "kg"
+}

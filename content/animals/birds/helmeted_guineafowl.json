@@ -1,0 +1,51 @@
+{
+    "entity_type": "animal",
+    "id": "helmeted_guineafowl",
+    "name": "Helmeted Guineafowl",
+    "taxon_id": "numida",
+    "body_size_category": "very_small",
+    "typical_adult_mass_kg": 1.5,
+    "statistics": {
+        "power": 2.0,
+        "defense": 3.0,
+        "health": 4.0,
+        "mobility": 7.0,
+        "perception": 8.0,
+        "stealth": 4.0,
+        "intelligence": 4.0
+    },
+    "diet_type": "omnivore",
+    "activity_pattern": "diurnal",
+    "primary_movement_mode": "terrestrial",
+    "available_movement_modes": [
+        "terrestrial",
+        "flight"
+    ],
+    "flight_capabilities": [
+        "short_burst"
+    ],
+    "preferred_habitat_ids": [
+        "open_grassland",
+        "acacia_scrub"
+    ],
+    "food_requirement_per_animal_per_cycle": 0.25,
+    "birth_rate_per_animal_per_cycle": 0.12,
+    "diet": [
+        {
+            "resource_id": "seeds",
+            "preference": 1.0
+        },
+        {
+            "resource_id": "fruit",
+            "preference": 0.8
+        },
+        {
+            "resource_id": "grass_forage",
+            "preference": 0.4
+        },
+        {
+            "resource_id": "leaves_browse",
+            "preference": 0.2
+        }
+    ]
+}

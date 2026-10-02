@@ -7,8 +7,8 @@ Playtest B should turn EcoSim's producer-herbivore resource model into an observ
 ## Starting Scenarios
 
 - [ ] At least three scenarios are available from the main menu
-- [ ] Playtest A - Balanced Beginnings remains available as a comparison scenario
-- [ ] The comparison scenario preserves its Playtest A behavior during Playtest B
+- [x] Playtest A - Balanced Beginnings remains available as a comparison scenario
+- [x] The comparison scenario preserves its Playtest A behavior during Playtest B
 - [ ] A predator-focused scenario demonstrates hunting, injury, carrion, and scavenging
 - [ ] A habitat-focused scenario demonstrates refuge, movement differences, and territorial pressure
 - [ ] Every scenario has a known random seed
@@ -16,74 +16,82 @@ Playtest B should turn EcoSim's producer-herbivore resource model into an observ
 
 ## Expanded Modular Content
 
-- [ ] Additional animal definitions load without system-code changes
+- [x] Additional animal definitions load without system-code changes
 - [ ] Predator and scavenger species are represented
 - [ ] Additional herbivores fill distinct ecological niches
-- [ ] Additional producer and resource definitions are represented
-- [ ] Additional terrestrial habitats and weather types are represented
+- [x] Additional producer and resource definitions are represented
+- [x] Additional terrestrial habitats and weather types are represented
 - [ ] Optional creator attribution can be stored in entity definitions
 - [ ] Creator attribution is informational and has no simulation effect
-- [ ] Invalid Playtest B entity fields produce understandable errors
+- [x] Invalid Playtest B entity fields produce understandable errors
 
 ## Animal Statistics and Size
 
 - [ ] Species definitions provide the statistics required by hunting and defense
 - [ ] Power, defense, health, mobility, perception, stealth, and intelligence have distinct purposes
-- [ ] General body-size categories establish base stat totals
-- [ ] Weight classes remain separate from general body-size categories
-- [ ] Larger animals are not universally superior to smaller animals
-- [ ] Species-level statistics remain separate from live population conditions
+- [ ] Body size and mass influence only calculations where structural scale or physical mass is relevant
+- [x] Species statistics are assigned independently without a mandatory total-point budget
+- [x] Weight classes remain separate from general body-size categories
+- [x] Larger animals are not universally superior to smaller animals
+- [x] Species-level statistics remain separate from live population conditions
 
 ## Taxonomy
 
-- [ ] Taxonomic groups are defined as modular JSON content
-- [ ] Taxonomic definitions identify their rank and parent taxon
-- [ ] Animal definitions can reference their lowest defined taxon
-- [ ] EcoSim can resolve an animal's taxonomic lineage
-- [ ] Missing parents and circular taxonomic relationships are rejected
-- [ ] The first required mammalian lineages are represented
-- [ ] Taxonomy supplies overridable biological defaults rather than rigid behavior
-- [ ] Taxonomy can organize species information without determining ecological success
+- [x] Taxonomic groups are defined as modular JSON content
+- [x] Taxonomic definitions identify their rank and parent taxon
+- [x] Animal definitions can reference their lowest defined taxon
+- [x] EcoSim can resolve an animal's taxonomic lineage
+- [x] Missing parents and circular taxonomic relationships are rejected
+- [x] The first required mammalian lineages are represented
+- [x] Taxonomy supplies overridable biological defaults rather than rigid behavior
+- [x] Taxonomy can organize species information without determining ecological success
 
 ## Traits
 
 - [ ] A small catalog of mechanically meaningful starting traits exists
-- [ ] Taxonomic groups can provide default starting traits
-- [ ] Species can add starting traits of their own
-- [ ] Species can override inappropriate taxonomic defaults
-- [ ] Traits modify specific simulation calculations rather than acting as decorative labels
+- [x] Taxonomic groups can provide default starting traits
+- [x] Species can add starting traits of their own
+- [x] Species can override inappropriate taxonomic defaults
+- [x] Traits modify specific simulation calculations rather than acting as decorative labels
 - [ ] Trait effects are visible in detailed reports
-- [ ] Traits do not provide unexplained universal stat bonuses
+- [x] Traits do not provide unexplained universal stat bonuses
 
 ## Calendar and Activity Phases
 
-- [ ] Simulation time advances through named months and years
-- [ ] Twelve monthly cycles advance the year
-- [ ] Every month contains an aggregated day activity phase
-- [ ] Every month contains an aggregated night activity phase
-- [ ] Animal definitions can describe diurnal, nocturnal, crepuscular, or flexible activity
+- [x] Simulation time advances through named months and years
+- [x] Twelve monthly cycles advance the year
+- [x] Every simulated day contributes to an aggregated monthly day activity total
+- [x] Every simulated day contributes to an aggregated monthly night activity total
+- [x] Animal definitions can describe diurnal, nocturnal, crepuscular, or flexible activity
 - [ ] Activity overlap influences ecological encounters
 - [ ] Simulation results do not depend on presentation or animation speed
-- [ ] Seasons are not presented as functional until they have ecological effects
+- [x] Seasons are not presented as functional until they have ecological effects
+- [x] Months use their conventional lengths from 28 to 31 days
+- [x] February contains 29 days during leap years
+- [x] Leap years follow the Gregorian divisible-by-4, 100, and 400 rules
+- [x] A completed monthly cycle records its month, year, and number of days
+- [x] Completed monthly totals are stored as structured historical data
+- [x] The same month can be compared across different years
+- [x] Producer growth uses daily rates so unequal month lengths produce proportionally different growth
 
 ## Habitats
 
-- [ ] A region can contain multiple terrestrial habitats
-- [ ] Habitats can provide different resources, shelter, and encounter conditions
-- [ ] Animal populations can occupy compatible habitats within a region
+- [x] A region can contain multiple terrestrial habitats
+- [x] Habitats can provide different resources, shelter, and encounter conditions
+- [x] Animal populations can enter accessible habitats and prefer some without being locked out of others
 - [ ] Habitat use affects predator-prey encounter likelihood
 - [ ] Refuge habitats can improve prey survival without guaranteeing it
-- [ ] Habitat state remains separate from its content definition
+- [x] Habitat state remains separate from its content definition
 - [ ] No aquatic habitat is required for Playtest B
 
 ## Movement
 
-- [ ] Animals have a primary movement mode or movement profile
-- [ ] Base mobility remains separate from environmental mobility modifiers
-- [ ] Habitats can modify movement modes differently
-- [ ] Weather can modify movement modes differently
+- [x] Animals have a primary movement mode or movement profile
+- [x] Base mobility remains separate from environmental mobility modifiers
+- [x] Habitats can modify movement modes differently
+- [x] Weather can modify movement modes differently
 - [ ] Movement compatibility affects chase and escape calculations
-- [ ] Starting traits can reduce specific movement penalties
+- [x] Starting traits can reduce specific movement penalties
 - [ ] Playtest B movement does not require region-to-region pathfinding
 
 ## Hunting and Predator Feeding
@@ -146,9 +154,9 @@ Playtest B should turn EcoSim's producer-herbivore resource model into an observ
 
 ## Weather
 
-- [ ] Active weather modifies at least producer output, visibility, or mobility
-- [ ] Weather effects can differ by habitat or movement mode
-- [ ] Weather effects are data-driven and understandable
+- [x] Active weather modifies at least producer output, visibility, or mobility
+- [x] Weather effects can differ by habitat or movement mode
+- [x] Weather effects are data-driven and understandable
 - [ ] Weather contributes to hunting calculations where relevant
 - [ ] Weather effects appear in detailed reports
 - [ ] Random weather transitions are not required unless added without expanding the scope
@@ -167,7 +175,7 @@ Playtest B should turn EcoSim's producer-herbivore resource model into an observ
 
 - [ ] Rich provides the first styled terminal interface
 - [ ] An animated EcoSim title can be skipped or disabled
-- [ ] A main menu allows scenario selection
+- [x] A main menu allows scenario selection
 - [ ] The current month, year, weather, and activity phase are visible
 - [ ] A progress bar represents progress through the current month
 - [ ] Population and resource values can update while a cycle is presented
@@ -179,20 +187,20 @@ Playtest B should turn EcoSim's producer-herbivore resource model into an observ
 ## Reporting
 
 - [ ] Monthly summaries remain concise and readable
-- [ ] Day and night activity can be distinguished when relevant
+- [x] Day and night activity can be distinguished when relevant
 - [ ] Hunt stages and outcomes are understandable
 - [ ] Predator feeding and food shortages are understandable
 - [ ] Injuries, carrion, scavenging, grouping, and disputes are summarized
 - [ ] Detailed reports expose important modifiers and calculations
-- [ ] A complete run report can still be exported locally
+- [x] A complete run report can still be exported locally
 - [ ] Reports include scenario, seed, build, content, and ending-state information
 - [ ] Full diagnostic data preserves exact values even when the terminal rounds them
 
 ## Reliability and Performance
 
-- [ ] Playtest A behavior remains covered by regression tests
+- [x] Playtest A behavior remains covered by regression tests
 - [ ] Every Playtest B scenario can complete multiple years without crashing
-- [ ] The same seed, scenario, content, and settings reproduce the same results
+- [x] The same seed, scenario, content, and settings reproduce the same results
 - [ ] Simulation speed and skipped animations do not change ecological results
 - [ ] Populations, group counts, injury counts, resources, and carrion cannot become negative
 - [ ] Zero-population species and empty habitats do not crash a cycle

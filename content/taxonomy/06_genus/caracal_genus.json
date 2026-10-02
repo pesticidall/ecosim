@@ -1,0 +1,7 @@
+{
+    "entity_type": "taxon",
+    "id": "caracal_genus",
+    "name": "Caracal",
+    "rank": "genus",
+    "parent_taxon_id": "felidae"
+}

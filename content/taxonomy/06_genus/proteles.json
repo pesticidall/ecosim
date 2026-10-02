@@ -1,0 +1,7 @@
+{
+    "entity_type": "taxon",
+    "id": "proteles",
+    "name": "Proteles",
+    "rank": "genus",
+    "parent_taxon_id": "hyaenidae"
+}

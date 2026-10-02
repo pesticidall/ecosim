@@ -1,0 +1,7 @@
+{
+    "entity_type": "taxon",
+    "id": "galliformes",
+    "name": "Galliformes",
+    "rank": "order",
+    "parent_taxon_id": "aves"
+}

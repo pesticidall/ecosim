@@ -1,0 +1,32 @@
+{
+    "entity_type": "animal",
+    "id": "springbok",
+    "name": "Springbok",
+    "taxon_id": "antidorcas",
+    "body_size_category": "medium",
+    "typical_adult_mass_kg": 35.0,
+    "statistics": {
+        "power": 6.0,
+        "defense": 5.0,
+        "health": 7.0,
+        "mobility": 9.0,
+        "perception": 8.0,
+        "stealth": 3.0,
+        "intelligence": 4.0
+    },
+    "diet_type": "herbivore",
+    "activity_pattern": "diurnal",
+    "primary_movement_mode": "terrestrial",
+    "available_movement_modes": [
+        "terrestrial"
+    ],
+    "preferred_habitat_ids": [
+        "open_grassland"
+    ],
+    "food_requirement_per_animal_per_cycle": 2.0,
+    "birth_rate_per_animal_per_cycle": 0.1,
+    "diet": [
+            {"resource_id": "grass_forage", "preference": 1.0},
+            {"resource_id": "leaves_browse", "preference": 0.5}
+    ]
+}

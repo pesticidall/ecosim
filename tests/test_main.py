@@ -27,7 +27,7 @@ class TestMain(unittest.TestCase):
         self.assertIn("Weather: Seasonal Rain", report_lines)
         self.assertIn("Scrub Hare ..................... 100 → 112", report_lines)
         self.assertIn("+12 births", report_lines)
-        self.assertIn("Grass .......................... 100 → 126.25 kg", report_lines)
+        self.assertIn("Grass .......................... 100 → 125 kg", report_lines)
 
     def test_canceling_quit_preserves_current_cycle(self) -> None:
         from simulation.simulation_cycle import run_cycle
@@ -246,6 +246,6 @@ class TestMain(unittest.TestCase):
             with self.subTest(line=expected_line):
                 self.assertIn(expected_line, starting_report.splitlines())
 
-        self.assertIn("Scrub Hare ..................... 200 → 221", cycle_report)
+        self.assertIn("Scrub Hare ..................... 200 → 220", cycle_report)
 if __name__ == "__main__":
     unittest.main()

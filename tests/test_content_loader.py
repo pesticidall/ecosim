@@ -9,6 +9,7 @@ from core.content_loader import (
     load_json_file,
 )
 
+
 def make_test_producer_definition(
     entity_id: str,
     name: str,
@@ -20,7 +21,7 @@ def make_test_producer_definition(
         "production": [
             {
                 "resource_id": "test_resource",
-                "amount_per_producer_per_cycle": 1.0
+                "amount_per_producer_per_day": 1.0
             }
         ]
     }
@@ -134,6 +135,109 @@ class TestLoadJsonFile(unittest.TestCase):
         self.assertEqual(
             loaded_ids,
             ["test_grass", "test_shrub"],
+        )
+
+    def test_loads_animal_from_nested_organizational_folder(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            animals_directory = (
+                Path(temporary_directory)
+                / "animals"
+            )
+            misleading_directory = (
+                animals_directory
+                / "birds"
+            )
+            misleading_directory.mkdir(parents=True)
+            animal_path = (
+                misleading_directory
+                / "scrub_hare.json"
+            )
+            animal_path.write_text(
+                json.dumps(
+                    {
+                        "entity_type": "animal",
+                        "id": "scrub_hare",
+                        "name": "Scrub Hare",
+                        "taxon_id": "lepus",
+                        "diet_type": "herbivore",
+                        "activity_pattern": "nocturnal",
+                        "food_requirement_per_animal_per_cycle": 0.5,
+                        "birth_rate_per_animal_per_cycle": 0.12,
+                        "diet": [
+                            {
+                                "resource_id": "grass_forage",
+                                "preference": 1.0,
+                            },
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            definitions = (
+                load_entity_definitions_from_directory(
+                    animals_directory,
+                    expected_entity_type="animal",
+                )
+            )
+
+        self.assertEqual(len(definitions), 1)
+        self.assertEqual(
+            definitions[0]["id"],
+            "scrub_hare",
+        )
+        self.assertEqual(
+            definitions[0]["taxon_id"],
+            "lepus",
+        )
+
+    def test_taxon_rank_does_not_depend_on_folder_name(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            taxonomy_directory = (
+                Path(temporary_directory)
+                / "taxonomy"
+            )
+            misleading_directory = (
+                taxonomy_directory
+                / "06_genus"
+            )
+            misleading_directory.mkdir(parents=True)
+            taxon_path = (
+                misleading_directory
+                / "animalia.json"
+            )
+            taxon_path.write_text(
+                json.dumps(
+                    {
+                        "entity_type": "taxon",
+                        "id": "animalia",
+                        "name": "Animalia",
+                        "rank": "kingdom",
+                        "parent_taxon_id": None,
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            definitions = (
+                load_entity_definitions_from_directory(
+                    taxonomy_directory,
+                    expected_entity_type="taxon",
+                )
+            )
+
+        self.assertEqual(len(definitions), 1)
+        self.assertEqual(
+            definitions[0]["id"],
+            "animalia",
+        )
+        self.assertEqual(
+            definitions[0]["rank"],
+            "kingdom",
         )
 
     def test_raises_error_when_directory_does_not_exist(self) -> None:

@@ -1,0 +1,7 @@
+{
+    "entity_type": "taxon",
+    "id": "aves",
+    "name": "Aves",
+    "rank": "class",
+    "parent_taxon_id": "chordata"
+}
