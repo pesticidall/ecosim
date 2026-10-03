@@ -264,6 +264,92 @@ class TestTraits(unittest.TestCase):
             ],
         )
 
+    def test_resolves_action_capabilities_from_inherited_trait(self) -> None:
+        from simulation.traits import resolve_animal_action_capabilities
+
+        capabilities = resolve_animal_action_capabilities(
+            animal_definition={
+                "id": "test_animal",
+                "taxon_id": "test_taxon",
+            },
+            taxon_definitions=[
+                {
+                    "id": "test_taxon",
+                    "parent_taxon_id": None,
+                    "default_trait_ids": ["test_hindlimbs"],
+                },
+            ],
+            trait_definitions=[
+                {
+                    "id": "test_hindlimbs",
+                    "action_capabilities": ["escape", "counterattack"],
+                },
+            ],
+        )
+
+        self.assertEqual(capabilities, ["escape", "counterattack"])
+
+    def test_action_capabilities_respect_added_and_excluded_traits(self) -> None:
+        from simulation.traits import resolve_animal_action_capabilities
+
+        capabilities = resolve_animal_action_capabilities(
+            animal_definition={
+                "id": "test_animal",
+                "taxon_id": "test_taxon",
+                "trait_ids": ["test_escape_trait"],
+                "excluded_trait_ids": ["test_defensive_trait"],
+            },
+            taxon_definitions=[
+                {
+                    "id": "test_taxon",
+                    "parent_taxon_id": None,
+                    "default_trait_ids": ["test_defensive_trait"],
+                },
+            ],
+            trait_definitions=[
+                {
+                    "id": "test_defensive_trait",
+                    "action_capabilities": ["counterattack"],
+                },
+                {
+                    "id": "test_escape_trait",
+                    "action_capabilities": ["escape"],
+                },
+            ],
+        )
+
+        self.assertEqual(capabilities, ["escape"])
+
+    def test_deduplicates_actions_granted_by_different_traits(self) -> None:
+        from simulation.traits import resolve_animal_action_capabilities
+
+        capabilities = resolve_animal_action_capabilities(
+            animal_definition={
+                "id": "test_animal",
+                "taxon_id": "test_taxon",
+                "trait_ids": ["test_second_trait"],
+            },
+            taxon_definitions=[
+                {
+                    "id": "test_taxon",
+                    "parent_taxon_id": None,
+                    "default_trait_ids": ["test_first_trait"],
+                },
+            ],
+            trait_definitions=[
+                {
+                    "id": "test_first_trait",
+                    "action_capabilities": ["escape", "counterattack"],
+                },
+                {
+                    "id": "test_second_trait",
+                    "action_capabilities": ["counterattack", "escape"],
+                },
+            ],
+        )
+
+        self.assertEqual(capabilities, ["escape", "counterattack"])
+
 
 if __name__ == "__main__":
     unittest.main()

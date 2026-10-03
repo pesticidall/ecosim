@@ -100,6 +100,7 @@ SUPPORTED_ENTITY_TYPES = frozenset(
         "region",
         "resource",
         "taxon",
+        "temperament",
         "trait",
         "weather",
     }
@@ -230,6 +231,57 @@ def validate_entity_definition(
             f"Definition '{source_path}' has unsupported "
             f"entity type '{entity_type}'."
         )
+    if entity_type == "temperament":
+        missing_temperament_fields = [
+            field
+            for field in ("description", "action_weights")
+            if field not in definition
+        ]
+        if missing_temperament_fields:
+            field_list = ", ".join(missing_temperament_fields)
+            raise ValueError(
+                f"Temperament definition '{source_path}' is missing "
+                f"required field(s): {field_list}."
+            )
+        description = definition["description"]
+        if not isinstance(description, str):
+            raise TypeError(
+                f"Field 'description' in temperament definition "
+                f"'{source_path}' must be a string."
+            )
+        if not description.strip():
+            raise ValueError(
+                f"Field 'description' in temperament definition "
+                f"'{source_path}' must not be empty."
+            )
+        action_weights = definition["action_weights"]
+        if not isinstance(action_weights, dict):
+            raise TypeError(
+                f"Field 'action_weights' in temperament definition "
+                f"'{source_path}' must be an object."
+            )
+        for action, weight in action_weights.items():
+            if isinstance(weight, bool) or not isinstance(
+                weight,
+                (int, float)
+            ):
+                raise TypeError(
+                    f"Field 'action_weights' weight for action '{action}' "
+                    f"in temperament definition '{source_path}' "
+                    f"must be a number."
+                )
+            if not isfinite(weight):
+                raise ValueError(
+                    f"Field 'action_weights' weight for action '{action}' "
+                    f"in temperament definition '{source_path}' "
+                    f"must be finite."
+                )
+            if weight <= 0:
+                raise ValueError(
+                    f"Field 'action_weights' weight for action '{action}' "
+                    f"in temperament definition '{source_path}' "
+                    f"must be greater than zero."
+                )
     if entity_type == "animal":
         missing_animal_fields = [
             field
@@ -242,6 +294,35 @@ def validate_entity_definition(
                 f"Animal definition '{source_path}' is missing "
                 f"required field(s): {field_list}."
             )
+        if "temperament" in definition:
+            temperament = definition["temperament"]
+            if not isinstance(temperament, dict):
+                raise TypeError(
+                    f"Field 'temperament' in animal definition "
+                    f"'{source_path}' must be an object."
+                )
+            for action, weight in temperament.items():
+                if isinstance(weight, bool) or not isinstance(
+                    weight,
+                    (int, float)
+                ):
+                    raise TypeError(
+                        f"Field 'temperament' weight for action '{action}' "
+                        f"in animal definition '{source_path}' "
+                        f"must be a number."
+                    )
+                if not isfinite(weight):
+                    raise ValueError(
+                        f"Field 'temperament' weight for action '{action}' "
+                        f"in animal definition '{source_path}' "
+                        f"must be finite."
+                    )
+                if weight <= 0:
+                    raise ValueError(
+                        f"Field 'temperament' weight for action '{action}' "
+                        f"in animal definition '{source_path}' "
+                        f"must be greater than zero."
+                    )
         if "taxon_id" in definition:
             taxon_id = definition["taxon_id"]
             if not isinstance(taxon_id, str):
@@ -772,6 +853,40 @@ def validate_entity_definition(
                 f"Field 'description' in trait definition "
                 f"'{source_path}' must not be empty."
             )
+        if "action_capabilities" in definition:
+            action_capabilities = definition["action_capabilities"]
+            if not isinstance(action_capabilities, list):
+                raise TypeError(
+                    f"Field 'action_capabilities' in trait definition "
+                    f"'{source_path}' must be a list."
+                )
+            seen_capabilities: set[str] = set()
+            for entry_index, capability in enumerate(action_capabilities):
+                if not isinstance(capability, str):
+                    raise TypeError(
+                        f"Field 'action_capabilities' entry {entry_index} "
+                        f"in trait definition '{source_path}' "
+                        "must be a string."
+                    )
+                if not capability.strip():
+                    raise ValueError(
+                        f"Field 'action_capabilities' entry {entry_index} "
+                        f"in trait definition '{source_path}' "
+                        "must not be empty."
+                    )
+                if ENTITY_ID_PATTERN.fullmatch(capability) is None:
+                    raise ValueError(
+                        f"Field 'action_capabilities' entry {entry_index} "
+                        f"in trait definition '{source_path}' "
+                        "must use lowercase snake_case."
+                    )
+                if capability in seen_capabilities:
+                    raise ValueError(
+                        f"Field 'action_capabilities' in trait definition "
+                        f"'{source_path}' contains duplicate "
+                        f" action capability '{capability}'."
+                    )
+                seen_capabilities.add(capability)
         if "tags" in definition:
             tags = definition["tags"]
             if not isinstance(tags, list):

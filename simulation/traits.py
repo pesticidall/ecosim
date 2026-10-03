@@ -165,3 +165,32 @@ def resolve_animal_trait_effect(
         trait_definitions,
         target,
     )
+
+def resolve_animal_action_capabilities(
+    animal_definition: dict[str, Any],
+    taxon_definitions: Iterable[dict[str, Any]],
+    trait_definitions: Iterable[dict[str, Any]],
+) -> list[str]:
+    """Return unique actions granted by an animal's effective traits."""
+    trait_ids = resolve_animal_trait_ids(
+        animal_definition,
+        taxon_definitions,
+    )
+    definitions_by_id = {
+        definition["id"]: definition
+        for definition in trait_definitions
+    }
+    action_capabilities: list[str] = []
+    seen_capabilities: set[str] = set()
+    for trait_id in trait_ids:
+        if trait_id not in definitions_by_id:
+            raise ValueError(
+                f"Cannot resolve unknown trait '{trait_id}'."
+            )
+        trait_definition = definitions_by_id[trait_id]
+        for capability in trait_definition.get("action_capabilities", []):
+            if capability in seen_capabilities:
+                continue
+            action_capabilities.append(capability)
+            seen_capabilities.add(capability)
+    return action_capabilities

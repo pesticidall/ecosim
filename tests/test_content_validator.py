@@ -3647,5 +3647,296 @@ class TestValidateEntityDefinition(unittest.TestCase):
                         ),
                     )
 
+    def test_rejects_nonlist_trait_action_capabilities(self) -> None:
+        definition = {
+            "entity_type": "trait",
+            "id": "test_trait",
+            "name": "Test Trait",
+            "description": "A trait supporting defensive actions.",
+            "action_capabilities": "counterattack",
+        }
+        source_path = Path("content/traits/test_trait.json")
+
+        with self.assertRaisesRegex(
+            TypeError,
+            r"action_capabilities.*must be a list",
+        ):
+            validate_entity_definition(definition, source_path)
+
+    def test_rejects_nonstring_trait_action_capability(self) -> None:
+        definition = {
+            "entity_type": "trait",
+            "id": "test_trait",
+            "name": "Test Trait",
+            "description": "A trait supporting defensive actions.",
+            "action_capabilities": ["escape", 42],
+        }
+        source_path = Path("content/traits/test_trait.json")
+
+        with self.assertRaisesRegex(
+            TypeError,
+            r"action_capabilities.*entry 1.*must be a string",
+        ):
+            validate_entity_definition(definition, source_path)
+
+    def test_rejects_empty_trait_action_capability(self) -> None:
+        for capability in ("", "   "):
+            with self.subTest(capability=capability):
+                definition = {
+                    "entity_type": "trait",
+                    "id": "test_trait",
+                    "name": "Test Trait",
+                    "description": "A trait supporting defensive actions.",
+                    "action_capabilities": [capability],
+                }
+                source_path = Path("content/traits/test_trait.json")
+
+                with self.assertRaisesRegex(
+                    ValueError,
+                    r"action_capabilities.*entry 0.*must not be empty",
+                ):
+                    validate_entity_definition(definition, source_path)
+
+    def test_rejects_malformed_trait_action_capability(self) -> None:
+        for capability in ("Counterattack", "break free", "break-free"):
+            with self.subTest(capability=capability):
+                definition = {
+                    "entity_type": "trait",
+                    "id": "test_trait",
+                    "name": "Test Trait",
+                    "description": "A trait supporting defensive actions.",
+                    "action_capabilities": [capability],
+                }
+                source_path = Path("content/traits/test_trait.json")
+
+                with self.assertRaisesRegex(
+                    ValueError,
+                    r"action_capabilities.*entry 0.*lowercase snake_case",
+                ):
+                    validate_entity_definition(definition, source_path)
+
+    def test_rejects_duplicate_trait_action_capabilities(self) -> None:
+        definition = {
+            "entity_type": "trait",
+            "id": "test_trait",
+            "name": "Test Trait",
+            "description": "A trait supporting defensive actions.",
+            "action_capabilities": ["escape", "counterattack", "escape"],
+        }
+        source_path = Path("content/traits/test_trait.json")
+
+        with self.assertRaisesRegex(
+            ValueError,
+            r"action_capabilities.*duplicate.*escape",
+        ):
+            validate_entity_definition(definition, source_path)
+
+    def test_rejects_nonobject_animal_temperament(self) -> None:
+        definition = {
+            "entity_type": "animal",
+            "id": "test_animal",
+            "name": "Test Animal",
+            "diet_type": "herbivore",
+            "food_requirement_per_animal_per_cycle": 1.0,
+            "birth_rate_per_animal_per_cycle": 0.1,
+            "diet": [
+                {
+                    "resource_id": "grass_forage",
+                    "preference": 1.0,
+                },
+            ],
+            "temperament": "skittish",
+        }
+        source_path = Path("content/animals/test_animal.json")
+
+        with self.assertRaisesRegex(
+            TypeError,
+            r"temperament.*must be an object",
+        ):
+            validate_entity_definition(definition, source_path)
+
+    def test_rejects_nonnumeric_temperament_weights(self) -> None:
+        for weight in ("1.4", True, False, None):
+            with self.subTest(weight=weight):
+                definition = {
+                    "entity_type": "animal",
+                    "id": "test_animal",
+                    "name": "Test Animal",
+                    "diet_type": "herbivore",
+                    "food_requirement_per_animal_per_cycle": 1.0,
+                    "birth_rate_per_animal_per_cycle": 0.1,
+                    "diet": [
+                        {
+                            "resource_id": "grass_forage",
+                            "preference": 1.0,
+                        },
+                    ],
+                    "temperament": {"escape": weight},
+                }
+                source_path = Path("content/animals/test_animal.json")
+
+                with self.assertRaisesRegex(
+                    TypeError,
+                    r"temperament.*escape.*must be a number",
+                ):
+                    validate_entity_definition(definition, source_path)
+
+    def test_rejects_nonfinite_temperament_weights(self) -> None:
+        for weight in (float("inf"), float("-inf"), float("nan")):
+            with self.subTest(weight=weight):
+                definition = {
+                    "entity_type": "animal",
+                    "id": "test_animal",
+                    "name": "Test Animal",
+                    "diet_type": "herbivore",
+                    "food_requirement_per_animal_per_cycle": 1.0,
+                    "birth_rate_per_animal_per_cycle": 0.1,
+                    "diet": [
+                        {
+                            "resource_id": "grass_forage",
+                            "preference": 1.0,
+                        },
+                    ],
+                    "temperament": {"escape": weight},
+                }
+                source_path = Path("content/animals/test_animal.json")
+
+                with self.assertRaisesRegex(
+                    ValueError,
+                    r"temperament.*escape.*must be finite",
+                ):
+                    validate_entity_definition(definition, source_path)
+
+    def test_rejects_nonpositive_temperament_weights(self) -> None:
+        for weight in (0.0, -0.5):
+            with self.subTest(weight=weight):
+                definition = {
+                    "entity_type": "animal",
+                    "id": "test_animal",
+                    "name": "Test Animal",
+                    "diet_type": "herbivore",
+                    "food_requirement_per_animal_per_cycle": 1.0,
+                    "birth_rate_per_animal_per_cycle": 0.1,
+                    "diet": [
+                        {
+                            "resource_id": "grass_forage",
+                            "preference": 1.0,
+                        },
+                    ],
+                    "temperament": {"counterattack": weight},
+                }
+                source_path = Path("content/animals/test_animal.json")
+
+                with self.assertRaisesRegex(
+                    ValueError,
+                    r"temperament.*counterattack.*must be greater than zero",
+                ):
+                    validate_entity_definition(definition, source_path)
+
+    def test_accepts_temperament_definition_with_action_weights(self) -> None:
+        definition = {
+            "entity_type": "temperament",
+            "id": "skittish",
+            "name": "Skittish",
+            "description": "Favors escape while retaining defensive options.",
+            "action_weights": {
+                "escape": 1.4,
+                "counterattack": 0.7,
+            },
+        }
+        source_path = Path("content/temperaments/skittish.json")
+
+        validate_entity_definition(definition, source_path)
+
+    def test_rejects_missing_temperament_fields(self) -> None:
+        for missing_field in ("description", "action_weights"):
+            with self.subTest(missing_field=missing_field):
+                definition = {
+                    "entity_type": "temperament",
+                    "id": "skittish",
+                    "name": "Skittish",
+                    "description": "Favors escape over confrontation.",
+                    "action_weights": {
+                        "escape": 1.4,
+                        "counterattack": 0.7,
+                    },
+                }
+                del definition[missing_field]
+                source_path = Path("content/temperaments/skittish.json")
+
+                with self.assertRaisesRegex(
+                    ValueError,
+                    rf"missing.*{missing_field}",
+                ):
+                    validate_entity_definition(definition, source_path)
+
+    def test_rejects_invalid_temperament_description(self) -> None:
+        cases = (
+            (42, TypeError, r"description.*must be a string"),
+            ("", ValueError, r"description.*must not be empty"),
+            ("   ", ValueError, r"description.*must not be empty"),
+        )
+        for description, error_type, message in cases:
+            with self.subTest(description=description):
+                definition = {
+                    "entity_type": "temperament",
+                    "id": "skittish",
+                    "name": "Skittish",
+                    "description": description,
+                    "action_weights": {"escape": 1.4},
+                }
+                source_path = Path("content/temperaments/skittish.json")
+
+                with self.assertRaisesRegex(error_type, message):
+                    validate_entity_definition(definition, source_path)
+
+    def test_rejects_nonobject_temperament_action_weights(self) -> None:
+        for action_weights in ([], "escape", None):
+            with self.subTest(action_weights=action_weights):
+                definition = {
+                    "entity_type": "temperament",
+                    "id": "skittish",
+                    "name": "Skittish",
+                    "description": "Favors escape over confrontation.",
+                    "action_weights": action_weights,
+                }
+                source_path = Path("content/temperaments/skittish.json")
+
+                with self.assertRaisesRegex(
+                    TypeError,
+                    r"action_weights.*must be an object",
+                ):
+                    validate_entity_definition(definition, source_path)
+
+    def test_rejects_invalid_temperament_profile_weights(self) -> None:
+        cases = (
+            ("1.4", TypeError, "must be a number"),
+            (True, TypeError, "must be a number"),
+            (False, TypeError, "must be a number"),
+            (None, TypeError, "must be a number"),
+            (float("inf"), ValueError, "must be finite"),
+            (float("-inf"), ValueError, "must be finite"),
+            (float("nan"), ValueError, "must be finite"),
+            (0.0, ValueError, "must be greater than zero"),
+            (-0.5, ValueError, "must be greater than zero"),
+        )
+        for weight, error_type, message in cases:
+            with self.subTest(weight=weight):
+                definition = {
+                    "entity_type": "temperament",
+                    "id": "skittish",
+                    "name": "Skittish",
+                    "description": "Favors escape over confrontation.",
+                    "action_weights": {"escape": weight},
+                }
+                source_path = Path("content/temperaments/skittish.json")
+
+                with self.assertRaisesRegex(
+                    error_type,
+                    rf"action_weights.*escape.*{message}",
+                ):
+                    validate_entity_definition(definition, source_path)
+
+
 if __name__ == "__main__":
     unittest.main()
