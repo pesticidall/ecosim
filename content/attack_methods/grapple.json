@@ -1,0 +1,8 @@
+{
+    "entity_type": "attack_method",
+    "id": "grapple",
+    "name": "Grapple",
+    "description": "Uses the limbs and body to grip or restrain prey.",
+    "trauma_modifier": 1.0,
+    "trait_effect_target": "grapple_effectiveness"
+}

@@ -118,7 +118,7 @@ def distribute_resource_by_production(
     for habitat_id, habitat_state in region_state.habitats.items():
         habitat_capacity = 0.0
         for producer_id, population in (
-            habitat_state.producer_populations.items()
+            (habitat_state.producer_populations | habitat_state.colony_populations).items()
         ):
             producer_definition = producer_definitions[producer_id]
             for production_entry in producer_definition["production"]:

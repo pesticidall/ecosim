@@ -1,0 +1,65 @@
+{
+    "entity_type": "animal",
+    "id": "black_backed_jackal",
+    "name": "Black-backed Jackal",
+    "description": "A generalist predator and scavenger. Its provisional Playtest B diet explicitly accepts supplementary meat.",
+    "taxon_id": "lupulella",
+    "body_size_category": "small",
+    "typical_adult_mass_kg": 8.0,
+    "statistics": {
+        "power": 5.0,
+        "defense": 4.0,
+        "health": 6.0,
+        "mobility": 7.0,
+        "perception": 7.0,
+        "stealth": 6.0,
+        "intelligence": 6.0
+    },
+    "diet_type": "omnivore",
+    "activity_pattern": "nocturnal",
+    "primary_movement_mode": "terrestrial",
+    "available_movement_modes": [
+        "terrestrial"
+    ],
+    "preferred_habitat_ids": [
+        "open_grassland",
+        "acacia_scrub"
+    ],
+    "food_requirement_per_animal_per_cycle": 12.0,
+    "birth_rate_per_animal_per_cycle": 0.05,
+    "diet": [
+        {
+            "resource_id": "carnivore_feed",
+            "preference": 1.0
+        },
+        {
+            "resource_id": "fruit",
+            "preference": 0.4
+        }
+    ],
+    "prey_diet": [
+        {
+            "animal_id": "scrub_hare",
+            "preference": 1.0
+        }
+    ],
+    "scavenging_diet": [
+        {
+            "animal_id": "scrub_hare",
+            "preference": 1.0
+        }
+    ],
+    "attack_method_id": "bite",
+    "max_hunting_group_size": 2,
+    "nutrition": {
+        "reserve_days": 3.0,
+        "starvation_grace_days": 7.0,
+        "recovery_per_fed_day": 1.0
+    },
+    "encounter_model": "activity_abundance",
+    "approach_model": "concealed",
+    "search_budget": {
+        "reference_prey": 60.0,
+        "max_opportunities": 4
+    }
+}

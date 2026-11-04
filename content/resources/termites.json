@@ -1,0 +1,7 @@
+{
+    "entity_type": "resource",
+    "id": "termites",
+    "name": "Termites",
+    "quantity_type": "biomass",
+    "unit": "kg"
+}

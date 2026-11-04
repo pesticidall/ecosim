@@ -1,0 +1,87 @@
+{
+    "entity_type": "animal",
+    "id": "brown_hyena",
+    "name": "Brown Hyena",
+    "description": "Provisional Playtest B gameplay values; explicit diets define feeding behavior.",
+    "taxon_id": "parahyaena",
+    "body_size_category": "medium",
+    "typical_adult_mass_kg": 40,
+    "statistics": {
+        "power": 7,
+        "defense": 7,
+        "health": 7,
+        "mobility": 6,
+        "perception": 7,
+        "stealth": 5,
+        "intelligence": 6
+    },
+    "diet_type": "omnivore",
+    "activity_pattern": "nocturnal",
+    "primary_movement_mode": "terrestrial",
+    "available_movement_modes": [
+        "terrestrial"
+    ],
+    "preferred_habitat_ids": [
+        "open_grassland",
+        "acacia_scrub"
+    ],
+    "food_requirement_per_animal_per_cycle": 30,
+    "birth_rate_per_animal_per_cycle": 0.02,
+    "diet": [
+        {
+            "resource_id": "carnivore_feed",
+            "preference": 1.0
+        },
+        {
+            "resource_id": "fruit",
+            "preference": 0.3
+        }
+    ],
+    "scavenging_diet": [
+        {
+            "animal_id": "warthog",
+            "preference": 1.0
+        },
+        {
+            "animal_id": "aardwolf",
+            "preference": 1.0
+        },
+        {
+            "animal_id": "helmeted_guineafowl",
+            "preference": 1.0
+        },
+        {
+            "animal_id": "black_backed_jackal",
+            "preference": 1.0
+        },
+        {
+            "animal_id": "caracal",
+            "preference": 1.0
+        },
+        {
+            "animal_id": "brown_hyena",
+            "preference": 1.0
+        },
+        {
+            "animal_id": "white_backed_vulture",
+            "preference": 1.0
+        },
+        {
+            "animal_id": "scrub_hare",
+            "preference": 1.0
+        },
+        {
+            "animal_id": "springbok",
+            "preference": 1.0
+        },
+        {
+            "animal_id": "bushbuck",
+            "preference": 1.0
+        }
+    ],
+    "nutrition": {
+        "reserve_days": 3.0,
+        "starvation_grace_days": 7.0,
+        "recovery_per_fed_day": 1.0
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "scenario_id": "playtest_b_carnivore_feed_trial",
+    "name": "Playtest B — Carnivore Feed Trial",
+    "description": "A controlled compatibility trial, not a balanced ecosystem. Add Carnivore Feed to Open Grassland to support its jackals through ordinary feeding. Hares cannot consume meat, and the termite-specialist aardwolf cannot use either generic feed reserve. This trial intentionally has no termite supply or production, so supplementary meat will not prevent the aardwolf's food shortage. All new animal balance values are provisional.",
+    "random_seed": 104729,
+    "regions": [
+        {
+            "definition_id": "redgrass_savanna",
+            "active_weather_id": "seasonal_rain",
+            "animal_populations": {
+                "scrub_hare": 20,
+                "black_backed_jackal": 2,
+                "aardwolf": 1
+            },
+            "producer_populations": {"redgrass": 100},
+            "resource_quantities": {"grass_forage": 20.0}
+        }
+    ]
+}

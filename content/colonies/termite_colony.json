@@ -1,0 +1,16 @@
+{
+    "entity_type": "colony",
+    "id": "termite_colony",
+    "name": "Termite Colony",
+    "description": "An aggregated colony supplies accessible termite biomass locally. Colony growth, depletion and plant consumption are not yet modeled.",
+    "preferred_habitat_ids": [
+        "open_grassland",
+        "acacia_scrub"
+    ],
+    "production": [
+        {
+            "resource_id": "termites",
+            "amount_per_producer_per_day": 0.02
+        }
+    ]
+}

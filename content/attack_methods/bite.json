@@ -1,0 +1,8 @@
+{
+    "entity_type": "attack_method",
+    "id": "bite",
+    "name": "Bite",
+    "description": "Uses the jaws and teeth to injure or restrain prey.",
+    "trauma_modifier": 1.0,
+    "trait_effect_target": "bite_effectiveness"
+}

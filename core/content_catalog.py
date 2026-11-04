@@ -4,6 +4,10 @@ from core.content_loader import (
     load_entity_definitions_from_directory,
 )
 from core.content_registry import ContentRegistry
+from simulation.predator_diet import (
+    validate_animal_attack_method_references,
+    validate_animal_prey_references,
+)
 from simulation.feeding import validate_animal_diet_resource_references
 from simulation.habitats import (
     validate_animal_habitat_references,
@@ -15,6 +19,7 @@ from simulation.taxonomy import (
     validate_animal_taxon_references,
     validate_taxonomy,
 )
+from simulation.temperament import validate_animal_temperament_references
 from simulation.traits import (
     validate_animal_trait_references,
     validate_taxon_trait_references,
@@ -22,11 +27,14 @@ from simulation.traits import (
 
 CONTENT_DIRECTORIES = (
     ("animals", "animal"),
+    ("colonies", "colony"),
+    ("attack_methods", "attack_method"),
     ("habitats", "habitat"),
     ("producers", "producer"),
     ("regions", "region"),
     ("resources", "resource"),
     ("taxonomy", "taxon"),
+    ("temperaments", "temperament"),
     ("traits", "trait"),
     ("weather", "weather"),
 )
@@ -36,11 +44,13 @@ def build_content_registry(
     """Load, register, and cross-validate every content definition."""
     registry = ContentRegistry()
     animal_definitions: list[dict] = []
+    attack_method_definitions: list[dict] = []
     habitat_definitions: list[dict] = []
     producer_definitions: list[dict] = []
     region_definitions: list[dict] = []
     resource_definitions: list[dict] = []
     taxon_definitions: list[dict] = []
+    temperament_definitions: list[dict] = []
     trait_definitions: list[dict] = []
     for directory_name, expected_entity_type in CONTENT_DIRECTORIES:
         directory_path = content_root / directory_name
@@ -50,9 +60,11 @@ def build_content_registry(
         )
         if expected_entity_type == "animal":
             animal_definitions.extend(definitions)
+        if expected_entity_type == "attack_method":
+            attack_method_definitions.extend(definitions)
         if expected_entity_type == "habitat":
             habitat_definitions.extend(definitions)
-        if expected_entity_type == "producer":
+        if expected_entity_type in ("producer", "colony"):
             producer_definitions.extend(definitions)
         if expected_entity_type == "region":
             region_definitions.extend(definitions)
@@ -60,6 +72,8 @@ def build_content_registry(
             resource_definitions.extend(definitions)
         if expected_entity_type == "taxon":
             taxon_definitions.extend(definitions)
+        if expected_entity_type == "temperament":
+            temperament_definitions.extend(definitions)
         if expected_entity_type == "trait":
             trait_definitions.extend(definitions)
         registry.register_all(definitions)
@@ -92,8 +106,14 @@ def build_content_registry(
         animal_definitions,
         taxon_definitions,
     )
+    validate_animal_temperament_references(
+        animal_definitions,
+        temperament_definitions,
+    )
     validate_animal_trait_references(
         animal_definitions,
         trait_definitions,
     )
+    validate_animal_prey_references(animal_definitions)
+    validate_animal_attack_method_references(animal_definitions, attack_method_definitions)
     return registry

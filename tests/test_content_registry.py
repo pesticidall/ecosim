@@ -4,6 +4,19 @@ from core.content_registry import ContentRegistry
 
 
 class TestContentRegistry(unittest.TestCase):
+    def test_type_snapshot_is_filtered_and_sorted_by_id(self) -> None:
+        registry = ContentRegistry()
+        registry.register_all([
+            {"id": "z", "entity_type": "trait"},
+            {"id": "other", "entity_type": "animal"},
+            {"id": "a", "entity_type": "trait"},
+        ])
+        snapshot = registry.definitions_of_type("trait")
+        self.assertEqual(tuple(item["id"] for item in snapshot), ("a", "z"))
+        registry.register({"id": "b", "entity_type": "trait"})
+        self.assertEqual(len(snapshot), 2)
+        self.assertEqual(registry.definitions_of_type("weather"), ())
+
     def test_registers_and_retrieves_definition(self) -> None:
         registry = ContentRegistry()
         definition = {

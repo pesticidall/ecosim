@@ -1,7 +1,7 @@
 {
     "entity_type": "producer",
     "id": "umbrella_thorn",
-    "name": "Umbrella Thorn",
+    "name": "Umbrella Tree",
     "preferred_habitat_ids": [
         "acacia_scrub"
     ],

@@ -32,3 +32,10 @@ class ContentRegistry:
     ) -> dict[str, Any]:
         """Return the definition registered under an entity ID."""
         return self._definitions[entity_id]
+
+    def definitions_of_type(self, entity_type: str) -> tuple[dict[str, Any], ...]:
+        """Return a stable snapshot of definitions of one entity type."""
+        return tuple(
+            definition for _, definition in sorted(self._definitions.items())
+            if definition.get("entity_type") == entity_type
+        )

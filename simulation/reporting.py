@@ -7,6 +7,7 @@ from textwrap import (
 )
 
 from core.content_registry import ContentRegistry
+from simulation.group_hunting import GroupHuntResult
 from simulation.calendar import (
     ActivityPhase,
     days_in_month,
@@ -194,9 +195,54 @@ def format_starting_report(
             )
     return "\n".join(lines)
 
+def format_hunt_details(attempt, registry: ContentRegistry) -> str:
+    """Explain stage decisions using retained scores, probabilities, and rolls."""
+    prey_id = attempt.prey_selection.selected_animal_id
+    lines = [f"{registry.get(attempt.predator_id)['name']} → {registry.get(prey_id)['name']}"]
+    approach = attempt.hunt.approach
+    if isinstance(attempt.hunt, GroupHuntResult):
+        contact = attempt.hunt
+        lines.append(
+            f"Participants: {contact.hunter_change.before.group.member_count} hunters; "
+            f"{contact.prey_change.before.group.member_count} defenders."
+        )
+    else:
+        contact = attempt.hunt.contact
+    for label, stage, first, second, probability, roll, success in (
+        ("Detection", approach.detection, "effective_perception", "effective_stealth", "detection_probability", "detection_roll", "detected"),
+        ("Chase", approach.chase, "predator_mobility", "prey_escape_mobility", "catch_probability", "chase_roll", "caught"),
+        ("Attack", approach.attack, "effective_power", "effective_defense", "hit_probability", "attack_roll", "hit"),
+        ("Counterattack", contact.counterattack, "effective_power", "effective_defense", "hit_probability", "attack_roll", "hit"),
+        ("Detention", contact.detention, "effective_restraint", "effective_escape", "detention_probability", "detention_roll", "detained"),
+    ):
+        if label == "Chase" and approach.stalking is not None:
+            stalking = approach.stalking
+            lines.append(f"Concealed approach: {'unnoticed' if stalking.unnoticed else 'noticed'}; "
+                         f"cover {stalking.scores.cover:.2f}; concealment {stalking.scores.concealment:.2f} vs "
+                         f"awareness {stalking.scores.awareness:.2f}; chance {stalking.unnoticed_probability:.1%}; "
+                         f"roll {stalking.roll if stalking.roll is not None else 'none'}; "
+                         f"escape multiplier {stalking.escape_multiplier:.3f}.")
+        if stage is None:
+            lines.append(f"{label}: not attempted.")
+            continue
+        roll_value = getattr(stage, roll)
+        roll_text = format_resource_amount(roll_value) if roll_value is not None else "none"
+        lines.append(
+            f"{label}: {'succeeded' if getattr(stage, success) else 'failed'}; "
+            f"scores {format_resource_amount(getattr(stage.scores, first))} vs "
+            f"{format_resource_amount(getattr(stage.scores, second))}; "
+            f"chance {getattr(stage, probability):.1%}; roll {roll_text}."
+        )
+    if contact.response is not None:
+        lines.append(f"Prey response: {contact.response.selected_action_id}.")
+    lines.append(f"Outcome: {attempt.hunt.outcome.status.value.replace('_', ' ')}.")
+    return "\n".join(lines)
+
+
 def format_cycle_report(
     cycle_result: CycleResult,
     registry: ContentRegistry,
+    include_hunt_details: bool = False,
 ) -> str:
     """Describe one cycle's activity, resource flow, populations, and events."""
     lines = [
@@ -245,8 +291,62 @@ def format_cycle_report(
                 for resource_id, amount in feeding_result.resource_consumption.items():
                     resource_definition = registry.get(resource_id)
                     resource_name = resource_definition["name"]
-                    unit = resource_definition["unit"]
+                    unit = "kg" if resource_definition.get("entity_type") == "animal" else resource_definition["unit"]
                     lines.append(format_report_row(resource_name, f"{format_resource_amount(amount)} {unit}"))
+        hunt_lines: list[str] = []
+        for habitat_id, local_rounds in sorted(region_result.hunting_rounds.items()):
+            for predator_id, hunting_round in sorted(local_rounds.items()):
+                if not hunting_round.attempts:
+                    continue
+                outcomes: dict[str, int] = {}
+                for attempt in hunting_round.attempts:
+                    status = attempt.hunt.outcome.status.value.replace('_', ' ')
+                    outcomes[status] = outcomes.get(status, 0) + 1
+                counts = ", ".join(f"{count} {status}" for status, count in sorted(outcomes.items()))
+                hunt_lines.append(f"{registry.get(habitat_id)['name']} / {registry.get(predator_id)['name']}: {counts}.")
+                if include_hunt_details:
+                    hunt_lines.extend(format_hunt_details(attempt, registry) for attempt in hunting_round.attempts)
+        if hunt_lines:
+            lines.extend(["", "HUNTING", *hunt_lines])
+        scavenging_lines = []
+        for habitat_id, local_results in sorted(region_result.scavenging_results.items()):
+            for animal_id, result in sorted(local_results.items()):
+                if result.requested_biomass_kg > 0:
+                    scavenging_lines.append(
+                        f"{registry.get(habitat_id)['name']} / {registry.get(animal_id)['name']}: "
+                        f"{format_resource_amount(result.consumed_biomass_kg)} kg scavenged "
+                        f"of {format_resource_amount(result.requested_biomass_kg)} kg requested."
+                    )
+        if scavenging_lines:
+            lines.extend(["", "SCAVENGING", *scavenging_lines])
+        carrion_lines = []
+        for habitat_id in sorted(region_result.ending_carrion.keys() | region_result.carrion_decay_results.keys()):
+            deposits = region_result.ending_carrion.get(habitat_id, ())
+            remaining = sum(deposit.available_biomass_kg for deposit in deposits)
+            reserved = sum(deposit.available_biomass_kg for deposit in deposits
+                           if deposit.first_access_consumer_id is not None)
+            decayed = sum(record.decayed_biomass_kg for record in region_result.carrion_decay_results.get(habitat_id, ()))
+            if remaining > 0 or decayed > 0:
+                carrion_lines.append(
+                    f"{registry.get(habitat_id)['name']}: {format_resource_amount(remaining)} kg remaining; "
+                    f"{format_resource_amount(reserved)} kg reserved; {format_resource_amount(decayed)} kg decayed."
+                )
+        if carrion_lines:
+            lines.extend(["", "CARRION", *carrion_lines])
+        injury_lines = []
+        for habitat_id, local_cohorts in sorted(region_result.ending_injury_cohorts.items()):
+            for animal_id, cohorts in sorted(local_cohorts.items()):
+                injured = sum(cohort.count for cohort in cohorts)
+                records = sum(cohort.count * len(cohort.injuries) for cohort in cohorts)
+                if injured:
+                    animal_label = "animal" if injured == 1 else "animals"
+                    record_label = "record" if records == 1 else "records"
+                    injury_lines.append(
+                        f"{registry.get(habitat_id)['name']} / {registry.get(animal_id)['name']}: "
+                        f"{injured} injured {animal_label}; {records} injury {record_label}."
+                    )
+        if injury_lines:
+            lines.extend(["", "INJURIES", *injury_lines])
         shortage_lines: list[str] = []
         for animal_id, feeding_result in region_result.feeding_results.items():
             if feeding_result.nutrition_ratio < 1.0:
@@ -266,13 +366,18 @@ def format_cycle_report(
         animal_ids = sorted(
             region_result.births.keys()
             | region_result.starvation_deaths.keys()
+            | region_result.predation_deaths.keys()
             | region_result.starting_animal_populations.keys()
             | region_result.ending_animal_populations.keys()
         )
         for animal_id in animal_ids:
             births = region_result.births.get(animal_id, 0)
             deaths = region_result.starvation_deaths.get(animal_id, 0)
+            predation_deaths = region_result.predation_deaths.get(animal_id, 0)
             changes: list[str] = []
+            if predation_deaths > 0:
+                label = "death" if predation_deaths == 1 else "deaths"
+                changes.append(f"-{predation_deaths} predation {label}")
             if births > 0:
                 births_label = "birth" if births == 1 else "births"
                 changes.append(f"+{births} {births_label}")
@@ -350,6 +455,8 @@ def format_cycle_report(
                 )
         event_lines: list[str] = []
         for resource_id, consumed_amount in total_consumption.items():
+            if registry.get(resource_id).get("entity_type") == "animal":
+                continue
             produced_amount = region_result.production_changes.get(
                 resource_id, 0.0
             )

@@ -1,0 +1,88 @@
+{
+    "entity_type": "animal",
+    "id": "white_backed_vulture",
+    "name": "White-backed Vulture",
+    "description": "Provisional Playtest B gameplay values; explicit diets define feeding behavior.",
+    "taxon_id": "gyps",
+    "body_size_category": "small",
+    "typical_adult_mass_kg": 5,
+    "statistics": {
+        "power": 2,
+        "defense": 3,
+        "health": 5,
+        "mobility": 5,
+        "perception": 9,
+        "stealth": 2,
+        "intelligence": 4
+    },
+    "diet_type": "carnivore",
+    "activity_pattern": "diurnal",
+    "primary_movement_mode": "terrestrial",
+    "available_movement_modes": [
+        "terrestrial",
+        "flight"
+    ],
+    "preferred_habitat_ids": [
+        "open_grassland",
+        "rocky_outcrop"
+    ],
+    "food_requirement_per_animal_per_cycle": 8,
+    "birth_rate_per_animal_per_cycle": 0.01,
+    "diet": [
+        {
+            "resource_id": "carnivore_feed",
+            "preference": 1.0
+        }
+    ],
+    "scavenging_diet": [
+        {
+            "animal_id": "warthog",
+            "preference": 1.0
+        },
+        {
+            "animal_id": "aardwolf",
+            "preference": 1.0
+        },
+        {
+            "animal_id": "helmeted_guineafowl",
+            "preference": 1.0
+        },
+        {
+            "animal_id": "black_backed_jackal",
+            "preference": 1.0
+        },
+        {
+            "animal_id": "caracal",
+            "preference": 1.0
+        },
+        {
+            "animal_id": "brown_hyena",
+            "preference": 1.0
+        },
+        {
+            "animal_id": "white_backed_vulture",
+            "preference": 1.0
+        },
+        {
+            "animal_id": "scrub_hare",
+            "preference": 1.0
+        },
+        {
+            "animal_id": "springbok",
+            "preference": 1.0
+        },
+        {
+            "animal_id": "bushbuck",
+            "preference": 1.0
+        }
+    ],
+    "flight_capabilities": [
+        "powered",
+        "soaring"
+    ],
+    "nutrition": {
+        "reserve_days": 3.0,
+        "starvation_grace_days": 7.0,
+        "recovery_per_fed_day": 1.0
+    }
+}

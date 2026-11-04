@@ -31,17 +31,34 @@ class Month(IntEnum):
 
 @dataclass
 class CalendarState:
-    """Track the month and year that the next cycle will simulate."""
+    """Track the next unresolved calendar date."""
 
     year: int = 1
     month: Month = Month.JANUARY
+    day: int = 1
+
+    def __post_init__(self) -> None:
+        """Require the initial day to exist in the selected month."""
+        if isinstance(self.day, bool) or not isinstance(self.day, int):
+            raise TypeError("Calendar day must be an integer.")
+        if not 1 <= self.day <= days_in_month(self.year, self.month):
+            raise ValueError("Calendar day must exist in the selected month.")
+
+    def advance_day(self) -> None:
+        """Mark one date complete and move to the next calendar day."""
+        if self.day == days_in_month(self.year, self.month):
+            self.advance_month()
+        else:
+            self.day += 1
+
     def advance_month(self) -> None:
-        """Advance to the next month and roll December into a new year."""
+        """Move to the first day of next month, rolling over the year."""
         if self.month is Month.DECEMBER:
             self.month = Month.JANUARY
             self.year += 1
         else:
             self.month = Month(self.month.value + 1)
+        self.day = 1
 MONTH_LENGTHS = (
     31,
     28,

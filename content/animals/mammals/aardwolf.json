@@ -1,0 +1,26 @@
+{
+    "entity_type": "animal",
+    "id": "aardwolf",
+    "name": "Aardwolf",
+    "description": "A termite specialist. Generic supplementary meat and plant feed do not satisfy its explicit diet. Values are provisional Playtest B balance targets.",
+    "taxon_id": "proteles",
+    "body_size_category": "small",
+    "typical_adult_mass_kg": 8.0,
+    "statistics": {
+        "power": 2.0,
+        "defense": 3.0,
+        "health": 5.0,
+        "mobility": 5.0,
+        "perception": 6.0,
+        "stealth": 6.0,
+        "intelligence": 4.0
+    },
+    "diet_type": "insectivore",
+    "activity_pattern": "nocturnal",
+    "primary_movement_mode": "terrestrial",
+    "available_movement_modes": ["terrestrial"],
+    "preferred_habitat_ids": ["open_grassland", "acacia_scrub"],
+    "food_requirement_per_animal_per_cycle": 10.0,
+    "birth_rate_per_animal_per_cycle": 0.05,
+    "diet": [{"resource_id": "termites", "preference": 1.0}]
+}

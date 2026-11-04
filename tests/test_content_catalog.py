@@ -6,6 +6,163 @@ from core.content_catalog import build_content_registry
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 class TestContentCatalog(unittest.TestCase):
+    def test_loads_real_grapple_attack_method(self) -> None:
+        registry = build_content_registry(PROJECT_ROOT / "content")
+
+        self.assertEqual(
+            registry.get("grapple"),
+            {
+                "entity_type": "attack_method",
+                "id": "grapple",
+                "name": "Grapple",
+                "description": (
+                    "Uses the limbs and body to grip or restrain prey."
+                ),
+                "trauma_modifier": 1.0,
+                "trait_effect_target": "grapple_effectiveness",
+            },
+        )
+    def test_loads_real_bite_attack_method(self) -> None:
+        registry = build_content_registry(PROJECT_ROOT / "content")
+
+        self.assertEqual(
+            registry.get("bite"),
+            {
+                "entity_type": "attack_method",
+                "id": "bite",
+                "name": "Bite",
+                "description": (
+                    "Uses the jaws and teeth to injure or restrain prey."
+                ),
+                "trauma_modifier": 1.0,
+                "trait_effect_target": "bite_effectiveness",
+            },
+        )
+    def test_loads_attack_method_definitions_into_registry(self) -> None:
+        from unittest.mock import patch
+
+        definition = {
+            "entity_type": "attack_method",
+            "id": "bite",
+            "name": "Bite",
+            "description": "Uses the jaws and teeth.",
+            "trauma_modifier": 1.0,
+            "trait_effect_target": "bite_effectiveness",
+        }
+
+        def load_test_definitions(
+            directory_path: Path,
+            expected_entity_type: str | None = None,
+        ) -> list[dict]:
+            if expected_entity_type == "attack_method":
+                self.assertEqual(
+                    directory_path,
+                    Path("content") / "attack_methods",
+                )
+                return [definition]
+            return []
+
+        with patch(
+            "core.content_catalog."
+            "load_entity_definitions_from_directory",
+            side_effect=load_test_definitions,
+        ):
+            registry = build_content_registry(Path("content"))
+
+        self.assertEqual(registry.get("bite"), definition)
+
+    def test_loads_temperament_definitions_into_registry(self) -> None:
+        from unittest.mock import patch
+
+        def load_test_definitions(
+            directory_path: Path,
+            expected_entity_type: str | None = None,
+        ) -> list[dict]:
+            if expected_entity_type == "temperament":
+                return [
+                    {
+                        "entity_type": "temperament",
+                        "id": "skittish",
+                        "name": "Skittish",
+                        "description": (
+                            "Favors escape while retaining defensive "
+                            "options."
+                        ),
+                        "action_weights": {
+                            "escape": 1.4,
+                            "counterattack": 0.7,
+                        },
+                    },
+                ]
+            return []
+
+        with patch(
+            "core.content_catalog."
+            "load_entity_definitions_from_directory",
+            side_effect=load_test_definitions,
+        ):
+            registry = build_content_registry(Path("content"))
+
+        self.assertEqual(
+            registry.get("skittish")["entity_type"],
+            "temperament",
+        )
+
+    def test_rejects_animal_with_unknown_temperament(self) -> None:
+        from unittest.mock import patch
+
+        def load_test_definitions(
+            directory_path: Path,
+            expected_entity_type: str | None = None,
+        ) -> list[dict]:
+            if expected_entity_type == "taxon":
+                return [
+                    {
+                        "entity_type": "taxon",
+                        "id": "animalia",
+                        "name": "Animalia",
+                        "rank": "kingdom",
+                        "parent_taxon_id": None,
+                    },
+                ]
+            if expected_entity_type == "temperament":
+                return [
+                    {
+                        "entity_type": "temperament",
+                        "id": "skittish",
+                        "name": "Skittish",
+                        "description": "Favors escape over confrontation.",
+                        "action_weights": {
+                            "escape": 1.4,
+                            "counterattack": 0.7,
+                        },
+                    },
+                ]
+            if expected_entity_type == "animal":
+                return [
+                    {
+                        "entity_type": "animal",
+                        "id": "scrub_hare",
+                        "name": "Scrub Hare",
+                        "taxon_id": "animalia",
+                        "temperament_id": "bold",
+                    },
+                ]
+            return []
+
+        with (
+            patch(
+                "core.content_catalog."
+                "load_entity_definitions_from_directory",
+                side_effect=load_test_definitions,
+            ),
+            self.assertRaisesRegex(
+                ValueError,
+                r"scrub_hare.*unknown temperament.*bold",
+            ),
+        ):
+            build_content_registry(Path("content"))
+
     def test_builds_registry_from_all_content_directories(self) -> None:
         content_root = PROJECT_ROOT / "content"
         registry = build_content_registry(content_root)
@@ -864,6 +1021,7 @@ class TestContentCatalog(unittest.TestCase):
                         "flight_capabilities",
                         animal_definition,
                     )
+
 
 if __name__ == "__main__":
     unittest.main()

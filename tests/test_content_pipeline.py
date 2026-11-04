@@ -28,7 +28,7 @@ class TestContentPipeline(unittest.TestCase):
         )
         self.assertEqual(
             redgrass_definition["name"],
-            "Redgrass",
+            "Red Grass",
         )
         self.assertEqual(
             redgrass_definition["production"],
@@ -62,7 +62,7 @@ class TestContentPipeline(unittest.TestCase):
         )
         self.assertEqual(
             umbrella_thorn_definition["name"],
-            "Umbrella Thorn",
+            "Umbrella Tree",
         )
         self.assertEqual(
             umbrella_thorn_definition["preferred_habitat_ids"],

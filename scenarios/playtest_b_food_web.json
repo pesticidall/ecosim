@@ -1,0 +1,38 @@
+{
+    "scenario_id": "playtest_b_food_web",
+    "name": "Playtest B \u2014 Food Web",
+    "description": "Provisional full-roster trial for longer runs: group-capable jackals and solitary caracals hunt hares and guineafowl; hyenas and vultures compete for unreserved carrion. Termite colonies support aardwolves. Plants supply ordinary resources. No survival guarantees or balanced outcome is assumed. Cover and shade remain habitat-level conditions.",
+    "random_seed": 104729,
+    "regions": [
+        {
+            "definition_id": "redgrass_savanna",
+            "active_weather_id": "seasonal_rain",
+            "animal_populations": {
+                "warthog": 8,
+                "aardwolf": 4,
+                "helmeted_guineafowl": 40,
+                "black_backed_jackal": 4,
+                "caracal": 2,
+                "brown_hyena": 2,
+                "white_backed_vulture": 3,
+                "scrub_hare": 60
+            },
+            "producer_populations": {
+                "redgrass": 500,
+                "sandpaper_raisin": 100,
+                "umbrella_thorn": 60
+            },
+            "colony_populations": {
+                "termite_colony": 60
+            },
+            "resource_quantities": {
+                "grass_forage": 100.0,
+                "seeds": 20.0,
+                "leaves_browse": 100.0,
+                "fruit": 20.0,
+                "seed_pods": 20.0,
+                "termites": 10.0
+            }
+        }
+    ]
+}

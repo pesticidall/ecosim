@@ -31,6 +31,27 @@ def _produce_resources(
     days: int,
 ) -> dict[str, float]:
     """Add producer output to one spatial resource collection."""
+    entries = [
+        (population, entry)
+        for producer_id, population in producer_populations.items()
+        for entry in registry.get(producer_id)["production"]
+    ]
+    if any("standing_capacity_per_producer" in entry for _, entry in entries):
+        bounded, unbounded, capacities = {}, {}, {}
+        for population, entry in entries:
+            resource = entry["resource_id"]
+            output = population * entry["amount_per_producer_per_day"] * production_multiplier * days
+            target = bounded if "standing_capacity_per_producer" in entry else unbounded
+            target[resource] = target.get(resource, 0.0) + output
+            if "standing_capacity_per_producer" in entry:
+                capacities[resource] = capacities.get(resource, 0.0) + population * entry["standing_capacity_per_producer"]
+        changes = {}
+        for resource in dict.fromkeys(entry["resource_id"] for _, entry in entries):
+            existing = resource_quantities.get(resource, 0.0)
+            growth = min(bounded.get(resource, 0.0), max(0.0, capacities.get(resource, 0.0) - existing))
+            changes[resource] = growth + unbounded.get(resource, 0.0)
+            resource_quantities[resource] = existing + changes[resource]
+        return changes
     production_changes: dict[str, float] = {}
     for producer_id, population in producer_populations.items():
         production_definition = registry.get(producer_id)
@@ -99,7 +120,7 @@ def apply_producer_production(
         )
     if not region_state.habitats:
         return _produce_resources(
-            region_state.producer_populations,
+            region_state.producer_populations | region_state.colony_populations,
             region_state.resource_quantities,
             registry,
             production_multiplier,
@@ -109,7 +130,7 @@ def apply_producer_production(
     regional_changes: dict[str, float] = {}
     for habitat_state in region_state.habitats.values():
         habitat_changes = _produce_resources(
-            habitat_state.producer_populations,
+            habitat_state.producer_populations | habitat_state.colony_populations,
             habitat_state.resource_quantities,
             registry,
             production_multiplier,

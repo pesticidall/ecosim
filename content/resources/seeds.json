@@ -3,5 +3,6 @@
     "id": "seeds",
     "name": "Seeds",
     "quantity_type": "biomass",
-    "unit": "kg"
+    "unit": "kg",
+    "supplementary_feed_type": "herbivore"
 }

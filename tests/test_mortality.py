@@ -9,6 +9,25 @@ from simulation.world_state import RegionState
 
 
 class TestStarvationMortality(unittest.TestCase):
+    def test_starvation_updates_persistent_injury_counts_with_population(self) -> None:
+        from simulation.condition_cohorts import InjuryCohort, healthy_population
+        from simulation.injuries import create_injury_from_trauma
+        from simulation.world_state import HabitatState
+
+        injury = create_injury_from_trauma("attack", 4.0)
+        for nutrition, survivors in ((1.0, 4), (0.5, 2), (0.0, 0)):
+            with self.subTest(nutrition=nutrition):
+                habitat = HabitatState("local", animal_populations={"prey": 4},
+                                       injury_cohorts={"prey": (InjuryCohort((injury,), 4),)})
+                region = RegionState("region", habitats={"local": habitat},
+                                     animal_populations={"prey": 4})
+                feeding = {"prey": PopulationFeedingResult(4.0, 4.0 * nutrition, nutrition, {})}
+                deaths = apply_starvation_mortality(region, feeding, {"local": feeding})
+                self.assertEqual(deaths["prey"], 4 - survivors)
+                self.assertEqual(region.animal_populations["prey"], survivors)
+                self.assertEqual(habitat.animal_populations["prey"], survivors)
+                self.assertEqual(sum(c.count for c in habitat.injury_cohorts["prey"]), survivors)
+                self.assertEqual(healthy_population(survivors, habitat.injury_cohorts["prey"]), 0)
     def test_calculates_deaths_from_missing_nutrition(self) -> None:
         starvation_deaths = calculate_starvation_deaths(
             population=20,

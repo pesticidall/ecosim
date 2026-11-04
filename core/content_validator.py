@@ -46,6 +46,11 @@ REQUIRED_TRAIT_EFFECT_FIELDS = (
     "target",
     "modifier",
 )
+REQUIRED_ATTACK_METHOD_FIELDS = (
+    "description",
+    "trauma_modifier",
+    "trait_effect_target",
+)
 SUPPORTED_TRAIT_EFFECT_TARGETS = frozenset(
     {
         "detection",
@@ -56,6 +61,12 @@ SUPPORTED_TRAIT_EFFECT_TARGETS = frozenset(
         "restraint_resistance",
         "bite_effectiveness",
         "grapple_effectiveness",
+    }
+)
+SUPPORTED_ACTION_IDS = frozenset(
+    {
+        "counterattack",
+        "escape",
     }
 )
 SUPPORTED_TAXONOMIC_RANKS = frozenset(
@@ -95,8 +106,10 @@ REQUIRED_ANIMAL_DIET_ENTRY_FIELDS = (
 SUPPORTED_ENTITY_TYPES = frozenset(
     {
         "animal",
+        "attack_method",
         "habitat",
         "producer",
+        "colony",
         "region",
         "resource",
         "taxon",
@@ -112,6 +125,8 @@ SUPPORTED_ANIMAL_DIET_TYPES = frozenset(
     {
         "herbivore",
         "omnivore",
+        "insectivore",
+        "carnivore",
     }
 )
 SUPPORTED_ANIMAL_ACTIVITY_PATTERNS = frozenset(
@@ -197,6 +212,34 @@ def _validate_preferred_habitat_ids(
         seen_habitat_ids.add(habitat_id)
 
 
+def _validate_prey_diet(definition: dict[str, Any], source_path: Path, field: str = "prey_diet") -> None:
+    """Validate an optional animal-biomass diet separately from resource diets."""
+    if field not in definition:
+        return
+    entries = definition[field]
+    if not isinstance(entries, list):
+        raise TypeError(f"Field '{field}' in '{source_path}' must be a list.")
+    seen: set[str] = set()
+    for entry in entries:
+        if not isinstance(entry, dict):
+            raise TypeError(f"Each {field} entry must be an object.")
+        if "animal_id" not in entry or "preference" not in entry:
+            raise ValueError(f"Each {field} entry requires animal_id and preference.")
+        animal_id = entry["animal_id"]
+        if not isinstance(animal_id, str):
+            raise TypeError(f"{field} animal_id must be a string.")
+        if ENTITY_ID_PATTERN.fullmatch(animal_id) is None:
+            raise ValueError(f"{field} animal_id must use lowercase snake_case.")
+        if animal_id in seen:
+            raise ValueError(f"Duplicate {field} animal_id '{animal_id}'.")
+        seen.add(animal_id)
+        preference = entry["preference"]
+        if isinstance(preference, bool) or not isinstance(preference, (int, float)):
+            raise TypeError(f"{field} preference must be a number.")
+        if not isfinite(preference) or preference <= 0:
+            raise ValueError(f"{field} preference must be finite and greater than zero.")
+
+
 def validate_entity_definition(
         definition: dict[str, Any],
         source_path: Path,
@@ -231,6 +274,62 @@ def validate_entity_definition(
             f"Definition '{source_path}' has unsupported "
             f"entity type '{entity_type}'."
         )
+    if entity_type == "attack_method":
+        missing_attack_method_fields = [
+            field
+            for field in REQUIRED_ATTACK_METHOD_FIELDS
+            if field not in definition
+        ]
+        if missing_attack_method_fields:
+            field_list = ", ".join(missing_attack_method_fields)
+            raise ValueError(
+                f"attack method definition '{source_path}' is missing "
+                f"required field(s): {field_list}."
+            )
+        description = definition["description"]
+        if not isinstance(description, str):
+            raise TypeError(
+                f"Field 'description' in attack method definition "
+                f"'{source_path}' must be a string."
+            )
+        if not description.strip():
+            raise ValueError(
+                f"Field 'description' in attack method definition "
+                f"'{source_path}' must not be empty."
+            )
+        trauma_modifier = definition["trauma_modifier"]
+        if not isinstance(trauma_modifier, (int, float)) or isinstance(trauma_modifier, bool):
+            raise TypeError(
+                f"Field 'trauma_modifier' in attack method definition "
+                f"'{source_path}' must be a number."
+            )
+        if not isfinite(trauma_modifier):
+            raise ValueError(
+                f"Field 'trauma_modifier' in attack method definition "
+                f"'{source_path}' must be finite."
+            )
+        if trauma_modifier <= 0:
+            raise ValueError(
+                f"Field 'trauma_modifier' in attack method definition "
+                f"'{source_path}' must be greater than zero."
+            )
+        trait_effect_target = definition["trait_effect_target"]
+        if not isinstance(trait_effect_target, str):
+            raise TypeError(
+                f"Field 'trait_effect_target' in attack method definition "
+                f"'{source_path}' must be a string."
+            )
+        if not trait_effect_target.strip():
+            raise ValueError(
+                f"Field 'trait_effect_target' in attack method definition "
+                f"'{source_path}' must not be empty."
+            )
+        if trait_effect_target not in SUPPORTED_TRAIT_EFFECT_TARGETS:
+            raise ValueError(
+                f"Field 'trait_effect_target' in attack method definition "
+                f"'{source_path}' contains unsupported value "
+                f"'{trait_effect_target}'."
+            )
     if entity_type == "temperament":
         missing_temperament_fields = [
             field
@@ -261,6 +360,12 @@ def validate_entity_definition(
                 f"'{source_path}' must be an object."
             )
         for action, weight in action_weights.items():
+            if action not in SUPPORTED_ACTION_IDS:
+                raise ValueError(
+                    f"Field 'action_weights' in temperament definition "
+                    f"'{source_path}' contains unsupported action "
+                    f"'{action}'."
+                )
             if isinstance(weight, bool) or not isinstance(
                 weight,
                 (int, float)
@@ -283,6 +388,80 @@ def validate_entity_definition(
                     f"must be greater than zero."
                 )
     if entity_type == "animal":
+        if "growth" in definition:
+            config = definition["growth"]
+            if not isinstance(config, dict) or not {"newborn_mass_fraction", "days_to_adult"} <= set(config) or set(config) - {"newborn_mass_fraction", "days_to_adult", "biomass_gain_per_food_kg", "feeding_model"}:
+                raise ValueError("growth requires newborn_mass_fraction and days_to_adult.")
+            if config.get("feeding_model", "shared") not in ("shared", "separate"):
+                raise ValueError("growth feeding_model must be shared or separate.")
+            fraction, days = config["newborn_mass_fraction"], config["days_to_adult"]
+            if isinstance(fraction, bool) or not isinstance(fraction, (int, float)) or not isfinite(fraction) or not 0 < fraction < 1:
+                raise ValueError("newborn_mass_fraction must be finite and between zero and one exclusive.")
+            if isinstance(days, bool) or not isinstance(days, int) or days <= 0:
+                raise ValueError("days_to_adult must be a positive integer.")
+            efficiency = config.get("biomass_gain_per_food_kg", 0.25)
+            if isinstance(efficiency, bool) or not isinstance(efficiency, (int, float)) or not isfinite(efficiency) or not 0 < efficiency <= 1:
+                raise ValueError("biomass_gain_per_food_kg must be finite, positive and at most one.")
+            mass = definition.get("typical_adult_mass_kg")
+            if isinstance(mass, bool) or not isinstance(mass, (int, float)) or not isfinite(mass) or mass <= 0:
+                raise ValueError("growth requires finite positive typical_adult_mass_kg.")
+        if "reproduction_food_threshold" in definition:
+            value = definition["reproduction_food_threshold"]
+            if isinstance(value, bool) or not isinstance(value, (int, float)) or not isfinite(value) or not 0 <= value < 1:
+                raise ValueError("reproduction_food_threshold must be finite and between zero inclusive and one exclusive.")
+        if "search_budget" in definition:
+            config = definition["search_budget"]
+            if not isinstance(config, dict) or set(config) != {"reference_prey", "max_opportunities"}:
+                raise ValueError("search_budget requires reference_prey and max_opportunities.")
+            reference, maximum = config["reference_prey"], config["max_opportunities"]
+            if isinstance(reference, bool) or not isinstance(reference, (int, float)) or not isfinite(reference) or reference <= 0:
+                raise ValueError("Search reference_prey must be finite and positive.")
+            if isinstance(maximum, bool) or not isinstance(maximum, int) or not 1 <= maximum <= 8:
+                raise ValueError("Search max_opportunities must be an integer between 1 and 8.")
+            if "hunting_attempts_per_animal" in definition:
+                raise ValueError("Choose search_budget or hunting_attempts_per_animal, not both.")
+        if "approach_model" in definition and definition["approach_model"] not in ("none", "concealed"):
+            raise ValueError("Animal approach_model must be none or concealed.")
+        if "encounter_model" in definition and definition["encounter_model"] not in ("preference", "activity_abundance"):
+            raise ValueError("Animal encounter_model must be preference or activity_abundance.")
+        if "hunting_attempts_per_animal" in definition:
+            attempts = definition["hunting_attempts_per_animal"]
+            if isinstance(attempts, bool) or not isinstance(attempts, int):
+                raise TypeError("hunting_attempts_per_animal must be an integer.")
+            if not 1 <= attempts <= 8:
+                raise ValueError("hunting_attempts_per_animal must be between 1 and 8.")
+        if "nutrition" in definition:
+            config = definition["nutrition"]
+            fields = {"reserve_days", "starvation_grace_days", "recovery_per_fed_day"}
+            if not isinstance(config, dict) or not fields <= set(config) or set(config) - fields - {"recovery_requires_food"}:
+                raise ValueError("Animal nutrition requires reserve_days, starvation_grace_days, and recovery_per_fed_day.")
+            for field, value in config.items():
+                if field == "recovery_requires_food":
+                    if not isinstance(value, bool):
+                        raise TypeError("Nutrition recovery_requires_food must be a Boolean.")
+                    continue
+                if isinstance(value, bool) or not isinstance(value, (int, float)):
+                    raise TypeError(f"Nutrition {field} must be numeric.")
+                if not isfinite(value) or value <= 0:
+                    raise ValueError(f"Nutrition {field} must be finite and positive.")
+        _validate_prey_diet(definition, source_path)
+        _validate_prey_diet(definition, source_path, "scavenging_diet")
+        for field in ("max_hunting_group_size", "max_defensive_group_size"):
+            if field not in definition:
+                continue
+            value = definition[field]
+            if isinstance(value, bool) or not isinstance(value, int):
+                raise TypeError(f"Field '{field}' in '{source_path}' must be an integer.")
+            if value <= 0:
+                raise ValueError(f"Field '{field}' in '{source_path}' must be positive.")
+        for field in ("attack_method_id", "counterattack_method_id"):
+            if field not in definition:
+                continue
+            method_id = definition[field]
+            if not isinstance(method_id, str):
+                raise TypeError(f"Field '{field}' in '{source_path}' must be a string.")
+            if ENTITY_ID_PATTERN.fullmatch(method_id) is None:
+                raise ValueError(f"Field '{field}' in '{source_path}' must use lowercase snake_case.")
         missing_animal_fields = [
             field
             for field in REQUIRED_ANIMAL_FIELDS
@@ -294,6 +473,32 @@ def validate_entity_definition(
                 f"Animal definition '{source_path}' is missing "
                 f"required field(s): {field_list}."
             )
+        if (
+            "temperament_id" in definition
+            and "temperament" in definition
+        ):
+            raise ValueError(
+                f"Animal defintion '{source_path}' contains both "
+                "'temperament_id' and 'temperament'; only one "
+                "temperament source may be defined."
+            )
+        if "temperament_id" in definition:
+            temperament_id = definition["temperament_id"]
+            if not isinstance(temperament_id, str):
+                raise TypeError(
+                    f"Field 'temperament_id' in animal definition "
+                    f"'{source_path}' must be a string."
+                )
+            if not temperament_id.strip():
+                raise ValueError(
+                    f"Field 'temperament_id' in animal definition "
+                    f"'{source_path}' must not be empty."
+                )
+            if ENTITY_ID_PATTERN.fullmatch(temperament_id) is None:
+                raise ValueError(
+                    f"Field 'temperament_id' in animal definition "
+                    f"'{source_path}' must use lowercase snake_case."
+                )
         if "temperament" in definition:
             temperament = definition["temperament"]
             if not isinstance(temperament, dict):
@@ -302,6 +507,12 @@ def validate_entity_definition(
                     f"'{source_path}' must be an object."
                 )
             for action, weight in temperament.items():
+                if action not in SUPPORTED_ACTION_IDS:
+                    raise ValueError(
+                        f"Field 'temperament' in animal definition "
+                        f"'{source_path}' contains unsupported action "
+                        f"'{action}'."
+                    )
                 if isinstance(weight, bool) or not isinstance(
                     weight,
                     (int, float)
@@ -880,6 +1091,12 @@ def validate_entity_definition(
                         f"in trait definition '{source_path}' "
                         "must use lowercase snake_case."
                     )
+                if capability not in SUPPORTED_ACTION_IDS:
+                    raise ValueError(
+                        f"Field 'action_capabilities' entry {entry_index} "
+                        f"in trait definition '{source_path}' contains "
+                        f"unsupported action '{capability}'."
+                    )
                 if capability in seen_capabilities:
                     raise ValueError(
                         f"Field 'action_capabilities' in trait definition "
@@ -1093,6 +1310,12 @@ def validate_entity_definition(
                     )
                 seen_default_trait_ids.add(trait_id)
     if entity_type == "habitat":
+        if "carrion_decay_fraction_per_cycle" in definition:
+            fraction = definition["carrion_decay_fraction_per_cycle"]
+            if isinstance(fraction, bool) or not isinstance(fraction, (int, float)):
+                raise TypeError("carrion_decay_fraction_per_cycle must be a number.")
+            if not isfinite(fraction) or not 0.0 <= fraction <= 1.0:
+                raise ValueError("carrion_decay_fraction_per_cycle must be finite and between zero and one.")
         missing_habitat_fields = [
             field
             for field in REQUIRED_HABITAT_FIELDS
@@ -1297,7 +1520,7 @@ def validate_entity_definition(
                     f"id '{habitat_id}'."
                 )
             seen_habitat_ids.add(habitat_id)
-    if entity_type == "producer":
+    if entity_type in ("producer", "colony"):
         _validate_preferred_habitat_ids(definition, source_path)
         missing_producer_fields = [
             field
@@ -1388,7 +1611,21 @@ def validate_entity_definition(
                     f"producer production entry {entry_index} of "
                     f"definition '{source_path}' must be greater than zero."
                 )
+            if "standing_capacity_per_producer" in production_entry:
+                capacity = production_entry["standing_capacity_per_producer"]
+                if isinstance(capacity, bool) or not isinstance(capacity, (int, float)):
+                    raise TypeError("standing_capacity_per_producer must be a number.")
+                if not isfinite(capacity) or capacity <= 0:
+                    raise ValueError("standing_capacity_per_producer must be finite and greater than zero.")
     if entity_type == "resource":
+        if "supplementary_feed_type" in definition:
+            feed_type = definition["supplementary_feed_type"]
+            if not isinstance(feed_type, str):
+                raise TypeError("Resource supplementary_feed_type must be a string.")
+            if feed_type not in ("herbivore", "carnivore"):
+                raise ValueError("Resource supplementary_feed_type must be herbivore or carnivore.")
+            if definition.get("quantity_type") != "biomass" or definition.get("unit") != "kg":
+                raise ValueError("A supplementary_feed_type requires kilogram biomass.")
         missing_resource_fields = [
             field
             for field in REQUIRED_RESOURCE_FIELDS
@@ -1579,3 +1816,5 @@ def validate_entity_definition(
             f"Field 'id' in definition '{source_path}' "
             f"must use lowercase snake_case."
         )
+
+

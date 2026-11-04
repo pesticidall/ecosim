@@ -1,0 +1,68 @@
+{
+    "entity_type": "animal",
+    "id": "caracal",
+    "name": "Caracal",
+    "description": "Provisional Playtest B gameplay values; explicit diets define feeding behavior.",
+    "taxon_id": "caracal_genus",
+    "body_size_category": "small",
+    "typical_adult_mass_kg": 12,
+    "statistics": {
+        "power": 7,
+        "defense": 5,
+        "health": 6,
+        "mobility": 8,
+        "perception": 8,
+        "stealth": 8,
+        "intelligence": 6
+    },
+    "diet_type": "carnivore",
+    "activity_pattern": "nocturnal",
+    "primary_movement_mode": "terrestrial",
+    "available_movement_modes": [
+        "terrestrial"
+    ],
+    "preferred_habitat_ids": [
+        "open_grassland",
+        "acacia_scrub"
+    ],
+    "food_requirement_per_animal_per_cycle": 18,
+    "birth_rate_per_animal_per_cycle": 0.03,
+    "diet": [
+        {
+            "resource_id": "carnivore_feed",
+            "preference": 1.0
+        }
+    ],
+    "attack_method_id": "bite",
+    "prey_diet": [
+        {
+            "animal_id": "scrub_hare",
+            "preference": 1.0
+        },
+        {
+            "animal_id": "helmeted_guineafowl",
+            "preference": 1.0
+        }
+    ],
+    "nutrition": {
+        "reserve_days": 3.0,
+        "starvation_grace_days": 7.0,
+        "recovery_per_fed_day": 1.0
+    },
+    "scavenging_diet": [
+        {
+            "animal_id": "scrub_hare",
+            "preference": 1.0
+        },
+        {
+            "animal_id": "helmeted_guineafowl",
+            "preference": 1.0
+        }
+    ],
+    "encounter_model": "activity_abundance",
+    "approach_model": "concealed",
+    "search_budget": {
+        "reference_prey": 60.0,
+        "max_opportunities": 4
+    }
+}

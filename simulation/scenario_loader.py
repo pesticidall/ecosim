@@ -81,8 +81,19 @@ def load_scenario(
                 habitat_states[
                     habitat_id
                 ].producer_populations[producer_id] = population
+        colonies = dict(region_data.get("colony_populations", {}))
+        for colony_id, count in colonies.items():
+            if isinstance(count, bool) or not isinstance(count, int) or count < 0:
+                raise ValueError("Colony population must be a nonnegative integer.")
+            if registry is not None:
+                definition = registry.get(colony_id)
+                if definition["entity_type"] != "colony":
+                    raise ValueError("Colony populations require colony definitions.")
+                habitat_id = select_initial_habitat_id(definition, region_definition)
+                habitat_states[habitat_id].colony_populations[colony_id] = count
         region_state = RegionState(
             definition_id=region_data["definition_id"],
+            colony_populations=colonies,
             active_weather_id=region_data["active_weather_id"],
             weather_weights=weather_weights,
             habitats=habitat_states,
@@ -99,9 +110,7 @@ def load_scenario(
         if registry is not None:
             producer_definitions = {
                 producer_id: registry.get(producer_id)
-                for producer_id in region_data[
-                    "producer_populations"
-                ]
+                for producer_id in (region_data["producer_populations"].keys() | colonies.keys())
             }
             for resource_id, quantity in region_data[
                 "resource_quantities"

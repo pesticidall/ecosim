@@ -1,0 +1,8 @@
+{
+    "entity_type": "resource",
+    "id": "carnivore_feed",
+    "name": "Carnivore Feed",
+    "quantity_type": "biomass",
+    "unit": "kg",
+    "supplementary_feed_type": "carnivore"
+}

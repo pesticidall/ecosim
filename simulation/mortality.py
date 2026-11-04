@@ -1,5 +1,6 @@
 from simulation.feeding import PopulationFeedingResult
 from simulation.world_state import RegionState
+from simulation.condition_cohorts import cohorts_after_population_loss
 
 
 def calculate_starvation_deaths(
@@ -50,9 +51,14 @@ def apply_starvation_mortality(
                     population,
                     feeding_result.nutrition_ratio,
                 )
+                cohorts = cohorts_after_population_loss(
+                    population, habitat_state.injury_cohorts.get(animal_id, ()), deaths,
+                )
                 habitat_state.animal_populations[animal_id] = (
                     population - deaths
                 )
+                if animal_id in habitat_state.injury_cohorts:
+                    habitat_state.injury_cohorts[animal_id] = cohorts
                 starvation_deaths[animal_id] = (
                     starvation_deaths.get(animal_id, 0)
                     + deaths

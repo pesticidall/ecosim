@@ -3731,6 +3731,68 @@ class TestValidateEntityDefinition(unittest.TestCase):
         ):
             validate_entity_definition(definition, source_path)
 
+    def test_rejects_invalid_animal_temperament_id(self) -> None:
+        cases = (
+            (42, TypeError, r"temperament_id.*must be a string"),
+            ("", ValueError, r"temperament_id.*must not be empty"),
+            (
+                "Skittish Profile",
+                ValueError,
+                r"temperament_id.*lowercase snake_case",
+            ),
+        )
+        for temperament_id, error_type, message in cases:
+            with self.subTest(temperament_id=temperament_id):
+                definition = {
+                    "entity_type": "animal",
+                    "id": "test_animal",
+                    "name": "Test Animal",
+                    "diet_type": "herbivore",
+                    "food_requirement_per_animal_per_cycle": 1.0,
+                    "birth_rate_per_animal_per_cycle": 0.1,
+                    "diet": [
+                        {
+                            "resource_id": "grass_forage",
+                            "preference": 1.0,
+                        },
+                    ],
+                    "temperament_id": temperament_id,
+                }
+                source_path = Path("content/animals/test_animal.json")
+
+                with self.assertRaisesRegex(error_type, message):
+                    validate_entity_definition(definition, source_path)
+
+    def test_rejects_animal_with_two_temperament_sources(
+        self,
+    ) -> None:
+        definition = {
+            "entity_type": "animal",
+            "id": "test_animal",
+            "name": "Test Animal",
+            "diet_type": "herbivore",
+            "food_requirement_per_animal_per_cycle": 1.0,
+            "birth_rate_per_animal_per_cycle": 0.1,
+            "diet": [
+                {
+                    "resource_id": "grass_forage",
+                    "preference": 1.0,
+                },
+            ],
+            "temperament_id": "skittish",
+            "temperament": {
+                "escape": 1.4,
+                "counterattack": 0.7,
+            },
+        }
+        source_path = Path("content/animals/test_animal.json")
+
+        with self.assertRaisesRegex(
+            ValueError,
+            r"temperament_id.*temperament.*only one",
+        ):
+            validate_entity_definition(definition, source_path)
+
     def test_rejects_nonobject_animal_temperament(self) -> None:
         definition = {
             "entity_type": "animal",
@@ -3848,6 +3910,29 @@ class TestValidateEntityDefinition(unittest.TestCase):
 
         validate_entity_definition(definition, source_path)
 
+    def test_rejects_unsupported_temperament_action_name(
+        self,
+    ) -> None:
+        definition = {
+            "entity_type": "temperament",
+            "id": "skittish",
+            "name": "Skittish",
+            "description": (
+                "Favors escape while retaining defensive options."
+            ),
+            "action_weights": {
+                "escape": 1.4,
+                "counter_attack": 0.7,
+            },
+        }
+        source_path = Path("content/temperaments/skittish.json")
+
+        with self.assertRaisesRegex(
+            ValueError,
+            r"action_weights.*unsupported action.*counter_attack",
+        ):
+            validate_entity_definition(definition, source_path)
+
     def test_rejects_missing_temperament_fields(self) -> None:
         for missing_field in ("description", "action_weights"):
             with self.subTest(missing_field=missing_field):
@@ -3936,6 +4021,127 @@ class TestValidateEntityDefinition(unittest.TestCase):
                     rf"action_weights.*escape.*{message}",
                 ):
                     validate_entity_definition(definition, source_path)
+
+    def test_rejects_attack_method_missing_required_field(
+        self,
+    ) -> None:
+        valid_definition = {
+            "entity_type": "attack_method",
+            "id": "bite",
+            "name": "Bite",
+            "description": (
+                "Uses the jaws and teeth to injure or restrain prey."
+            ),
+            "trauma_modifier": 1.0,
+            "trait_effect_target": "bite_effectiveness",
+        }
+
+        for missing_field in (
+            "description",
+            "trauma_modifier",
+            "trait_effect_target",
+        ):
+            with (
+                self.subTest(missing_field=missing_field),
+                self.assertRaisesRegex(
+                    ValueError,
+                    rf"attack method.*missing required.*{missing_field}",
+                ),
+            ):
+                incomplete_definition = valid_definition.copy()
+                incomplete_definition.pop(missing_field)
+
+                validate_entity_definition(
+                    incomplete_definition,
+                    Path("content/attack_methods/bite.json"),
+                )
+
+    def test_rejects_invalid_attack_method_description(self) -> None:
+        cases = (
+            (None, TypeError, "must be a string"),
+            (42, TypeError, "must be a string"),
+            (True, TypeError, "must be a string"),
+            ("", ValueError, "must not be empty"),
+            ("   ", ValueError, "must not be empty"),
+        )
+        for description, error_type, message in cases:
+            with self.subTest(description=description):
+                definition = {
+                    "entity_type": "attack_method",
+                    "id": "bite",
+                    "name": "Bite",
+                    "description": description,
+                    "trauma_modifier": 1.0,
+                    "trait_effect_target": "bite_effectiveness",
+                }
+                with self.assertRaisesRegex(
+                    error_type,
+                    rf"description.*attack method.*{message}",
+                ):
+                    validate_entity_definition(
+                        definition,
+                        Path("content/attack_methods/bite.json"),
+                    )
+
+    def test_rejects_invalid_attack_method_trauma_modifier(self) -> None:
+        cases = (
+            ("1.0", TypeError, "must be a number"),
+            (None, TypeError, "must be a number"),
+            (True, TypeError, "must be a number"),
+            (False, TypeError, "must be a number"),
+            (float("inf"), ValueError, "must be finite"),
+            (float("-inf"), ValueError, "must be finite"),
+            (float("nan"), ValueError, "must be finite"),
+            (0.0, ValueError, "must be greater than zero"),
+            (-0.5, ValueError, "must be greater than zero"),
+        )
+        for modifier, error_type, message in cases:
+            with self.subTest(trauma_modifier=modifier):
+                definition = {
+                    "entity_type": "attack_method",
+                    "id": "bite",
+                    "name": "Bite",
+                    "description": "Uses the jaws and teeth.",
+                    "trauma_modifier": modifier,
+                    "trait_effect_target": "bite_effectiveness",
+                }
+                with self.assertRaisesRegex(
+                    error_type,
+                    rf"trauma_modifier.*attack method.*{message}",
+                ):
+                    validate_entity_definition(
+                        definition,
+                        Path("content/attack_methods/bite.json"),
+                    )
+
+    def test_rejects_invalid_attack_method_trait_effect_target(self) -> None:
+        cases = (
+            (None, TypeError, "must be a string"),
+            (42, TypeError, "must be a string"),
+            (True, TypeError, "must be a string"),
+            ([], TypeError, "must be a string"),
+            ("", ValueError, "must not be empty"),
+            ("   ", ValueError, "must not be empty"),
+            ("unknown_effectiveness", ValueError, "unsupported"),
+        )
+        for target, error_type, message in cases:
+            with self.subTest(trait_effect_target=target):
+                definition = {
+                    "entity_type": "attack_method",
+                    "id": "bite",
+                    "name": "Bite",
+                    "description": "Uses the jaws and teeth.",
+                    "trauma_modifier": 1.0,
+                    "trait_effect_target": target,
+                }
+                with self.assertRaisesRegex(
+                    error_type,
+                    rf"trait_effect_target.*attack method.*{message}",
+                ):
+                    validate_entity_definition(
+                        definition,
+                        Path("content/attack_methods/bite.json"),
+                    )
 
 
 if __name__ == "__main__":

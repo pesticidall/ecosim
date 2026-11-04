@@ -3,5 +3,6 @@
     "id": "grass_forage",
     "name": "Grass",
     "quantity_type": "biomass",
-    "unit": "kg"
+    "unit": "kg",
+    "supplementary_feed_type": "herbivore"
 }

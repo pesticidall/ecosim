@@ -1,5 +1,6 @@
 from collections.abc import Iterable
 from dataclasses import dataclass
+from math import isfinite
 from typing import Any
 
 from core.content_registry import ContentRegistry
@@ -35,11 +36,21 @@ class PopulationFeedingResult:
     nutrition_ratio: float
     resource_consumption: dict[str, float]
 
+def _validate_period_fraction(period_fraction: float) -> None:
+    if isinstance(period_fraction, bool) or not isinstance(period_fraction, (int, float)):
+        raise TypeError("Food period_fraction must be numeric.")
+    if not isfinite(period_fraction) or not 0 < period_fraction <= 1:
+        raise ValueError("Food period_fraction must be finite, positive, and at most one.")
+
+
 def calculate_population_food_requirement(
     population: int,
     animal_definition: dict[str, Any],
+    *,
+    period_fraction: float = 1.0,
 ) -> float:
-    """Calculate the food required by a population for one cycle."""
+    """Calculate demand for a fraction of the content's monthly interval."""
+    _validate_period_fraction(period_fraction)
     if population < 0:
         raise ValueError(
             f"population must not be negative; "
@@ -49,7 +60,7 @@ def calculate_population_food_requirement(
         "food_requirement_per_animal_per_cycle"
     ]
     return float(
-        population * food_requirement_per_animal
+        population * food_requirement_per_animal * period_fraction
     )
 
 def consume_available_resource(
@@ -85,11 +96,14 @@ def feed_population(
     population: int,
     animal_definition: dict[str, Any],
     region_state: RegionState,
+    *,
+    period_fraction: float = 1.0,
 ) -> PopulationFeedingResult:
     """Feed one population from its preferred resources in priority order."""
     required_amount = calculate_population_food_requirement(
         population,
         animal_definition,
+        period_fraction=period_fraction,
     )
     remaining_requirement = required_amount
     total_consumed = 0.0
@@ -129,11 +143,14 @@ def feed_population(
 def feed_region(
     region_state: RegionState,
     registry: ContentRegistry,
+    *,
+    period_fraction: float = 1.0,
 ) -> dict[str, PopulationFeedingResult]:
     """Feed populations from local habitat resources when habitats exist."""
     feeding_results, _ = feed_region_with_habitat_results(
         region_state,
         registry,
+        period_fraction=period_fraction,
     )
     return feeding_results
 
@@ -141,17 +158,21 @@ def feed_region(
 def feed_region_with_habitat_results(
     region_state: RegionState,
     registry: ContentRegistry,
+    *,
+    period_fraction: float = 1.0,
 ) -> tuple[
     dict[str, PopulationFeedingResult],
     dict[str, dict[str, PopulationFeedingResult]],
 ]:
     """Return regional feeding totals and their habitat-level outcomes."""
+    _validate_period_fraction(period_fraction)
     if not region_state.habitats:
         return (
             _feed_populations(
                 region_state.animal_populations,
                 region_state.resource_quantities,
                 registry,
+                period_fraction=period_fraction,
             ),
             {},
         )
@@ -165,6 +186,7 @@ def feed_region_with_habitat_results(
             habitat_state.animal_populations,
             habitat_state.resource_quantities,
             registry,
+            period_fraction=period_fraction,
         )
         habitat_results[habitat_id] = results
         for feeding_result in results.values():
@@ -191,6 +213,9 @@ def _feed_populations(
     animal_populations: dict[str, int],
     resource_quantities: dict[str, float],
     registry: ContentRegistry,
+    *,
+    period_fraction: float = 1.0,
+    required_amounts_override: dict[str, float] | None = None,
 ) -> dict[str, PopulationFeedingResult]:
     """Allocate one spatial collection's foods among its populations."""
     for resource_id, available_amount in (
@@ -219,8 +244,13 @@ def _feed_populations(
             calculate_population_food_requirement(
                 population,
                 animal_definition,
+                period_fraction=period_fraction,
             )
         )
+        if required_amounts_override is not None:
+            required_amount = required_amounts_override[animal_id]
+            if isinstance(required_amount, bool) or not isinstance(required_amount, (int, float)) or not isfinite(required_amount) or required_amount < 0:
+                raise ValueError("Food requests must be finite and nonnegative.")
         required_amounts[animal_id] = required_amount
         remaining_requirements[animal_id] = required_amount
         resource_consumption[animal_id] = {}

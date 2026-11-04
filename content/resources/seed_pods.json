@@ -3,5 +3,6 @@
     "id": "seed_pods",
     "name": "Seed Pods",
     "quantity_type": "biomass",
-    "unit": "kg"
+    "unit": "kg",
+    "supplementary_feed_type": "herbivore"
 }
