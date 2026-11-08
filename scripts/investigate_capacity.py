@@ -6,6 +6,7 @@ from dataclasses import asdict, dataclass
 from hashlib import sha256
 from itertools import product
 import json
+import sys
 from math import isclose, isfinite
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -16,12 +17,28 @@ from simulation.monthly_cycle import run_month, acknowledge_month_review
 from simulation.scenario_loader import load_scenario
 from simulation.growth import adult_count, mass_units, validate_loss_phase
 from scripts.growth_budget import growth_budget
+from scripts.food_flow import daily_food_flow
 
 
 GUILDS = {
     "current": {"black_backed_jackal": 4, "caracal": 2, "brown_hyena": 2, "white_backed_vulture": 3},
     "small": {"black_backed_jackal": 2, "caracal": 1, "brown_hyena": 1, "white_backed_vulture": 1},
 }
+
+# Private content sensitivity profiles; never applied to saved definitions.
+PREY_ACCESS_PROFILES = {
+    "current": {},
+    "bird_diet": {"black_backed_jackal": {"prey_diet": [
+        {"animal_id": "scrub_hare", "preference": 1.0},
+        {"animal_id": "helmeted_guineafowl", "preference": 1.0}]}},
+    "flexible_hunters": {
+        "black_backed_jackal": {"activity_pattern": "flexible"},
+        "caracal": {"activity_pattern": "flexible"}},
+}
+PREY_ACCESS_PROFILES["flexible_bird_diet"] = {
+    animal: {**PREY_ACCESS_PROFILES["flexible_hunters"].get(animal, {}),
+             **PREY_ACCESS_PROFILES["bird_diet"].get(animal, {})}
+    for animal in ("black_backed_jackal", "caracal")}
 
 
 @dataclass(frozen=True)
@@ -39,8 +56,11 @@ class Factors:
     growth_days: int = 0
     growth_ration_floor: bool = False
     separate_growth_food: bool = False
+    prey_access: str = "current"
 
     def __post_init__(self):
+        if not isinstance(self.prey_access, str) or self.prey_access not in PREY_ACCESS_PROFILES:
+            raise ValueError("Unknown prey access profile.")
         if not isinstance(self.separate_growth_food, bool) or (self.separate_growth_food and (not self.growth_days or self.growth_ration_floor)):
             raise ValueError("Separate growth food requires growth days and excludes the ration floor.")
         if not isinstance(self.growth_ration_floor, bool) or (self.growth_ration_floor and not self.growth_days):
@@ -72,7 +92,8 @@ class Factors:
                 + (f"_decay{self.carrion_monthly_loss:g}" if self.carrion_monthly_loss is not None else "")
                 + (f"_growth{self.growth_days}" if self.growth_days else "")
                 + ("_rationfloor" if self.growth_ration_floor else "")
-                + ("_separate_growth" if self.separate_growth_food else ""))
+                + ("_separate_growth" if self.separate_growth_food else "")
+                + (f"_access_{self.prey_access}" if self.prey_access != "current" else ""))
 
 
 def configure(scenario, registry, factors, seed):
@@ -82,6 +103,8 @@ def configure(scenario, registry, factors, seed):
     region["animal_populations"]["scrub_hare"] = factors.hares
     region["animal_populations"].update(GUILDS[factors.guild])
     region["producer_populations"]["redgrass"] = factors.red_grass
+    for animal, overrides in PREY_ACCESS_PROFILES[factors.prey_access].items():
+        content.get(animal).update(deepcopy(overrides))
     prey_ids = {entry["animal_id"] for animal in content.definitions_of_type("animal")
                 for entry in animal.get("prey_diet", ())}
     if factors.carrion_monthly_loss is not None:
@@ -150,7 +173,7 @@ def check_accounting(world, summary):
                     raise ValueError("Injury count exceeds population.")
 
 
-def run_case(project_root, factors, seed, months):
+def run_case(project_root, factors, seed, months, *, food_flows=False):
     if isinstance(months, bool) or not isinstance(months, int) or months < 1:
         raise ValueError("Months must be a positive integer.")
     original = json.loads((project_root / "scenarios" / "playtest_b_food_web.json").read_text(encoding="utf-8"))
@@ -162,6 +185,9 @@ def run_case(project_root, factors, seed, months):
         world = load_scenario(path, registry)
     records, extinct = [], {}
     for index in range(months):
+        local_starts = {region_id: {habitat_id: dict(habitat.resource_quantities)
+            for habitat_id, habitat in region.habitats.items()}
+            for region_id, region in world.regions.items()}
         summary = run_month(world, registry)
         check_accounting(world, summary)
         evidence = summarize_evidence(summary, registry)
@@ -192,6 +218,12 @@ def run_case(project_root, factors, seed, months):
         for region_id, result in summary.region_results.items():
             species = evidence["regions"][region_id]
             regional[region_id] = {
+                "habitats": {habitat_id: {
+                    "starting_resources_kg": local_starts[region_id][habitat_id],
+                    "ending_resources_kg": dict(habitat.resource_quantities),
+                    "ending_populations": dict(habitat.animal_populations),
+                    "producer_populations": dict(habitat.producer_populations),
+                } for habitat_id, habitat in world.regions[region_id].habitats.items()},
                 "species": {animal: {key: values[key] for key in (
                     "start", "end", "births", "starvation_deaths", "predation_deaths", "coverage",
                     "required_kg", "consumed_kg", "condition_recovery_kg", "scavenged_kg", "scavenged_by_source_kg", "hunt_outcomes",
@@ -228,6 +260,9 @@ def run_case(project_root, factors, seed, months):
             for animal in GUILDS[factors.guild]:
                 if result.ending_state.animal_populations[animal] == 0:
                     extinct.setdefault(animal, index + 1)
+            if food_flows:
+                regional[region_id]["food_flows"] = [daily_food_flow(day.region_results[region_id], registry)
+                                                   for day in summary.days]
         records.append({"year": summary.year, "month": summary.month.value, "regions": regional})
         acknowledge_month_review(world)
     endings = {key: dict(region.animal_populations) for key, region in world.regions.items()}
@@ -242,6 +277,10 @@ def run_case(project_root, factors, seed, months):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--months", type=int, default=12)
+    parser.add_argument("--prey-access", nargs="+", choices=PREY_ACCESS_PROFILES, default=["current"],
+                        help="Private diet/activity sensitivity; saved content is unchanged.")
+    parser.add_argument("--progress", action="store_true", help="Report completed runs to stderr.")
+    parser.add_argument("--food-flows", action="store_true", help="Retain read-only daily predator food-flow evidence.")
     parser.add_argument("--seeds", nargs="+", type=int, default=[104729, 7, 23])
     parser.add_argument("--hares", nargs="+", type=int, default=[60, 300])
     parser.add_argument("--grass", nargs="+", type=int, default=[500, 2000])
@@ -262,18 +301,23 @@ def main():
     if args.months < 1:
         parser.error("--months must be positive")
     root = Path(__file__).resolve().parents[1]
-    factors = [Factors(*values, args.abundance_search, args.reference_prey, args.paid_recovery, threshold, standing, loss, growth, mode == "floor", mode == "separate")
+    factors = [Factors(*values, args.abundance_search, args.reference_prey, args.paid_recovery, threshold, standing, loss, growth, mode == "floor", mode == "separate", access)
                for values in product(args.hares, args.grass, args.guilds, args.opportunities)
                for threshold in args.birth_thresholds for standing in args.standing_days
                for loss in args.carrion_monthly_loss for growth in args.growth_days
-               for mode in args.growth_ration_modes]
+               for mode in args.growth_ration_modes for access in args.prey_access]
     fingerprints = {}
     for folder, pattern in (("content", "*.json"), ("simulation", "*.py"), ("scenarios", "*.json"), ("scripts", "*.py")):
         digest = sha256()
         for path in sorted((root / folder).rglob(pattern)):
             digest.update(path.relative_to(root).as_posix().encode("utf-8") + b"\0" + path.read_bytes() + b"\0")
         fingerprints[folder] = digest.hexdigest()
-    runs = [run_case(root, case, seed, args.months) for case in factors for seed in args.seeds]
+    runs = []
+    for case in factors:
+        for seed in args.seeds:
+            runs.append(run_case(root, case, seed, args.months, food_flows=args.food_flows))
+            if args.progress:
+                print(f"Completed {len(runs)}/{len(factors) * len(args.seeds)}: {case.label}, seed {seed}", file=sys.stderr, flush=True)
     print(json.dumps({"scenario": "playtest_b_food_web", "input_fingerprints_sha256": fingerprints,
                       "months_per_run": args.months, "runs": runs}, indent=2, allow_nan=False))
 

@@ -1,0 +1,2906 @@
+{
+  "control_matches_prior": true,
+  "diet_only_matches_control": true,
+  "max_carrion_residual_kg": 2.8421709430404007e-13,
+  "outcomes": [
+    {
+      "profile": "current",
+      "seed": 104729,
+      "ending_populations": {
+        "redgrass_savanna": {
+          "warthog": 36,
+          "aardwolf": 5,
+          "helmeted_guineafowl": 1275,
+          "black_backed_jackal": 6,
+          "caracal": 2,
+          "brown_hyena": 0,
+          "white_backed_vulture": 0,
+          "scrub_hare": 2166
+        }
+      },
+      "guild_extinction": {
+        "brown_hyena": 32,
+        "white_backed_vulture": 32
+      },
+      "prey_extinction_month": {}
+    },
+    {
+      "profile": "current",
+      "seed": 7,
+      "ending_populations": {
+        "redgrass_savanna": {
+          "warthog": 46,
+          "aardwolf": 5,
+          "helmeted_guineafowl": 3345,
+          "black_backed_jackal": 14,
+          "caracal": 3,
+          "brown_hyena": 1,
+          "white_backed_vulture": 1,
+          "scrub_hare": 398
+        }
+      },
+      "guild_extinction": {},
+      "prey_extinction_month": {}
+    },
+    {
+      "profile": "current",
+      "seed": 23,
+      "ending_populations": {
+        "redgrass_savanna": {
+          "warthog": 46,
+          "aardwolf": 5,
+          "helmeted_guineafowl": 3387,
+          "black_backed_jackal": 14,
+          "caracal": 3,
+          "brown_hyena": 1,
+          "white_backed_vulture": 1,
+          "scrub_hare": 378
+        }
+      },
+      "guild_extinction": {},
+      "prey_extinction_month": {}
+    },
+    {
+      "profile": "bird_diet",
+      "seed": 104729,
+      "ending_populations": {
+        "redgrass_savanna": {
+          "warthog": 36,
+          "aardwolf": 5,
+          "helmeted_guineafowl": 1275,
+          "black_backed_jackal": 6,
+          "caracal": 2,
+          "brown_hyena": 0,
+          "white_backed_vulture": 0,
+          "scrub_hare": 2166
+        }
+      },
+      "guild_extinction": {
+        "brown_hyena": 32,
+        "white_backed_vulture": 32
+      },
+      "prey_extinction_month": {}
+    },
+    {
+      "profile": "bird_diet",
+      "seed": 7,
+      "ending_populations": {
+        "redgrass_savanna": {
+          "warthog": 46,
+          "aardwolf": 5,
+          "helmeted_guineafowl": 3345,
+          "black_backed_jackal": 14,
+          "caracal": 3,
+          "brown_hyena": 1,
+          "white_backed_vulture": 1,
+          "scrub_hare": 398
+        }
+      },
+      "guild_extinction": {},
+      "prey_extinction_month": {}
+    },
+    {
+      "profile": "bird_diet",
+      "seed": 23,
+      "ending_populations": {
+        "redgrass_savanna": {
+          "warthog": 46,
+          "aardwolf": 5,
+          "helmeted_guineafowl": 3387,
+          "black_backed_jackal": 14,
+          "caracal": 3,
+          "brown_hyena": 1,
+          "white_backed_vulture": 1,
+          "scrub_hare": 378
+        }
+      },
+      "guild_extinction": {},
+      "prey_extinction_month": {}
+    },
+    {
+      "profile": "flexible_hunters",
+      "seed": 104729,
+      "ending_populations": {
+        "redgrass_savanna": {
+          "warthog": 22,
+          "aardwolf": 5,
+          "helmeted_guineafowl": 0,
+          "black_backed_jackal": 0,
+          "caracal": 3,
+          "brown_hyena": 0,
+          "white_backed_vulture": 0,
+          "scrub_hare": 2311
+        }
+      },
+      "guild_extinction": {
+        "black_backed_jackal": 9,
+        "brown_hyena": 13,
+        "white_backed_vulture": 13
+      },
+      "prey_extinction_month": {
+        "helmeted_guineafowl": 24
+      }
+    },
+    {
+      "profile": "flexible_hunters",
+      "seed": 7,
+      "ending_populations": {
+        "redgrass_savanna": {
+          "warthog": 22,
+          "aardwolf": 5,
+          "helmeted_guineafowl": 0,
+          "black_backed_jackal": 0,
+          "caracal": 3,
+          "brown_hyena": 0,
+          "white_backed_vulture": 0,
+          "scrub_hare": 2315
+        }
+      },
+      "guild_extinction": {
+        "black_backed_jackal": 7,
+        "brown_hyena": 9,
+        "white_backed_vulture": 9
+      },
+      "prey_extinction_month": {
+        "helmeted_guineafowl": 25
+      }
+    },
+    {
+      "profile": "flexible_hunters",
+      "seed": 23,
+      "ending_populations": {
+        "redgrass_savanna": {
+          "warthog": 22,
+          "aardwolf": 5,
+          "helmeted_guineafowl": 0,
+          "black_backed_jackal": 0,
+          "caracal": 2,
+          "brown_hyena": 0,
+          "white_backed_vulture": 0,
+          "scrub_hare": 2324
+        }
+      },
+      "guild_extinction": {
+        "black_backed_jackal": 7,
+        "brown_hyena": 13,
+        "white_backed_vulture": 13
+      },
+      "prey_extinction_month": {
+        "helmeted_guineafowl": 12
+      }
+    },
+    {
+      "profile": "flexible_bird_diet",
+      "seed": 104729,
+      "ending_populations": {
+        "redgrass_savanna": {
+          "warthog": 21,
+          "aardwolf": 5,
+          "helmeted_guineafowl": 0,
+          "black_backed_jackal": 0,
+          "caracal": 3,
+          "brown_hyena": 0,
+          "white_backed_vulture": 0,
+          "scrub_hare": 2321
+        }
+      },
+      "guild_extinction": {
+        "black_backed_jackal": 6,
+        "brown_hyena": 6,
+        "white_backed_vulture": 6
+      },
+      "prey_extinction_month": {
+        "helmeted_guineafowl": 6
+      }
+    },
+    {
+      "profile": "flexible_bird_diet",
+      "seed": 7,
+      "ending_populations": {
+        "redgrass_savanna": {
+          "warthog": 28,
+          "aardwolf": 5,
+          "helmeted_guineafowl": 0,
+          "black_backed_jackal": 6,
+          "caracal": 2,
+          "brown_hyena": 0,
+          "white_backed_vulture": 0,
+          "scrub_hare": 1900
+        }
+      },
+      "guild_extinction": {
+        "brown_hyena": 5,
+        "white_backed_vulture": 5
+      },
+      "prey_extinction_month": {
+        "helmeted_guineafowl": 9
+      }
+    },
+    {
+      "profile": "flexible_bird_diet",
+      "seed": 23,
+      "ending_populations": {
+        "redgrass_savanna": {
+          "warthog": 22,
+          "aardwolf": 5,
+          "helmeted_guineafowl": 0,
+          "black_backed_jackal": 0,
+          "caracal": 2,
+          "brown_hyena": 0,
+          "white_backed_vulture": 0,
+          "scrub_hare": 2323
+        }
+      },
+      "guild_extinction": {
+        "black_backed_jackal": 12,
+        "brown_hyena": 13,
+        "white_backed_vulture": 13
+      },
+      "prey_extinction_month": {
+        "helmeted_guineafowl": 5
+      }
+    }
+  ],
+  "annual": [
+    {
+      "profile": "current",
+      "seed": 104729,
+      "year": 1,
+      "prey": {
+        "scrub_hare": {
+          "births": 383,
+          "predation_deaths": 293,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 230,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 300,
+          "end": 390,
+          "adult_start": 300,
+          "adult_end": 299,
+          "maturations": 229,
+          "growth_required_kg": 3787.2799999999997,
+          "growth_consumed_kg": 3787.2799999999997,
+          "growth_coverage": 1.0
+        },
+        "helmeted_guineafowl": {
+          "births": 82,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 40,
+          "end": 122,
+          "adult_start": 40,
+          "adult_end": 94,
+          "maturations": 54,
+          "growth_required_kg": 363.18,
+          "growth_consumed_kg": 363.18,
+          "growth_coverage": 1.0
+        }
+      },
+      "hunter_maintenance_kg": 489.9999999999999,
+      "hunt_carcass_kg": 918.9950000000001,
+      "starvation_carcass_kg": 16.0
+    },
+    {
+      "profile": "current",
+      "seed": 104729,
+      "year": 2,
+      "prey": {
+        "scrub_hare": {
+          "births": 559,
+          "predation_deaths": 273,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 209,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 390,
+          "end": 676,
+          "adult_start": 299,
+          "adult_end": 515,
+          "maturations": 425,
+          "growth_required_kg": 6164.0599999999995,
+          "growth_consumed_kg": 6164.0599999999995,
+          "growth_coverage": 1.0
+        },
+        "helmeted_guineafowl": {
+          "births": 245,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 122,
+          "end": 367,
+          "adult_start": 94,
+          "adult_end": 280,
+          "maturations": 186,
+          "growth_required_kg": 1156.14,
+          "growth_consumed_kg": 1156.14,
+          "growth_coverage": 1.0
+        }
+      },
+      "hunter_maintenance_kg": 403.19999999999993,
+      "hunt_carcass_kg": 846.7900000000001,
+      "starvation_carcass_kg": 16.0
+    },
+    {
+      "profile": "current",
+      "seed": 104729,
+      "year": 3,
+      "prey": {
+        "scrub_hare": {
+          "births": 1017,
+          "predation_deaths": 260,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 188,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 676,
+          "end": 1433,
+          "adult_start": 515,
+          "adult_end": 824,
+          "maturations": 497,
+          "growth_required_kg": 14960.119999999999,
+          "growth_consumed_kg": 8092.023387096773,
+          "growth_coverage": 0.5409063153969871
+        },
+        "helmeted_guineafowl": {
+          "births": 653,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 367,
+          "end": 1020,
+          "adult_start": 280,
+          "adult_end": 559,
+          "maturations": 279,
+          "growth_required_kg": 4424.280000000001,
+          "growth_consumed_kg": 1915.677741935484,
+          "growth_coverage": 0.43299197653301413
+        }
+      },
+      "hunter_maintenance_kg": 512.5161290322579,
+      "hunt_carcass_kg": 777.6537803696092,
+      "starvation_carcass_kg": 55.957142857142856
+    },
+    {
+      "profile": "current",
+      "seed": 104729,
+      "year": 4,
+      "prey": {
+        "scrub_hare": {
+          "births": 1106,
+          "predation_deaths": 261,
+          "starvation_deaths": 59,
+          "adult_predation_deaths": 114,
+          "adult_starvation_deaths": 19,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 1433,
+          "end": 2219,
+          "adult_start": 824,
+          "adult_end": 725,
+          "maturations": 34,
+          "growth_required_kg": 43873.34,
+          "growth_consumed_kg": 1576.19555988135,
+          "growth_coverage": 0.03592604437868988
+        },
+        "helmeted_guineafowl": {
+          "births": 627,
+          "predation_deaths": 0,
+          "starvation_deaths": 366,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 132,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 1020,
+          "end": 1281,
+          "adult_start": 559,
+          "adult_end": 430,
+          "maturations": 3,
+          "growth_required_kg": 11156.640000000001,
+          "growth_consumed_kg": 69.7864293659622,
+          "growth_coverage": 0.0062551475503343475
+        }
+      },
+      "hunter_maintenance_kg": 782.0258064516128,
+      "hunt_carcass_kg": 561.2131515642184,
+      "starvation_carcass_kg": 411.2475607795223
+    },
+    {
+      "profile": "current",
+      "seed": 104729,
+      "year": 5,
+      "prey": {
+        "scrub_hare": {
+          "births": 719,
+          "predation_deaths": 326,
+          "starvation_deaths": 446,
+          "adult_predation_deaths": 88,
+          "adult_starvation_deaths": 133,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 2219,
+          "end": 2166,
+          "adult_start": 725,
+          "adult_end": 504,
+          "maturations": 0,
+          "growth_required_kg": 31549.839999999997,
+          "growth_consumed_kg": 57.09677419354862,
+          "growth_coverage": 0.0018097326069973294
+        },
+        "helmeted_guineafowl": {
+          "births": 382,
+          "predation_deaths": 0,
+          "starvation_deaths": 388,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 119,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 1281,
+          "end": 1275,
+          "adult_start": 430,
+          "adult_end": 311,
+          "maturations": 0,
+          "growth_required_kg": 5679.66,
+          "growth_consumed_kg": 8.54032258064517,
+          "growth_coverage": 0.001503667927419101
+        }
+      },
+      "hunter_maintenance_kg": 1158.3999999999999,
+      "hunt_carcass_kg": 484.37185022311195,
+      "starvation_carcass_kg": 1303.5623968677057
+    },
+    {
+      "profile": "current",
+      "seed": 7,
+      "year": 1,
+      "prey": {
+        "scrub_hare": {
+          "births": 378,
+          "predation_deaths": 304,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 239,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 300,
+          "end": 374,
+          "adult_start": 300,
+          "adult_end": 284,
+          "maturations": 223,
+          "growth_required_kg": 3728.8999999999996,
+          "growth_consumed_kg": 3728.8999999999996,
+          "growth_coverage": 1.0
+        },
+        "helmeted_guineafowl": {
+          "births": 82,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 40,
+          "end": 122,
+          "adult_start": 40,
+          "adult_end": 94,
+          "maturations": 54,
+          "growth_required_kg": 363.18,
+          "growth_consumed_kg": 363.18,
+          "growth_coverage": 1.0
+        }
+      },
+      "hunter_maintenance_kg": 503.9999999999999,
+      "hunt_carcass_kg": 953.225,
+      "starvation_carcass_kg": 8.0
+    },
+    {
+      "profile": "current",
+      "seed": 7,
+      "year": 2,
+      "prey": {
+        "scrub_hare": {
+          "births": 475,
+          "predation_deaths": 341,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 261,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 374,
+          "end": 508,
+          "adult_start": 284,
+          "adult_end": 390,
+          "maturations": 367,
+          "growth_required_kg": 5256.719999999999,
+          "growth_consumed_kg": 5256.719999999999,
+          "growth_coverage": 1.0
+        },
+        "helmeted_guineafowl": {
+          "births": 245,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 122,
+          "end": 367,
+          "adult_start": 94,
+          "adult_end": 280,
+          "maturations": 186,
+          "growth_required_kg": 1156.14,
+          "growth_consumed_kg": 1156.14,
+          "growth_coverage": 1.0
+        }
+      },
+      "hunter_maintenance_kg": 613.548387096774,
+      "hunt_carcass_kg": 1060.43,
+      "starvation_carcass_kg": 16.0
+    },
+    {
+      "profile": "current",
+      "seed": 7,
+      "year": 3,
+      "prey": {
+        "scrub_hare": {
+          "births": 691,
+          "predation_deaths": 409,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 314,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 508,
+          "end": 790,
+          "adult_start": 390,
+          "adult_end": 597,
+          "maturations": 521,
+          "growth_required_kg": 7654.499999999999,
+          "growth_consumed_kg": 7594.850967741935,
+          "growth_coverage": 0.9922073248078824
+        },
+        "helmeted_guineafowl": {
+          "births": 729,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 367,
+          "end": 1096,
+          "adult_start": 280,
+          "adult_end": 779,
+          "maturations": 499,
+          "growth_required_kg": 3507.3,
+          "growth_consumed_kg": 3103.5995698924735,
+          "growth_coverage": 0.8848970917493437
+        }
+      },
+      "hunter_maintenance_kg": 829.9907834101383,
+      "hunt_carcass_kg": 1277.697559779062,
+      "starvation_carcass_kg": 10.957142857142857
+    },
+    {
+      "profile": "current",
+      "seed": 7,
+      "year": 4,
+      "prey": {
+        "scrub_hare": {
+          "births": 844,
+          "predation_deaths": 640,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 393,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 790,
+          "end": 994,
+          "adult_start": 597,
+          "adult_end": 493,
+          "maturations": 289,
+          "growth_required_kg": 18021.78,
+          "growth_consumed_kg": 6018.265350389322,
+          "growth_coverage": 0.3339440027782673
+        },
+        "helmeted_guineafowl": {
+          "births": 1125,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 1096,
+          "end": 2221,
+          "adult_start": 779,
+          "adult_end": 781,
+          "maturations": 2,
+          "growth_required_kg": 19261.02,
+          "growth_consumed_kg": 24.677419354838744,
+          "growth_coverage": 0.001281210411226339
+        }
+      },
+      "hunter_maintenance_kg": 1326.232258064516,
+      "hunt_carcass_kg": 1769.347683409877,
+      "starvation_carcass_kg": 16.0
+    },
+    {
+      "profile": "current",
+      "seed": 7,
+      "year": 5,
+      "prey": {
+        "scrub_hare": {
+          "births": 468,
+          "predation_deaths": 1064,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 439,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 994,
+          "end": 398,
+          "adult_start": 493,
+          "adult_end": 153,
+          "maturations": 99,
+          "growth_required_kg": 22661.379999999997,
+          "growth_consumed_kg": 3257.190572196621,
+          "growth_coverage": 0.1437331077011471
+        },
+        "helmeted_guineafowl": {
+          "births": 1124,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 2221,
+          "end": 3345,
+          "adult_start": 781,
+          "adult_end": 781,
+          "maturations": 0,
+          "growth_required_kg": 43862.64000000001,
+          "growth_consumed_kg": 1.865174681370263e-14,
+          "growth_coverage": 4.2523083001165976e-19
+        }
+      },
+      "hunter_maintenance_kg": 2034.916129032258,
+      "hunt_carcass_kg": 2479.8056820423494,
+      "starvation_carcass_kg": 15.298965517241367
+    },
+    {
+      "profile": "current",
+      "seed": 23,
+      "year": 1,
+      "prey": {
+        "scrub_hare": {
+          "births": 377,
+          "predation_deaths": 301,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 236,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 300,
+          "end": 376,
+          "adult_start": 300,
+          "adult_end": 287,
+          "maturations": 223,
+          "growth_required_kg": 3702.4399999999996,
+          "growth_consumed_kg": 3702.4399999999996,
+          "growth_coverage": 1.0
+        },
+        "helmeted_guineafowl": {
+          "births": 82,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 40,
+          "end": 122,
+          "adult_start": 40,
+          "adult_end": 94,
+          "maturations": 54,
+          "growth_required_kg": 363.18,
+          "growth_consumed_kg": 363.18,
+          "growth_coverage": 1.0
+        }
+      },
+      "hunter_maintenance_kg": 503.9999999999999,
+      "hunt_carcass_kg": 940.1,
+      "starvation_carcass_kg": 8.0
+    },
+    {
+      "profile": "current",
+      "seed": 23,
+      "year": 2,
+      "prey": {
+        "scrub_hare": {
+          "births": 473,
+          "predation_deaths": 345,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 263,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 376,
+          "end": 504,
+          "adult_start": 287,
+          "adult_end": 387,
+          "maturations": 363,
+          "growth_required_kg": 5222.419999999999,
+          "growth_consumed_kg": 5222.419999999999,
+          "growth_coverage": 1.0
+        },
+        "helmeted_guineafowl": {
+          "births": 245,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 122,
+          "end": 367,
+          "adult_start": 94,
+          "adult_end": 280,
+          "maturations": 186,
+          "growth_required_kg": 1156.14,
+          "growth_consumed_kg": 1156.14,
+          "growth_coverage": 1.0
+        }
+      },
+      "hunter_maintenance_kg": 609.1999999999998,
+      "hunt_carcass_kg": 1069.46,
+      "starvation_carcass_kg": 16.0
+    },
+    {
+      "profile": "current",
+      "seed": 23,
+      "year": 3,
+      "prey": {
+        "scrub_hare": {
+          "births": 681,
+          "predation_deaths": 413,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 317,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 504,
+          "end": 772,
+          "adult_start": 387,
+          "adult_end": 586,
+          "maturations": 516,
+          "growth_required_kg": 7541.799999999999,
+          "growth_consumed_kg": 7508.694838709677,
+          "growth_coverage": 0.9956104429591978
+        },
+        "helmeted_guineafowl": {
+          "births": 730,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 367,
+          "end": 1097,
+          "adult_start": 280,
+          "adult_end": 791,
+          "maturations": 511,
+          "growth_required_kg": 3490.6800000000003,
+          "growth_consumed_kg": 3176.5658064516133,
+          "growth_coverage": 0.9100134662735092
+        }
+      },
+      "hunter_maintenance_kg": 834.5806451612904,
+      "hunt_carcass_kg": 1290.6794804941826,
+      "starvation_carcass_kg": 10.957142857142857
+    },
+    {
+      "profile": "current",
+      "seed": 23,
+      "year": 4,
+      "prey": {
+        "scrub_hare": {
+          "births": 838,
+          "predation_deaths": 641,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 399,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 772,
+          "end": 969,
+          "adult_start": 586,
+          "adult_end": 487,
+          "maturations": 300,
+          "growth_required_kg": 17228.26,
+          "growth_consumed_kg": 6106.923859844272,
+          "growth_coverage": 0.3544713081787872
+        },
+        "helmeted_guineafowl": {
+          "births": 1145,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 1097,
+          "end": 2242,
+          "adult_start": 791,
+          "adult_end": 795,
+          "maturations": 4,
+          "growth_required_kg": 19197.960000000003,
+          "growth_consumed_kg": 24.209677419354875,
+          "growth_coverage": 0.001261054685985119
+        }
+      },
+      "hunter_maintenance_kg": 1341.9096774193547,
+      "hunt_carcass_kg": 1783.9054710367175,
+      "starvation_carcass_kg": 16.0
+    },
+    {
+      "profile": "current",
+      "seed": 23,
+      "year": 5,
+      "prey": {
+        "scrub_hare": {
+          "births": 462,
+          "predation_deaths": 1053,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 441,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 969,
+          "end": 378,
+          "adult_start": 487,
+          "adult_end": 150,
+          "maturations": 104,
+          "growth_required_kg": 21563.359999999997,
+          "growth_consumed_kg": 3314.635311059908,
+          "growth_coverage": 0.15371608650321233
+        },
+        "helmeted_guineafowl": {
+          "births": 1145,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 2242,
+          "end": 3387,
+          "adult_start": 795,
+          "adult_end": 795,
+          "maturations": 0,
+          "growth_required_kg": 44238.96000000001,
+          "growth_consumed_kg": 1.1546319456101628e-14,
+          "growth_coverage": 2.6099889003045337e-19
+        }
+      },
+      "hunter_maintenance_kg": 2038.0774193548384,
+      "hunt_carcass_kg": 2476.2431369996243,
+      "starvation_carcass_kg": 15.298965517241367
+    },
+    {
+      "profile": "bird_diet",
+      "seed": 104729,
+      "year": 1,
+      "prey": {
+        "scrub_hare": {
+          "births": 383,
+          "predation_deaths": 293,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 230,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 300,
+          "end": 390,
+          "adult_start": 300,
+          "adult_end": 299,
+          "maturations": 229,
+          "growth_required_kg": 3787.2799999999997,
+          "growth_consumed_kg": 3787.2799999999997,
+          "growth_coverage": 1.0
+        },
+        "helmeted_guineafowl": {
+          "births": 82,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 40,
+          "end": 122,
+          "adult_start": 40,
+          "adult_end": 94,
+          "maturations": 54,
+          "growth_required_kg": 363.18,
+          "growth_consumed_kg": 363.18,
+          "growth_coverage": 1.0
+        }
+      },
+      "hunter_maintenance_kg": 489.9999999999999,
+      "hunt_carcass_kg": 918.9950000000001,
+      "starvation_carcass_kg": 16.0
+    },
+    {
+      "profile": "bird_diet",
+      "seed": 104729,
+      "year": 2,
+      "prey": {
+        "scrub_hare": {
+          "births": 559,
+          "predation_deaths": 273,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 209,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 390,
+          "end": 676,
+          "adult_start": 299,
+          "adult_end": 515,
+          "maturations": 425,
+          "growth_required_kg": 6164.0599999999995,
+          "growth_consumed_kg": 6164.0599999999995,
+          "growth_coverage": 1.0
+        },
+        "helmeted_guineafowl": {
+          "births": 245,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 122,
+          "end": 367,
+          "adult_start": 94,
+          "adult_end": 280,
+          "maturations": 186,
+          "growth_required_kg": 1156.14,
+          "growth_consumed_kg": 1156.14,
+          "growth_coverage": 1.0
+        }
+      },
+      "hunter_maintenance_kg": 403.19999999999993,
+      "hunt_carcass_kg": 846.7900000000001,
+      "starvation_carcass_kg": 16.0
+    },
+    {
+      "profile": "bird_diet",
+      "seed": 104729,
+      "year": 3,
+      "prey": {
+        "scrub_hare": {
+          "births": 1017,
+          "predation_deaths": 260,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 188,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 676,
+          "end": 1433,
+          "adult_start": 515,
+          "adult_end": 824,
+          "maturations": 497,
+          "growth_required_kg": 14960.119999999999,
+          "growth_consumed_kg": 8092.023387096773,
+          "growth_coverage": 0.5409063153969871
+        },
+        "helmeted_guineafowl": {
+          "births": 653,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 367,
+          "end": 1020,
+          "adult_start": 280,
+          "adult_end": 559,
+          "maturations": 279,
+          "growth_required_kg": 4424.280000000001,
+          "growth_consumed_kg": 1915.677741935484,
+          "growth_coverage": 0.43299197653301413
+        }
+      },
+      "hunter_maintenance_kg": 512.5161290322579,
+      "hunt_carcass_kg": 777.6537803696092,
+      "starvation_carcass_kg": 55.957142857142856
+    },
+    {
+      "profile": "bird_diet",
+      "seed": 104729,
+      "year": 4,
+      "prey": {
+        "scrub_hare": {
+          "births": 1106,
+          "predation_deaths": 261,
+          "starvation_deaths": 59,
+          "adult_predation_deaths": 114,
+          "adult_starvation_deaths": 19,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 1433,
+          "end": 2219,
+          "adult_start": 824,
+          "adult_end": 725,
+          "maturations": 34,
+          "growth_required_kg": 43873.34,
+          "growth_consumed_kg": 1576.19555988135,
+          "growth_coverage": 0.03592604437868988
+        },
+        "helmeted_guineafowl": {
+          "births": 627,
+          "predation_deaths": 0,
+          "starvation_deaths": 366,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 132,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 1020,
+          "end": 1281,
+          "adult_start": 559,
+          "adult_end": 430,
+          "maturations": 3,
+          "growth_required_kg": 11156.640000000001,
+          "growth_consumed_kg": 69.7864293659622,
+          "growth_coverage": 0.0062551475503343475
+        }
+      },
+      "hunter_maintenance_kg": 782.0258064516128,
+      "hunt_carcass_kg": 561.2131515642184,
+      "starvation_carcass_kg": 411.2475607795223
+    },
+    {
+      "profile": "bird_diet",
+      "seed": 104729,
+      "year": 5,
+      "prey": {
+        "scrub_hare": {
+          "births": 719,
+          "predation_deaths": 326,
+          "starvation_deaths": 446,
+          "adult_predation_deaths": 88,
+          "adult_starvation_deaths": 133,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 2219,
+          "end": 2166,
+          "adult_start": 725,
+          "adult_end": 504,
+          "maturations": 0,
+          "growth_required_kg": 31549.839999999997,
+          "growth_consumed_kg": 57.09677419354862,
+          "growth_coverage": 0.0018097326069973294
+        },
+        "helmeted_guineafowl": {
+          "births": 382,
+          "predation_deaths": 0,
+          "starvation_deaths": 388,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 119,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 1281,
+          "end": 1275,
+          "adult_start": 430,
+          "adult_end": 311,
+          "maturations": 0,
+          "growth_required_kg": 5679.66,
+          "growth_consumed_kg": 8.54032258064517,
+          "growth_coverage": 0.001503667927419101
+        }
+      },
+      "hunter_maintenance_kg": 1158.3999999999999,
+      "hunt_carcass_kg": 484.37185022311195,
+      "starvation_carcass_kg": 1303.5623968677057
+    },
+    {
+      "profile": "bird_diet",
+      "seed": 7,
+      "year": 1,
+      "prey": {
+        "scrub_hare": {
+          "births": 378,
+          "predation_deaths": 304,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 239,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 300,
+          "end": 374,
+          "adult_start": 300,
+          "adult_end": 284,
+          "maturations": 223,
+          "growth_required_kg": 3728.8999999999996,
+          "growth_consumed_kg": 3728.8999999999996,
+          "growth_coverage": 1.0
+        },
+        "helmeted_guineafowl": {
+          "births": 82,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 40,
+          "end": 122,
+          "adult_start": 40,
+          "adult_end": 94,
+          "maturations": 54,
+          "growth_required_kg": 363.18,
+          "growth_consumed_kg": 363.18,
+          "growth_coverage": 1.0
+        }
+      },
+      "hunter_maintenance_kg": 503.9999999999999,
+      "hunt_carcass_kg": 953.225,
+      "starvation_carcass_kg": 8.0
+    },
+    {
+      "profile": "bird_diet",
+      "seed": 7,
+      "year": 2,
+      "prey": {
+        "scrub_hare": {
+          "births": 475,
+          "predation_deaths": 341,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 261,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 374,
+          "end": 508,
+          "adult_start": 284,
+          "adult_end": 390,
+          "maturations": 367,
+          "growth_required_kg": 5256.719999999999,
+          "growth_consumed_kg": 5256.719999999999,
+          "growth_coverage": 1.0
+        },
+        "helmeted_guineafowl": {
+          "births": 245,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 122,
+          "end": 367,
+          "adult_start": 94,
+          "adult_end": 280,
+          "maturations": 186,
+          "growth_required_kg": 1156.14,
+          "growth_consumed_kg": 1156.14,
+          "growth_coverage": 1.0
+        }
+      },
+      "hunter_maintenance_kg": 613.548387096774,
+      "hunt_carcass_kg": 1060.43,
+      "starvation_carcass_kg": 16.0
+    },
+    {
+      "profile": "bird_diet",
+      "seed": 7,
+      "year": 3,
+      "prey": {
+        "scrub_hare": {
+          "births": 691,
+          "predation_deaths": 409,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 314,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 508,
+          "end": 790,
+          "adult_start": 390,
+          "adult_end": 597,
+          "maturations": 521,
+          "growth_required_kg": 7654.499999999999,
+          "growth_consumed_kg": 7594.850967741935,
+          "growth_coverage": 0.9922073248078824
+        },
+        "helmeted_guineafowl": {
+          "births": 729,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 367,
+          "end": 1096,
+          "adult_start": 280,
+          "adult_end": 779,
+          "maturations": 499,
+          "growth_required_kg": 3507.3,
+          "growth_consumed_kg": 3103.5995698924735,
+          "growth_coverage": 0.8848970917493437
+        }
+      },
+      "hunter_maintenance_kg": 829.9907834101383,
+      "hunt_carcass_kg": 1277.697559779062,
+      "starvation_carcass_kg": 10.957142857142857
+    },
+    {
+      "profile": "bird_diet",
+      "seed": 7,
+      "year": 4,
+      "prey": {
+        "scrub_hare": {
+          "births": 844,
+          "predation_deaths": 640,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 393,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 790,
+          "end": 994,
+          "adult_start": 597,
+          "adult_end": 493,
+          "maturations": 289,
+          "growth_required_kg": 18021.78,
+          "growth_consumed_kg": 6018.265350389322,
+          "growth_coverage": 0.3339440027782673
+        },
+        "helmeted_guineafowl": {
+          "births": 1125,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 1096,
+          "end": 2221,
+          "adult_start": 779,
+          "adult_end": 781,
+          "maturations": 2,
+          "growth_required_kg": 19261.02,
+          "growth_consumed_kg": 24.677419354838744,
+          "growth_coverage": 0.001281210411226339
+        }
+      },
+      "hunter_maintenance_kg": 1326.232258064516,
+      "hunt_carcass_kg": 1769.347683409877,
+      "starvation_carcass_kg": 16.0
+    },
+    {
+      "profile": "bird_diet",
+      "seed": 7,
+      "year": 5,
+      "prey": {
+        "scrub_hare": {
+          "births": 468,
+          "predation_deaths": 1064,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 439,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 994,
+          "end": 398,
+          "adult_start": 493,
+          "adult_end": 153,
+          "maturations": 99,
+          "growth_required_kg": 22661.379999999997,
+          "growth_consumed_kg": 3257.190572196621,
+          "growth_coverage": 0.1437331077011471
+        },
+        "helmeted_guineafowl": {
+          "births": 1124,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 2221,
+          "end": 3345,
+          "adult_start": 781,
+          "adult_end": 781,
+          "maturations": 0,
+          "growth_required_kg": 43862.64000000001,
+          "growth_consumed_kg": 1.865174681370263e-14,
+          "growth_coverage": 4.2523083001165976e-19
+        }
+      },
+      "hunter_maintenance_kg": 2034.916129032258,
+      "hunt_carcass_kg": 2479.8056820423494,
+      "starvation_carcass_kg": 15.298965517241367
+    },
+    {
+      "profile": "bird_diet",
+      "seed": 23,
+      "year": 1,
+      "prey": {
+        "scrub_hare": {
+          "births": 377,
+          "predation_deaths": 301,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 236,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 300,
+          "end": 376,
+          "adult_start": 300,
+          "adult_end": 287,
+          "maturations": 223,
+          "growth_required_kg": 3702.4399999999996,
+          "growth_consumed_kg": 3702.4399999999996,
+          "growth_coverage": 1.0
+        },
+        "helmeted_guineafowl": {
+          "births": 82,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 40,
+          "end": 122,
+          "adult_start": 40,
+          "adult_end": 94,
+          "maturations": 54,
+          "growth_required_kg": 363.18,
+          "growth_consumed_kg": 363.18,
+          "growth_coverage": 1.0
+        }
+      },
+      "hunter_maintenance_kg": 503.9999999999999,
+      "hunt_carcass_kg": 940.1,
+      "starvation_carcass_kg": 8.0
+    },
+    {
+      "profile": "bird_diet",
+      "seed": 23,
+      "year": 2,
+      "prey": {
+        "scrub_hare": {
+          "births": 473,
+          "predation_deaths": 345,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 263,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 376,
+          "end": 504,
+          "adult_start": 287,
+          "adult_end": 387,
+          "maturations": 363,
+          "growth_required_kg": 5222.419999999999,
+          "growth_consumed_kg": 5222.419999999999,
+          "growth_coverage": 1.0
+        },
+        "helmeted_guineafowl": {
+          "births": 245,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 122,
+          "end": 367,
+          "adult_start": 94,
+          "adult_end": 280,
+          "maturations": 186,
+          "growth_required_kg": 1156.14,
+          "growth_consumed_kg": 1156.14,
+          "growth_coverage": 1.0
+        }
+      },
+      "hunter_maintenance_kg": 609.1999999999998,
+      "hunt_carcass_kg": 1069.46,
+      "starvation_carcass_kg": 16.0
+    },
+    {
+      "profile": "bird_diet",
+      "seed": 23,
+      "year": 3,
+      "prey": {
+        "scrub_hare": {
+          "births": 681,
+          "predation_deaths": 413,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 317,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 504,
+          "end": 772,
+          "adult_start": 387,
+          "adult_end": 586,
+          "maturations": 516,
+          "growth_required_kg": 7541.799999999999,
+          "growth_consumed_kg": 7508.694838709677,
+          "growth_coverage": 0.9956104429591978
+        },
+        "helmeted_guineafowl": {
+          "births": 730,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 367,
+          "end": 1097,
+          "adult_start": 280,
+          "adult_end": 791,
+          "maturations": 511,
+          "growth_required_kg": 3490.6800000000003,
+          "growth_consumed_kg": 3176.5658064516133,
+          "growth_coverage": 0.9100134662735092
+        }
+      },
+      "hunter_maintenance_kg": 834.5806451612904,
+      "hunt_carcass_kg": 1290.6794804941826,
+      "starvation_carcass_kg": 10.957142857142857
+    },
+    {
+      "profile": "bird_diet",
+      "seed": 23,
+      "year": 4,
+      "prey": {
+        "scrub_hare": {
+          "births": 838,
+          "predation_deaths": 641,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 399,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 772,
+          "end": 969,
+          "adult_start": 586,
+          "adult_end": 487,
+          "maturations": 300,
+          "growth_required_kg": 17228.26,
+          "growth_consumed_kg": 6106.923859844272,
+          "growth_coverage": 0.3544713081787872
+        },
+        "helmeted_guineafowl": {
+          "births": 1145,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 1097,
+          "end": 2242,
+          "adult_start": 791,
+          "adult_end": 795,
+          "maturations": 4,
+          "growth_required_kg": 19197.960000000003,
+          "growth_consumed_kg": 24.209677419354875,
+          "growth_coverage": 0.001261054685985119
+        }
+      },
+      "hunter_maintenance_kg": 1341.9096774193547,
+      "hunt_carcass_kg": 1783.9054710367175,
+      "starvation_carcass_kg": 16.0
+    },
+    {
+      "profile": "bird_diet",
+      "seed": 23,
+      "year": 5,
+      "prey": {
+        "scrub_hare": {
+          "births": 462,
+          "predation_deaths": 1053,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 441,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 969,
+          "end": 378,
+          "adult_start": 487,
+          "adult_end": 150,
+          "maturations": 104,
+          "growth_required_kg": 21563.359999999997,
+          "growth_consumed_kg": 3314.635311059908,
+          "growth_coverage": 0.15371608650321233
+        },
+        "helmeted_guineafowl": {
+          "births": 1145,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 2242,
+          "end": 3387,
+          "adult_start": 795,
+          "adult_end": 795,
+          "maturations": 0,
+          "growth_required_kg": 44238.96000000001,
+          "growth_consumed_kg": 1.1546319456101628e-14,
+          "growth_coverage": 2.6099889003045337e-19
+        }
+      },
+      "hunter_maintenance_kg": 2038.0774193548384,
+      "hunt_carcass_kg": 2476.2431369996243,
+      "starvation_carcass_kg": 15.298965517241367
+    },
+    {
+      "profile": "flexible_hunters",
+      "seed": 104729,
+      "year": 1,
+      "prey": {
+        "scrub_hare": {
+          "births": 423,
+          "predation_deaths": 221,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 174,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 300,
+          "end": 502,
+          "adult_start": 300,
+          "adult_end": 384,
+          "maturations": 258,
+          "growth_required_kg": 4223.24,
+          "growth_consumed_kg": 4223.24,
+          "growth_coverage": 1.0
+        },
+        "helmeted_guineafowl": {
+          "births": 29,
+          "predation_deaths": 61,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 48,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 40,
+          "end": 8,
+          "adult_start": 40,
+          "adult_end": 7,
+          "maturations": 15,
+          "growth_required_kg": 116.16000000000001,
+          "growth_consumed_kg": 116.16000000000001,
+          "growth_coverage": 1.0
+        }
+      },
+      "hunter_maintenance_kg": 374.7999999999999,
+      "hunt_carcass_kg": 775.63,
+      "starvation_carcass_kg": 24.0
+    },
+    {
+      "profile": "flexible_hunters",
+      "seed": 104729,
+      "year": 2,
+      "prey": {
+        "scrub_hare": {
+          "births": 919,
+          "predation_deaths": 71,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 54,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 502,
+          "end": 1350,
+          "adult_start": 384,
+          "adult_end": 889,
+          "maturations": 559,
+          "growth_required_kg": 11149.88,
+          "growth_consumed_kg": 8422.147741935483,
+          "growth_coverage": 0.7553577026780094
+        },
+        "helmeted_guineafowl": {
+          "births": 4,
+          "predation_deaths": 12,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 9,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 8,
+          "end": 0,
+          "adult_start": 7,
+          "adult_end": 0,
+          "maturations": 2,
+          "growth_required_kg": 17.400000000000002,
+          "growth_consumed_kg": 17.400000000000002,
+          "growth_coverage": 1.0
+        }
+      },
+      "hunter_maintenance_kg": 215.99999999999994,
+      "hunt_carcass_kg": 234.80759735068835,
+      "starvation_carcass_kg": 61.0
+    },
+    {
+      "profile": "flexible_hunters",
+      "seed": 104729,
+      "year": 3,
+      "prey": {
+        "scrub_hare": {
+          "births": 1212,
+          "predation_deaths": 66,
+          "starvation_deaths": 182,
+          "adult_predation_deaths": 33,
+          "adult_starvation_deaths": 72,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 1350,
+          "end": 2314,
+          "adult_start": 889,
+          "adult_end": 838,
+          "maturations": 54,
+          "growth_required_kg": 30833.739999999998,
+          "growth_consumed_kg": 1886.3268433179726,
+          "growth_coverage": 0.06117736101160523
+        },
+        "helmeted_guineafowl": {
+          "births": 0,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 0,
+          "end": 0,
+          "adult_start": 0,
+          "adult_end": 0,
+          "maturations": 0,
+          "growth_required_kg": 0.0,
+          "growth_consumed_kg": 0,
+          "growth_coverage": null
+        }
+      },
+      "hunter_maintenance_kg": 215.99999999999994,
+      "hunt_carcass_kg": 151.14972758152393,
+      "starvation_carcass_kg": 486.16401757762736
+    },
+    {
+      "profile": "flexible_hunters",
+      "seed": 104729,
+      "year": 4,
+      "prey": {
+        "scrub_hare": {
+          "births": 746,
+          "predation_deaths": 0,
+          "starvation_deaths": 730,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 223,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 2314,
+          "end": 2330,
+          "adult_start": 838,
+          "adult_end": 615,
+          "maturations": 0,
+          "growth_required_kg": 4907.28,
+          "growth_consumed_kg": 6.467741935483907,
+          "growth_coverage": 0.0013179891784214286
+        },
+        "helmeted_guineafowl": {
+          "births": 0,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 0,
+          "end": 0,
+          "adult_start": 0,
+          "adult_end": 0,
+          "maturations": 0,
+          "growth_required_kg": 0.0,
+          "growth_consumed_kg": 0,
+          "growth_coverage": null
+        }
+      },
+      "hunter_maintenance_kg": 349.5483870967741,
+      "hunt_carcass_kg": 0.0,
+      "starvation_carcass_kg": 1563.3459424865873
+    },
+    {
+      "profile": "flexible_hunters",
+      "seed": 104729,
+      "year": 5,
+      "prey": {
+        "scrub_hare": {
+          "births": 604,
+          "predation_deaths": 70,
+          "starvation_deaths": 553,
+          "adult_predation_deaths": 17,
+          "adult_starvation_deaths": 132,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 2330,
+          "end": 2311,
+          "adult_start": 615,
+          "adult_end": 466,
+          "maturations": 0,
+          "growth_required_kg": 19556.739999999998,
+          "growth_consumed_kg": 52.32258064516135,
+          "growth_coverage": 0.0026754244646685164
+        },
+        "helmeted_guineafowl": {
+          "births": 0,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 0,
+          "end": 0,
+          "adult_start": 0,
+          "adult_end": 0,
+          "maturations": 0,
+          "growth_required_kg": 0.0,
+          "growth_consumed_kg": 0,
+          "growth_coverage": null
+        }
+      },
+      "hunter_maintenance_kg": 447.0967741935483,
+      "hunt_carcass_kg": 94.80515813386981,
+      "starvation_carcass_kg": 1018.7999834569051
+    },
+    {
+      "profile": "flexible_hunters",
+      "seed": 7,
+      "year": 1,
+      "prey": {
+        "scrub_hare": {
+          "births": 451,
+          "predation_deaths": 164,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 131,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 300,
+          "end": 587,
+          "adult_start": 300,
+          "adult_end": 449,
+          "maturations": 280,
+          "growth_required_kg": 4537.259999999999,
+          "growth_consumed_kg": 4537.259999999999,
+          "growth_coverage": 1.0
+        },
+        "helmeted_guineafowl": {
+          "births": 28,
+          "predation_deaths": 55,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 42,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 40,
+          "end": 13,
+          "adult_start": 40,
+          "adult_end": 10,
+          "maturations": 12,
+          "growth_required_kg": 101.52000000000001,
+          "growth_consumed_kg": 101.52000000000001,
+          "growth_coverage": 1.0
+        }
+      },
+      "hunter_maintenance_kg": 339.3935483870967,
+      "hunt_carcass_kg": 589.2,
+      "starvation_carcass_kg": 69.0
+    },
+    {
+      "profile": "flexible_hunters",
+      "seed": 7,
+      "year": 2,
+      "prey": {
+        "scrub_hare": {
+          "births": 1038,
+          "predation_deaths": 64,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 47,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 587,
+          "end": 1561,
+          "adult_start": 449,
+          "adult_end": 913,
+          "maturations": 511,
+          "growth_required_kg": 14809.479999999998,
+          "growth_consumed_kg": 8135.359462365591,
+          "growth_coverage": 0.5493345790916083
+        },
+        "helmeted_guineafowl": {
+          "births": 8,
+          "predation_deaths": 20,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 15,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 13,
+          "end": 1,
+          "adult_start": 10,
+          "adult_end": 1,
+          "maturations": 6,
+          "growth_required_kg": 41.160000000000004,
+          "growth_consumed_kg": 41.160000000000004,
+          "growth_coverage": 1.0
+        }
+      },
+      "hunter_maintenance_kg": 215.99999999999994,
+      "hunt_carcass_kg": 221.6853689238323,
+      "starvation_carcass_kg": 16.0
+    },
+    {
+      "profile": "flexible_hunters",
+      "seed": 7,
+      "year": 3,
+      "prey": {
+        "scrub_hare": {
+          "births": 1142,
+          "predation_deaths": 59,
+          "starvation_deaths": 316,
+          "adult_predation_deaths": 28,
+          "adult_starvation_deaths": 117,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 1561,
+          "end": 2328,
+          "adult_start": 913,
+          "adult_end": 794,
+          "maturations": 26,
+          "growth_required_kg": 29165.639999999996,
+          "growth_consumed_kg": 1062.1338325652844,
+          "growth_coverage": 0.03641729900544903
+        },
+        "helmeted_guineafowl": {
+          "births": 0,
+          "predation_deaths": 1,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 1,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 1,
+          "end": 0,
+          "adult_start": 1,
+          "adult_end": 0,
+          "maturations": 0,
+          "growth_required_kg": 0.0,
+          "growth_consumed_kg": 0,
+          "growth_coverage": null
+        }
+      },
+      "hunter_maintenance_kg": 215.99999999999994,
+      "hunt_carcass_kg": 131.24977709334283,
+      "starvation_carcass_kg": 737.9989360091795
+    },
+    {
+      "profile": "flexible_hunters",
+      "seed": 7,
+      "year": 4,
+      "prey": {
+        "scrub_hare": {
+          "births": 716,
+          "predation_deaths": 0,
+          "starvation_deaths": 708,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 217,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 2328,
+          "end": 2336,
+          "adult_start": 794,
+          "adult_end": 577,
+          "maturations": 0,
+          "growth_required_kg": 4988.0599999999995,
+          "growth_consumed_kg": 7.951612903225822,
+          "growth_coverage": 0.0015941293615605713
+        },
+        "helmeted_guineafowl": {
+          "births": 0,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 0,
+          "end": 0,
+          "adult_start": 0,
+          "adult_end": 0,
+          "maturations": 0,
+          "growth_required_kg": 0.0,
+          "growth_consumed_kg": 0,
+          "growth_coverage": null
+        }
+      },
+      "hunter_maintenance_kg": 353.61290322580635,
+      "hunt_carcass_kg": 0.0,
+      "starvation_carcass_kg": 1516.9128280542263
+    },
+    {
+      "profile": "flexible_hunters",
+      "seed": 7,
+      "year": 5,
+      "prey": {
+        "scrub_hare": {
+          "births": 585,
+          "predation_deaths": 90,
+          "starvation_deaths": 516,
+          "adult_predation_deaths": 24,
+          "adult_starvation_deaths": 115,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 2336,
+          "end": 2315,
+          "adult_start": 577,
+          "adult_end": 438,
+          "maturations": 0,
+          "growth_required_kg": 23206.679999999997,
+          "growth_consumed_kg": 59.01612903225832,
+          "growth_coverage": 0.00254306643743346
+        },
+        "helmeted_guineafowl": {
+          "births": 0,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 0,
+          "end": 0,
+          "adult_start": 0,
+          "adult_end": 0,
+          "maturations": 0,
+          "growth_required_kg": 0.0,
+          "growth_consumed_kg": 0,
+          "growth_coverage": null
+        }
+      },
+      "hunter_maintenance_kg": 445.3548387096773,
+      "hunt_carcass_kg": 123.35766613579241,
+      "starvation_carcass_kg": 915.4976652048113
+    },
+    {
+      "profile": "flexible_hunters",
+      "seed": 23,
+      "year": 1,
+      "prey": {
+        "scrub_hare": {
+          "births": 440,
+          "predation_deaths": 210,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 165,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 300,
+          "end": 530,
+          "adult_start": 300,
+          "adult_end": 405,
+          "maturations": 270,
+          "growth_required_kg": 4396.5599999999995,
+          "growth_consumed_kg": 4396.5599999999995,
+          "growth_coverage": 1.0
+        },
+        "helmeted_guineafowl": {
+          "births": 21,
+          "predation_deaths": 61,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 48,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 40,
+          "end": 0,
+          "adult_start": 40,
+          "adult_end": 0,
+          "maturations": 8,
+          "growth_required_kg": 76.62,
+          "growth_consumed_kg": 76.62,
+          "growth_coverage": 1.0
+        }
+      },
+      "hunter_maintenance_kg": 331.78064516129024,
+      "hunt_carcass_kg": 738.3800000000001,
+      "starvation_carcass_kg": 24.0
+    },
+    {
+      "profile": "flexible_hunters",
+      "seed": 23,
+      "year": 2,
+      "prey": {
+        "scrub_hare": {
+          "births": 949,
+          "predation_deaths": 81,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 62,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 530,
+          "end": 1398,
+          "adult_start": 405,
+          "adult_end": 896,
+          "maturations": 553,
+          "growth_required_kg": 11865.839999999998,
+          "growth_consumed_kg": 8415.025806451611,
+          "growth_coverage": 0.7091807917898448
+        },
+        "helmeted_guineafowl": {
+          "births": 0,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 0,
+          "end": 0,
+          "adult_start": 0,
+          "adult_end": 0,
+          "maturations": 0,
+          "growth_required_kg": 0.0,
+          "growth_consumed_kg": 0,
+          "growth_coverage": null
+        }
+      },
+      "hunter_maintenance_kg": 215.99999999999994,
+      "hunt_carcass_kg": 252.40344863122073,
+      "starvation_carcass_kg": 61.0
+    },
+    {
+      "profile": "flexible_hunters",
+      "seed": 23,
+      "year": 3,
+      "prey": {
+        "scrub_hare": {
+          "births": 1196,
+          "predation_deaths": 64,
+          "starvation_deaths": 213,
+          "adult_predation_deaths": 32,
+          "adult_starvation_deaths": 82,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 1398,
+          "end": 2317,
+          "adult_start": 896,
+          "adult_end": 828,
+          "maturations": 46,
+          "growth_required_kg": 30781.519999999997,
+          "growth_consumed_kg": 1692.4458525345624,
+          "growth_coverage": 0.05498253018481747
+        },
+        "helmeted_guineafowl": {
+          "births": 0,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 0,
+          "end": 0,
+          "adult_start": 0,
+          "adult_end": 0,
+          "maturations": 0,
+          "growth_required_kg": 0.0,
+          "growth_consumed_kg": 0,
+          "growth_coverage": null
+        }
+      },
+      "hunter_maintenance_kg": 215.99999999999994,
+      "hunt_carcass_kg": 145.7290886334058,
+      "starvation_carcass_kg": 526.8725952244358
+    },
+    {
+      "profile": "flexible_hunters",
+      "seed": 23,
+      "year": 4,
+      "prey": {
+        "scrub_hare": {
+          "births": 737,
+          "predation_deaths": 0,
+          "starvation_deaths": 724,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 223,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 2317,
+          "end": 2330,
+          "adult_start": 828,
+          "adult_end": 605,
+          "maturations": 0,
+          "growth_required_kg": 4694.9,
+          "growth_consumed_kg": 5.580645161290363,
+          "growth_coverage": 0.001188661134697302
+        },
+        "helmeted_guineafowl": {
+          "births": 0,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 0,
+          "end": 0,
+          "adult_start": 0,
+          "adult_end": 0,
+          "maturations": 0,
+          "growth_required_kg": 0.0,
+          "growth_consumed_kg": 0,
+          "growth_coverage": null
+        }
+      },
+      "hunter_maintenance_kg": 314.12903225806446,
+      "hunt_carcass_kg": 0.0,
+      "starvation_carcass_kg": 1556.6390470026822
+    },
+    {
+      "profile": "flexible_hunters",
+      "seed": 23,
+      "year": 5,
+      "prey": {
+        "scrub_hare": {
+          "births": 604,
+          "predation_deaths": 63,
+          "starvation_deaths": 547,
+          "adult_predation_deaths": 17,
+          "adult_starvation_deaths": 122,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 2330,
+          "end": 2324,
+          "adult_start": 605,
+          "adult_end": 466,
+          "maturations": 0,
+          "growth_required_kg": 19868.519999999997,
+          "growth_consumed_kg": 56.258064516129274,
+          "growth_coverage": 0.0028315176226578168
+        },
+        "helmeted_guineafowl": {
+          "births": 0,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 0,
+          "end": 0,
+          "adult_start": 0,
+          "adult_end": 0,
+          "maturations": 0,
+          "growth_required_kg": 0.0,
+          "growth_consumed_kg": 0,
+          "growth_coverage": null
+        }
+      },
+      "hunter_maintenance_kg": 431.9999999999999,
+      "hunt_carcass_kg": 87.7001626345599,
+      "starvation_carcass_kg": 1015.0093536134724
+    },
+    {
+      "profile": "flexible_bird_diet",
+      "seed": 104729,
+      "year": 1,
+      "prey": {
+        "scrub_hare": {
+          "births": 486,
+          "predation_deaths": 132,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 104,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 300,
+          "end": 654,
+          "adult_start": 300,
+          "adult_end": 499,
+          "maturations": 303,
+          "growth_required_kg": 4906.299999999999,
+          "growth_consumed_kg": 4906.299999999999,
+          "growth_coverage": 1.0
+        },
+        "helmeted_guineafowl": {
+          "births": 9,
+          "predation_deaths": 49,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 41,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 40,
+          "end": 0,
+          "adult_start": 40,
+          "adult_end": 0,
+          "maturations": 1,
+          "growth_required_kg": 19.080000000000002,
+          "growth_consumed_kg": 19.080000000000002,
+          "growth_coverage": 1.0
+        }
+      },
+      "hunter_maintenance_kg": 326.79999999999995,
+      "hunt_carcass_kg": 479.43500000000006,
+      "starvation_carcass_kg": 69.0
+    },
+    {
+      "profile": "flexible_bird_diet",
+      "seed": 104729,
+      "year": 2,
+      "prey": {
+        "scrub_hare": {
+          "births": 1103,
+          "predation_deaths": 77,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 54,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 654,
+          "end": 1680,
+          "adult_start": 499,
+          "adult_end": 918,
+          "maturations": 473,
+          "growth_required_kg": 17721.34,
+          "growth_consumed_kg": 7786.224070660522,
+          "growth_coverage": 0.439369938766511
+        },
+        "helmeted_guineafowl": {
+          "births": 0,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 0,
+          "end": 0,
+          "adult_start": 0,
+          "adult_end": 0,
+          "maturations": 0,
+          "growth_required_kg": 0.0,
+          "growth_consumed_kg": 0,
+          "growth_coverage": null
+        }
+      },
+      "hunter_maintenance_kg": 215.99999999999994,
+      "hunt_carcass_kg": 223.14897114181665,
+      "starvation_carcass_kg": 16.0
+    },
+    {
+      "profile": "flexible_bird_diet",
+      "seed": 104729,
+      "year": 3,
+      "prey": {
+        "scrub_hare": {
+          "births": 1089,
+          "predation_deaths": 43,
+          "starvation_deaths": 392,
+          "adult_predation_deaths": 21,
+          "adult_starvation_deaths": 140,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 1680,
+          "end": 2334,
+          "adult_start": 918,
+          "adult_end": 770,
+          "maturations": 13,
+          "growth_required_kg": 22836.379999999997,
+          "growth_consumed_kg": 715.7803763440861,
+          "growth_coverage": 0.03134386344701245
+        },
+        "helmeted_guineafowl": {
+          "births": 0,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 0,
+          "end": 0,
+          "adult_start": 0,
+          "adult_end": 0,
+          "maturations": 0,
+          "growth_required_kg": 0.0,
+          "growth_consumed_kg": 0,
+          "growth_coverage": null
+        }
+      },
+      "hunter_maintenance_kg": 215.99999999999994,
+      "hunt_carcass_kg": 98.0896451320042,
+      "starvation_carcass_kg": 878.7341340787566
+    },
+    {
+      "profile": "flexible_bird_diet",
+      "seed": 104729,
+      "year": 4,
+      "prey": {
+        "scrub_hare": {
+          "births": 706,
+          "predation_deaths": 0,
+          "starvation_deaths": 698,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 196,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 2334,
+          "end": 2342,
+          "adult_start": 770,
+          "adult_end": 574,
+          "maturations": 0,
+          "growth_required_kg": 6001.5199999999995,
+          "growth_consumed_kg": 9.27419354838721,
+          "growth_coverage": 0.0015453074468446677
+        },
+        "helmeted_guineafowl": {
+          "births": 0,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 0,
+          "end": 0,
+          "adult_start": 0,
+          "adult_end": 0,
+          "maturations": 0,
+          "growth_required_kg": 0.0,
+          "growth_consumed_kg": 0,
+          "growth_coverage": null
+        }
+      },
+      "hunter_maintenance_kg": 348.3870967741935,
+      "hunt_carcass_kg": 0.0,
+      "starvation_carcass_kg": 1423.735126670542
+    },
+    {
+      "profile": "flexible_bird_diet",
+      "seed": 104729,
+      "year": 5,
+      "prey": {
+        "scrub_hare": {
+          "births": 580,
+          "predation_deaths": 84,
+          "starvation_deaths": 517,
+          "adult_predation_deaths": 18,
+          "adult_starvation_deaths": 113,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 2342,
+          "end": 2321,
+          "adult_start": 574,
+          "adult_end": 443,
+          "maturations": 0,
+          "growth_required_kg": 21033.179999999997,
+          "growth_consumed_kg": 57.54838709677429,
+          "growth_coverage": 0.002736076384872582
+        },
+        "helmeted_guineafowl": {
+          "births": 0,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 0,
+          "end": 0,
+          "adult_start": 0,
+          "adult_end": 0,
+          "maturations": 0,
+          "growth_required_kg": 0.0,
+          "growth_consumed_kg": 0,
+          "growth_coverage": null
+        }
+      },
+      "hunter_maintenance_kg": 441.8709677419354,
+      "hunt_carcass_kg": 100.66547894503752,
+      "starvation_carcass_kg": 904.8476340404483
+    },
+    {
+      "profile": "flexible_bird_diet",
+      "seed": 7,
+      "year": 1,
+      "prey": {
+        "scrub_hare": {
+          "births": 474,
+          "predation_deaths": 157,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 124,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 300,
+          "end": 617,
+          "adult_start": 300,
+          "adult_end": 471,
+          "maturations": 295,
+          "growth_required_kg": 4771.619999999999,
+          "growth_consumed_kg": 4771.619999999999,
+          "growth_coverage": 1.0
+        },
+        "helmeted_guineafowl": {
+          "births": 10,
+          "predation_deaths": 50,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 41,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 40,
+          "end": 0,
+          "adult_start": 40,
+          "adult_end": 0,
+          "maturations": 1,
+          "growth_required_kg": 22.860000000000003,
+          "growth_consumed_kg": 22.860000000000003,
+          "growth_coverage": 1.0
+        }
+      },
+      "hunter_maintenance_kg": 409.5483870967741,
+      "hunt_carcass_kg": 559.0,
+      "starvation_carcass_kg": 61.0
+    },
+    {
+      "profile": "flexible_bird_diet",
+      "seed": 7,
+      "year": 2,
+      "prey": {
+        "scrub_hare": {
+          "births": 1043,
+          "predation_deaths": 131,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 94,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 617,
+          "end": 1529,
+          "adult_start": 471,
+          "adult_end": 891,
+          "maturations": 514,
+          "growth_required_kg": 15056.299999999997,
+          "growth_consumed_kg": 8192.152580645161,
+          "growth_coverage": 0.544101311786107
+        },
+        "helmeted_guineafowl": {
+          "births": 0,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 0,
+          "end": 0,
+          "adult_start": 0,
+          "adult_end": 0,
+          "maturations": 0,
+          "growth_required_kg": 0.0,
+          "growth_consumed_kg": 0,
+          "growth_coverage": null
+        }
+      },
+      "hunter_maintenance_kg": 380.7999999999999,
+      "hunt_carcass_kg": 388.81750090688485,
+      "starvation_carcass_kg": 16.0
+    },
+    {
+      "profile": "flexible_bird_diet",
+      "seed": 7,
+      "year": 3,
+      "prey": {
+        "scrub_hare": {
+          "births": 1144,
+          "predation_deaths": 157,
+          "starvation_deaths": 204,
+          "adult_predation_deaths": 72,
+          "adult_starvation_deaths": 75,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 1529,
+          "end": 2312,
+          "adult_start": 891,
+          "adult_end": 775,
+          "maturations": 31,
+          "growth_required_kg": 34595.67999999999,
+          "growth_consumed_kg": 1388.1384408602153,
+          "growth_coverage": 0.04012461789622911
+        },
+        "helmeted_guineafowl": {
+          "births": 0,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 0,
+          "end": 0,
+          "adult_start": 0,
+          "adult_end": 0,
+          "maturations": 0,
+          "growth_required_kg": 0.0,
+          "growth_consumed_kg": 0,
+          "growth_coverage": null
+        }
+      },
+      "hunter_maintenance_kg": 506.70967741935476,
+      "hunt_carcass_kg": 340.78910766995506,
+      "starvation_carcass_kg": 505.87861809277126
+    },
+    {
+      "profile": "flexible_bird_diet",
+      "seed": 7,
+      "year": 4,
+      "prey": {
+        "scrub_hare": {
+          "births": 729,
+          "predation_deaths": 138,
+          "starvation_deaths": 619,
+          "adult_predation_deaths": 38,
+          "adult_starvation_deaths": 172,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 2312,
+          "end": 2284,
+          "adult_start": 775,
+          "adult_end": 565,
+          "maturations": 0,
+          "growth_required_kg": 9712.22,
+          "growth_consumed_kg": 8.032258064516157,
+          "growth_coverage": 0.0008270259595145247
+        },
+        "helmeted_guineafowl": {
+          "births": 0,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 0,
+          "end": 0,
+          "adult_start": 0,
+          "adult_end": 0,
+          "maturations": 0,
+          "growth_required_kg": 0.0,
+          "growth_consumed_kg": 0,
+          "growth_coverage": null
+        }
+      },
+      "hunter_maintenance_kg": 856.3935483870966,
+      "hunt_carcass_kg": 201.31778588142592,
+      "starvation_carcass_kg": 1255.2532836880903
+    },
+    {
+      "profile": "flexible_bird_diet",
+      "seed": 7,
+      "year": 5,
+      "prey": {
+        "scrub_hare": {
+          "births": 605,
+          "predation_deaths": 829,
+          "starvation_deaths": 160,
+          "adult_predation_deaths": 176,
+          "adult_starvation_deaths": 38,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 2284,
+          "end": 1900,
+          "adult_start": 565,
+          "adult_end": 354,
+          "maturations": 3,
+          "growth_required_kg": 69949.04,
+          "growth_consumed_kg": 841.7279569892476,
+          "growth_coverage": 0.012033445448132635
+        },
+        "helmeted_guineafowl": {
+          "births": 0,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 0,
+          "end": 0,
+          "adult_start": 0,
+          "adult_end": 0,
+          "maturations": 0,
+          "growth_required_kg": 0.0,
+          "growth_consumed_kg": 0,
+          "growth_coverage": null
+        }
+      },
+      "hunter_maintenance_kg": 1180.0857142857142,
+      "hunt_carcass_kg": 1031.9487986405009,
+      "starvation_carcass_kg": 363.26105941435276
+    },
+    {
+      "profile": "flexible_bird_diet",
+      "seed": 23,
+      "year": 1,
+      "prey": {
+        "scrub_hare": {
+          "births": 426,
+          "predation_deaths": 243,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 190,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 300,
+          "end": 483,
+          "adult_start": 300,
+          "adult_end": 370,
+          "maturations": 260,
+          "growth_required_kg": 4246.62,
+          "growth_consumed_kg": 4246.62,
+          "growth_coverage": 1.0
+        },
+        "helmeted_guineafowl": {
+          "births": 11,
+          "predation_deaths": 51,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 41,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 40,
+          "end": 0,
+          "adult_start": 40,
+          "adult_end": 0,
+          "maturations": 1,
+          "growth_required_kg": 26.340000000000003,
+          "growth_consumed_kg": 26.340000000000003,
+          "growth_coverage": 1.0
+        }
+      },
+      "hunter_maintenance_kg": 422.6967741935483,
+      "hunt_carcass_kg": 828.6100000000001,
+      "starvation_carcass_kg": 24.0
+    },
+    {
+      "profile": "flexible_bird_diet",
+      "seed": 23,
+      "year": 2,
+      "prey": {
+        "scrub_hare": {
+          "births": 882,
+          "predation_deaths": 77,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 59,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 483,
+          "end": 1288,
+          "adult_start": 370,
+          "adult_end": 878,
+          "maturations": 567,
+          "growth_required_kg": 10318.56,
+          "growth_consumed_kg": 8435.191612903225,
+          "growth_coverage": 0.8174775950232616
+        },
+        "helmeted_guineafowl": {
+          "births": 0,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 0,
+          "end": 0,
+          "adult_start": 0,
+          "adult_end": 0,
+          "maturations": 0,
+          "growth_required_kg": 0.0,
+          "growth_consumed_kg": 0,
+          "growth_coverage": null
+        }
+      },
+      "hunter_maintenance_kg": 215.99999999999994,
+      "hunt_carcass_kg": 237.27262341238423,
+      "starvation_carcass_kg": 61.0
+    },
+    {
+      "profile": "flexible_bird_diet",
+      "seed": 23,
+      "year": 3,
+      "prey": {
+        "scrub_hare": {
+          "births": 1232,
+          "predation_deaths": 73,
+          "starvation_deaths": 139,
+          "adult_predation_deaths": 39,
+          "adult_starvation_deaths": 53,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 1288,
+          "end": 2308,
+          "adult_start": 878,
+          "adult_end": 851,
+          "maturations": 65,
+          "growth_required_kg": 34032.32,
+          "growth_consumed_kg": 2165.4890937019973,
+          "growth_coverage": 0.06363036941654278
+        },
+        "helmeted_guineafowl": {
+          "births": 0,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 0,
+          "end": 0,
+          "adult_start": 0,
+          "adult_end": 0,
+          "maturations": 0,
+          "growth_required_kg": 0.0,
+          "growth_consumed_kg": 0,
+          "growth_coverage": null
+        }
+      },
+      "hunter_maintenance_kg": 215.99999999999994,
+      "hunt_carcass_kg": 175.36469060871866,
+      "starvation_carcass_kg": 296.7855234474413
+    },
+    {
+      "profile": "flexible_bird_diet",
+      "seed": 23,
+      "year": 4,
+      "prey": {
+        "scrub_hare": {
+          "births": 753,
+          "predation_deaths": 0,
+          "starvation_deaths": 736,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 232,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 2308,
+          "end": 2325,
+          "adult_start": 851,
+          "adult_end": 619,
+          "maturations": 0,
+          "growth_required_kg": 4615.379999999999,
+          "growth_consumed_kg": 7.983870967741964,
+          "growth_coverage": 0.0017298404395178655
+        },
+        "helmeted_guineafowl": {
+          "births": 0,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 0,
+          "end": 0,
+          "adult_start": 0,
+          "adult_end": 0,
+          "maturations": 0,
+          "growth_required_kg": 0.0,
+          "growth_consumed_kg": 0,
+          "growth_coverage": null
+        }
+      },
+      "hunter_maintenance_kg": 321.0967741935483,
+      "hunt_carcass_kg": 0.0,
+      "starvation_carcass_kg": 1703.5949798764696
+    },
+    {
+      "profile": "flexible_bird_diet",
+      "seed": 23,
+      "year": 5,
+      "prey": {
+        "scrub_hare": {
+          "births": 610,
+          "predation_deaths": 37,
+          "starvation_deaths": 575,
+          "adult_predation_deaths": 11,
+          "adult_starvation_deaths": 132,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 2325,
+          "end": 2323,
+          "adult_start": 619,
+          "adult_end": 476,
+          "maturations": 0,
+          "growth_required_kg": 17209.78,
+          "growth_consumed_kg": 52.29032258064524,
+          "growth_coverage": 0.0030384073811893725
+        },
+        "helmeted_guineafowl": {
+          "births": 0,
+          "predation_deaths": 0,
+          "starvation_deaths": 0,
+          "adult_predation_deaths": 0,
+          "adult_starvation_deaths": 0,
+          "unclassified_predation_deaths": 0,
+          "unclassified_starvation_deaths": 0,
+          "start": 0,
+          "end": 0,
+          "adult_start": 0,
+          "adult_end": 0,
+          "maturations": 0,
+          "growth_required_kg": 0.0,
+          "growth_consumed_kg": 0,
+          "growth_coverage": null
+        }
+      },
+      "hunter_maintenance_kg": 431.9999999999999,
+      "hunt_carcass_kg": 56.41112255528128,
+      "starvation_carcass_kg": 1051.625136401214
+    }
+  ]
+}

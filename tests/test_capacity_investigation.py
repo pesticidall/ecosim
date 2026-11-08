@@ -1,12 +1,16 @@
 import json
 import unittest
 from copy import deepcopy
+from dataclasses import replace
 from pathlib import Path
+from random import Random
 
 from core.content_catalog import build_content_registry
 from scripts.investigate_capacity import Factors, GUILDS, configure, run_case, check_accounting
 from simulation.monthly_cycle import run_month
 from simulation.scenario_loader import load_scenario
+from simulation.predator_diet import select_habitat_prey
+from simulation.search import resolve_search_budget
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -14,6 +18,76 @@ SCENARIO = ROOT / "scenarios" / "playtest_b_food_web.json"
 
 
 class TestCapacityInvestigation(unittest.TestCase):
+    def test_private_access_profiles_change_only_declared_fields(self):
+        source = json.loads(SCENARIO.read_text(encoding="utf-8"))
+        registry = build_content_registry(ROOT / "content")
+        original = deepcopy(list(registry.definitions_of_type("animal")))
+        factors = Factors(300, 4000, "small", 8, True, 60, True, 0.9, 30, 0.9, 90, False, True)
+        base_data, base = configure(source, registry, factors, 7)
+        for profile in ("bird_diet", "flexible_hunters", "flexible_bird_diet"):
+            data, candidate = configure(source, registry, replace(factors, prey_access=profile), 7)
+            self.assertEqual(data, base_data)
+            for definition in candidate.definitions_of_type("animal"):
+                expected = deepcopy(base.get(definition["id"]))
+                if profile in ("bird_diet", "flexible_bird_diet") and definition["id"] == "black_backed_jackal":
+                    expected["prey_diet"].append({"animal_id": "helmeted_guineafowl", "preference": 1.0})
+                if profile in ("flexible_hunters", "flexible_bird_diet") and definition["id"] in ("black_backed_jackal", "caracal"):
+                    expected["activity_pattern"] = "flexible"
+                self.assertEqual(definition, expected)
+            for kind in ("producer", "habitat"):
+                self.assertEqual(list(candidate.definitions_of_type(kind)), list(base.definitions_of_type(kind)))
+        self.assertEqual(list(registry.definitions_of_type("animal")), original)
+
+    def test_diet_and_activity_gates_remain_distinct(self):
+        source = json.loads(SCENARIO.read_text(encoding="utf-8"))
+        registry = build_content_registry(ROOT / "content")
+        habitat = load_scenario(SCENARIO, registry).regions["redgrass_savanna"].habitats["open_grassland"]
+        for profile, eligible in (("current", (False, False)), ("bird_diet", (False, False)),
+                                  ("flexible_hunters", (False, True)), ("flexible_bird_diet", (True, True))):
+            _, content = configure(source, registry, Factors(60, 4000, "small", 8, True, prey_access=profile), 7)
+            for predator, bird_available in zip(("black_backed_jackal", "caracal"), eligible):
+                definition = content.get(predator)
+                selection = select_habitat_prey(definition, habitat, Random(7), registry=content)
+                ids = {c.animal_id for c in selection.candidates}
+                self.assertEqual("helmeted_guineafowl" in ids, bird_available)
+                self.assertIn("scrub_hare", ids)
+                self.assertTrue(all(c.activity_overlap == 1 for c in selection.candidates))
+                budget = resolve_search_budget(definition, habitat, content, Random(7))
+                self.assertEqual(budget.eligible_prey, 60 + (40 if bird_available else 0))
+
+    def test_access_profile_replay_and_diet_only_control(self):
+        factors = Factors(300, 4000, "small", 8, True, 60, True, 0.9, 30, 0.9, 90, False, True)
+        baseline = run_case(ROOT, factors, 7, 1)
+        diet = run_case(ROOT, replace(factors, prey_access="bird_diet"), 7, 1)
+        self.assertEqual(baseline["monthly"], diet["monthly"])
+        combined = replace(factors, prey_access="flexible_bird_diet")
+        first = run_case(ROOT, combined, 7, 1)
+        self.assertEqual(first, run_case(ROOT, combined, 7, 1))
+        self.assertGreater(first["monthly"][0]["regions"]["redgrass_savanna"]["species"]["helmeted_guineafowl"]["predation_deaths"], 0)
+
+    def test_invalid_access_profile_is_rejected(self):
+        for value in (None, True, [], "unknown"):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                Factors(300, 4000, "small", 8, prey_access=value)
+
+    def test_local_resource_evidence_reconciles_and_preserves_month_boundaries(self):
+        result = run_case(ROOT, Factors(300, 4000, "small", 8, True, 60,
+            True, 0.9, 30, 0.9, 90, False, True), 7, 2)
+        first, second = [month["regions"]["redgrass_savanna"] for month in result["monthly"]]
+        for habitat_id, habitat in first["habitats"].items():
+            self.assertEqual(habitat["ending_resources_kg"],
+                             second["habitats"][habitat_id]["starting_resources_kg"])
+        for month in (first, second):
+            for resource, amounts in month["resources"].items():
+                for field, regional_field in (("starting_resources_kg", "start_kg"),
+                                               ("ending_resources_kg", "end_kg")):
+                    self.assertAlmostEqual(sum(h[field].get(resource, 0)
+                        for h in month["habitats"].values()), amounts[regional_field])
+            self.assertEqual(month["habitats"]["open_grassland"]["producer_populations"]["redgrass"], 4000)
+            self.assertEqual(month["habitats"]["acacia_scrub"]["ending_populations"], {})
+            self.assertGreater(month["habitats"]["acacia_scrub"]["ending_resources_kg"]["fruit"], 0)
+            self.assertEqual(month["habitats"]["open_grassland"]["ending_resources_kg"].get("fruit", 0), 0)
+
     def test_factors_change_only_the_intended_inputs_and_keep_starting_stores_fixed(self):
         source = json.loads(SCENARIO.read_text(encoding="utf-8"))
         registry = build_content_registry(ROOT / "content")
